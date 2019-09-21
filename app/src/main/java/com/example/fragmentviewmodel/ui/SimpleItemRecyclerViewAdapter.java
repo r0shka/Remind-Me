@@ -10,16 +10,22 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fragmentviewmodel.R;
+import com.example.fragmentviewmodel.db.entity.NotificationTask;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class SimpleItemRecyclerViewAdapter
         extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 
-    private ArrayList<String> list;
+    private List<NotificationTask> tasks;
 
-    SimpleItemRecyclerViewAdapter(ArrayList<String> list) {
-        this.list = list;
+    SimpleItemRecyclerViewAdapter() {
+    }
+
+    public void setTasks(List<NotificationTask> tasks){
+        this.tasks = tasks;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -32,19 +38,27 @@ public class SimpleItemRecyclerViewAdapter
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.text.setText(list.get(position));
-        holder.view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Navigation.findNavController(v).navigate(R.id.action_mainFragment_to_detailsFragment);
-            }
-        });
+        if (tasks != null) {
+            NotificationTask current = tasks.get(position);
+            holder.text.setText(current.getTitle());
+            holder.view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Navigation.findNavController(v).navigate(R.id.action_mainFragment_to_detailsFragment);
+                }
+            });
+        } else {
+            // Covers the case of data not being ready yet.
+            holder.text.setText("No Word");
+        }
 
     }
 
     @Override
     public int getItemCount() {
-        return list.size();
+        if (tasks != null)
+            return tasks.size();
+        else return 0;
     }
 
     /**

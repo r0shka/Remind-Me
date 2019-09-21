@@ -11,7 +11,7 @@ public class NotificationTask {
     @PrimaryKey(autoGenerate = true)
     @NonNull
     @ColumnInfo(name = "id")
-    private Integer id;
+    public Integer id;
 
     @ColumnInfo(name = "title")
     @NonNull
