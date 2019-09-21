@@ -1,5 +1,6 @@
 package com.example.fragmentviewmodel.ui;
 
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.os.Bundle;
@@ -16,9 +17,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.fragmentviewmodel.R;
+import com.example.fragmentviewmodel.db.entity.NotificationTask;
 import com.example.fragmentviewmodel.viewmodel.TaskListViewModel;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainFragment extends Fragment {
 
@@ -38,26 +41,29 @@ public class MainFragment extends Fragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        viewModel = ViewModelProviders.of(this).get(TaskListViewModel.class);
-
-        // TODO: Use the ViewModel
     }
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.main_fragment, container, false);
-        ArrayList<String> list = new ArrayList<>();
-        list.add("One");
-        list.add("Two");
-        list.add("Three");
+        final SimpleItemRecyclerViewAdapter adapter;
         // 1. Get ref to RecyclerView
         RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.task_recycler_view);
         // 2. Set layoutManger
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         // 3. Create and set an adapter
+        adapter = new SimpleItemRecyclerViewAdapter();
         recyclerView.setAdapter
-                (new SimpleItemRecyclerViewAdapter(list));
+                (adapter);
+
+        viewModel = ViewModelProviders.of(this).get(TaskListViewModel.class);
+        viewModel.getAllTasks().observe(this, new Observer<List<NotificationTask>>() {
+            @Override
+            public void onChanged(List<NotificationTask> notificationTasks) {
+                adapter.setTasks(notificationTasks);
+            }
+        });
         return rootView;
     }
 
