@@ -12,7 +12,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import com.example.fragmentviewmodel.db.dao.TaskDao;
 import com.example.fragmentviewmodel.db.entity.NotificationTask;
 
-@Database(entities = {NotificationTask.class}, version = 1, exportSchema = false)
+@Database(entities = {NotificationTask.class}, version = 2, exportSchema = false)
 public abstract class TaskRoomDatabase extends RoomDatabase {
 
     public abstract TaskDao dao();
@@ -35,7 +35,7 @@ public abstract class TaskRoomDatabase extends RoomDatabase {
     private static class PopulateDbAsync extends AsyncTask<Void, Void, Void> {
 
         private final TaskDao dao;
-        String[] tasks = {"dolphin", "crocodile", "cobra"};
+        String[] tasks = {"Task with a very long name, takes 3 lines for sure, but what if longer?", "Another task", "Do laundry", "Task that should take 2 lines", "Finish book", "Exercise"};
 
         PopulateDbAsync(TaskRoomDatabase db) {
             dao = db.dao();

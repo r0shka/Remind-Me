@@ -26,6 +26,10 @@ public class TaskRepository {
         return this.allTasks;
     }
 
+    public LiveData<NotificationTask> getTaskById(int id){
+        return this.taskDao.loadTaskById(id);
+    }
+
     public void insert (NotificationTask word) {
         new insertAsyncTask(taskDao).execute(word);
     }
