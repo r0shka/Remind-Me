@@ -10,7 +10,7 @@
         android:id="@+id/mainFragment"
         android:name="com.example.fragmentviewmodel.ui.MainFragment"
         android:label="main_fragment"
-        tools:layout="@layout/main_fragment" >
+        tools:layout="@layout/fragment_main" >
         <action
             android:id="@+id/action_mainFragment_to_detailsFragment"
             app:destination="@id/detailsFragment"

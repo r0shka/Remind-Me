@@ -48,17 +48,19 @@ public class DetailsFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_details, container, false);
         viewModel = ViewModelProviders.of(this).get(TaskViewModel.class);
         int id;
-        final TextView text = rootView.findViewById(R.id.task_id);
+        final TextView title = rootView.findViewById(R.id.task_details_title);
+        final TextView description = rootView.findViewById(R.id.task_details_description);
         if(getArguments()!=null) {
             id = getArguments().getInt("id");
             viewModel.getTaskById(id).observe(this, new Observer<NotificationTask>() {
                 @Override
                 public void onChanged(NotificationTask notificationTask) {
-                    text.setText(notificationTask.getTitle());
+                    title.setText(notificationTask.getTitle());
+                    description.setText(notificationTask.getDescription());
                 }
             });
         } else {
-            text.setText("Task not found");
+            title.setText(":(");
         }
         return rootView;
     }

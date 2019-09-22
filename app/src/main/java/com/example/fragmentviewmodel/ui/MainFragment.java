@@ -8,6 +8,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -19,8 +20,8 @@ import android.widget.Button;
 import com.example.fragmentviewmodel.R;
 import com.example.fragmentviewmodel.db.entity.NotificationTask;
 import com.example.fragmentviewmodel.viewmodel.TaskListViewModel;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MainFragment extends Fragment {
@@ -35,7 +36,7 @@ public class MainFragment extends Fragment {
     @Nullable
     public View onCreateViewHolder(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.main_fragment, container, false);
+        return inflater.inflate(R.layout.fragment_main, container, false);
     }
 
     @Override
@@ -46,10 +47,10 @@ public class MainFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.main_fragment, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         final SimpleItemRecyclerViewAdapter adapter;
         // 1. Get ref to RecyclerView
-        RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.task_recycler_view);
+        RecyclerView recyclerView = rootView.findViewById(R.id.task_recycler_view);
         // 2. Set layoutManger
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         // 3. Create and set an adapter
@@ -62,6 +63,14 @@ public class MainFragment extends Fragment {
             @Override
             public void onChanged(List<NotificationTask> notificationTasks) {
                 adapter.setTasks(notificationTasks);
+            }
+        });
+
+        FloatingActionButton fab = rootView.findViewById(R.id.floatingActionButton);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(v).navigate(R.id.action_mainFragment_to_newTaskFragment);
             }
         });
         return rootView;

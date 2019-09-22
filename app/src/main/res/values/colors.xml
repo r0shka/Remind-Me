@@ -6,6 +6,6 @@
 
     <color name="colorVideoTaskBackground">#6A1B9A</color>
     <color name="colorAudioTaskBackground">#C62828</color>
-    <color name="colorDefaultTaskBackground">#D81B60</color>
+    <color name="colorDefaultTaskBackground">#FF1744</color>
     <color name="colorListBackground">#008577</color>
 </resources>
