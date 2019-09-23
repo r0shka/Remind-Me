@@ -16,11 +16,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.fragmentviewmodel.R;
 import com.example.fragmentviewmodel.db.entity.NotificationTask;
 import com.example.fragmentviewmodel.viewmodel.TaskListViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.List;
 
@@ -73,6 +75,15 @@ public class MainFragment extends Fragment {
                 Navigation.findNavController(v).navigate(R.id.action_mainFragment_to_newTaskFragment);
             }
         });
+        if(getArguments()!=null) {
+            int newTask = getArguments().getInt("type", 0);
+            if(newTask == 1){
+                Toast.makeText(getContext(), "You added new task!"+newTask, Toast.LENGTH_SHORT).show();
+            } else if( newTask == 2){
+                Toast.makeText(getContext(), "Task deleted!"+newTask, Toast.LENGTH_SHORT).show();
+            }
+            getArguments().clear();
+        }
         return rootView;
     }
 

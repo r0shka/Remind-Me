@@ -23,4 +23,16 @@ public class TaskViewModel extends AndroidViewModel {
     public LiveData<NotificationTask> getTaskById(int id){
         return this.repository.getTaskById(id);
     }
+
+    public void deleteTask(NotificationTask notificationTask){
+        repository.deteteTask(notificationTask);
+    }
+
+    public void updateTask(NotificationTask notificationTask){
+        repository.deteteTask(notificationTask);
+    }
+
+    public void addTask(NotificationTask notificationTask){
+        repository.insert(notificationTask);
+    }
 }

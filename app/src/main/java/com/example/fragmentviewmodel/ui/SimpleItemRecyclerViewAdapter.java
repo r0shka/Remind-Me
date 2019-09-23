@@ -4,11 +4,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.navigation.Navigation;
-import androidx.navigation.fragment.FragmentNavigator;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fragmentviewmodel.R;
@@ -41,6 +41,22 @@ public class SimpleItemRecyclerViewAdapter
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         if (tasks != null) {
             final NotificationTask current = tasks.get(position);
+            /*
+            setting background depending on task type
+            1 - Video notification task
+            2 - Audio notification task
+            3 - Text notification task
+             */
+            if(current.getType()==1){
+                holder.view.setBackgroundResource(R.drawable.task_background_video);
+                holder.typeIcon.setImageResource(R.drawable.ic_videocam_white_36dp);
+            } else if(current.getType()==2){
+                holder.view.setBackgroundResource(R.drawable.task_background_audio);
+                holder.typeIcon.setImageResource(R.drawable.ic_audio_white_36dp);
+            } else {
+                holder.view.setBackgroundResource(R.drawable.task_background_default);
+            }
+
             holder.title.setText(current.getTitle());
             holder.description.setText(current.getDescription());
             holder.view.setOnClickListener(new View.OnClickListener() {
@@ -72,12 +88,14 @@ public class SimpleItemRecyclerViewAdapter
         final View view;
         final TextView title;
         final TextView description;
+        final ImageView typeIcon;
 
         ViewHolder(View view) {
             super(view);
             this.view = view;
             title = view.findViewById(R.id.task_title);
             description = view.findViewById(R.id.task_description);
+            typeIcon = view.findViewById(R.id.task_type_icon);
         }
     }
 }

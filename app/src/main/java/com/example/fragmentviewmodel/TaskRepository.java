@@ -30,8 +30,8 @@ public class TaskRepository {
         return this.taskDao.loadTaskById(id);
     }
 
-    public void insert (NotificationTask word) {
-        new insertAsyncTask(taskDao).execute(word);
+    public void insert (NotificationTask notificationTask) {
+        new insertAsyncTask(taskDao).execute(notificationTask);
     }
 
     private static class insertAsyncTask extends AsyncTask<NotificationTask, Void, Void> {
@@ -45,6 +45,42 @@ public class TaskRepository {
         @Override
         protected Void doInBackground(final NotificationTask... params) {
             asyncTaskDao.insert(params[0]);
+            return null;
+        }
+    }
+
+    public void deteteTask(NotificationTask notificationTask)  {
+        new deleteTaskAsyncTask(taskDao).execute(notificationTask);
+    }
+
+    private static class deleteTaskAsyncTask extends AsyncTask<NotificationTask, Void, Void> {
+        private TaskDao mAsyncTaskDao;
+
+        deleteTaskAsyncTask(TaskDao dao) {
+            mAsyncTaskDao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(final NotificationTask... params) {
+            mAsyncTaskDao.deteleTask(params[0]);
+            return null;
+        }
+    }
+
+    public void updateTask(NotificationTask notificationTask)  {
+        new deleteTaskAsyncTask(taskDao).execute(notificationTask);
+    }
+
+    private static class updateTaskAsyncTask extends AsyncTask<NotificationTask, Void, Void> {
+        private TaskDao mAsyncTaskDao;
+
+        updateTaskAsyncTask(TaskDao dao) {
+            mAsyncTaskDao = dao;
+        }
+
+        @Override
+        protected Void doInBackground(final NotificationTask... params) {
+            mAsyncTaskDao.updateTask(params[0]);
             return null;
         }
     }

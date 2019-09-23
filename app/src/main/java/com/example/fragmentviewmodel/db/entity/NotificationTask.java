@@ -20,10 +20,20 @@ public class NotificationTask {
     @ColumnInfo(name = "description")
     private String description;
 
+    /*
+    Task notification type,
+    1 - Video notification
+    2 - Audio notification
+    3 - Text notification
+     */
+    @ColumnInfo(name = "task_type")
+    private int type;
 
-    public NotificationTask(@NonNull String title, String description){
+
+    public NotificationTask(@NonNull String title, String description, int type){
         this.title = title;
         this.description = description;
+        this.type = type;
     }
 
     @NonNull
@@ -41,5 +51,13 @@ public class NotificationTask {
 
     public void setTask_id(int task_id) {
         this.task_id = task_id;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 }

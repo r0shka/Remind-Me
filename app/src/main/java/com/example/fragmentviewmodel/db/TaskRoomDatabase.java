@@ -12,7 +12,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import com.example.fragmentviewmodel.db.dao.TaskDao;
 import com.example.fragmentviewmodel.db.entity.NotificationTask;
 
-@Database(entities = {NotificationTask.class}, version = 2, exportSchema = false)
+@Database(entities = {NotificationTask.class}, version = 3, exportSchema = false)
 public abstract class TaskRoomDatabase extends RoomDatabase {
 
     public abstract TaskDao dao();
@@ -49,7 +49,7 @@ public abstract class TaskRoomDatabase extends RoomDatabase {
             dao.deleteAll();
 
             for (int i = 0; i <= tasks.length - 1; i++) {
-                NotificationTask task = new NotificationTask(tasks[i], "Description "+i);
+                NotificationTask task = new NotificationTask(tasks[i], "Description "+i, 1);
                 dao.insert(task);
             }
             return null;
