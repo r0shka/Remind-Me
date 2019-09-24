@@ -78,9 +78,9 @@ public class MainFragment extends Fragment {
         if(getArguments()!=null) {
             int newTask = getArguments().getInt("type", 0);
             if(newTask == 1){
-                Toast.makeText(getContext(), "You added new task!"+newTask, Toast.LENGTH_SHORT).show();
+                Snackbar.make(rootView.findViewById(R.id.main), "You added a new task!", Snackbar.LENGTH_SHORT).show();
             } else if( newTask == 2){
-                Toast.makeText(getContext(), "Task deleted!"+newTask, Toast.LENGTH_SHORT).show();
+                Snackbar.make(rootView.findViewById(R.id.main), "Task successfully deleted!", Snackbar.LENGTH_SHORT).show();
             }
             getArguments().clear();
         }

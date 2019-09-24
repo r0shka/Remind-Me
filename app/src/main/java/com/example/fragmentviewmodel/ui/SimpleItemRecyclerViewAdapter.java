@@ -47,7 +47,7 @@ public class SimpleItemRecyclerViewAdapter
             2 - Audio notification task
             3 - Text notification task
              */
-            if(current.getType()==1){
+            if(current.getType() == 1){
                 holder.view.setBackgroundResource(R.drawable.task_background_video);
                 holder.typeIcon.setImageResource(R.drawable.ic_videocam_white_36dp);
             } else if(current.getType()==2){
