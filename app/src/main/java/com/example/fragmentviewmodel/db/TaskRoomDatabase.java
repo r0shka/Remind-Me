@@ -35,7 +35,7 @@ public abstract class TaskRoomDatabase extends RoomDatabase {
     private static class PopulateDbAsync extends AsyncTask<Void, Void, Void> {
 
         private final TaskDao dao;
-        String[] tasks = {"Task with a very long name, takes 3 lines for sure, but what if longer?", "Another task", "Do laundry", "Task that should take 2 lines", "Finish book", "Exercise"};
+        String[] tasks = {"Finish book"};
 
         PopulateDbAsync(TaskRoomDatabase db) {
             dao = db.dao();

@@ -1,4 +1,4 @@
-package com.example.fragmentviewmodel;
+package com.example.fragmentviewmodel.ui;
 
 
 import android.os.Bundle;
@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.fragmentviewmodel.R;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -18,6 +20,10 @@ public class AudioUploadFragment extends Fragment {
 
     public AudioUploadFragment() {
         // Required empty public constructor
+    }
+
+    public static AudioUploadFragment newInstance() {
+        return new AudioUploadFragment();
     }
 
 

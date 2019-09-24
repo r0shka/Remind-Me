@@ -22,6 +22,10 @@ public class VideoUploadFragment extends Fragment {
         // Required empty public constructor
     }
 
+    public static VideoUploadFragment newInstance() {
+        return new VideoUploadFragment();
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
