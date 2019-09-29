@@ -5,14 +5,13 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.MutableLiveData;
 
 import com.example.fragmentviewmodel.TaskRepository;
 import com.example.fragmentviewmodel.db.entity.NotificationTask;
 
-import java.util.List;
-
 public class TaskViewModel extends AndroidViewModel {
+
     private TaskRepository repository;
 
     public TaskViewModel(@NonNull Application application) {

@@ -53,17 +53,20 @@ public class SimpleItemRecyclerViewAdapter
             } else if(current.getType()==2){
                 holder.view.setBackgroundResource(R.drawable.task_background_audio);
                 holder.typeIcon.setImageResource(R.drawable.ic_audio_white_36dp);
+            }
+            else if(current.getType()==3){
+                holder.view.setBackgroundResource(R.drawable.task_background_text);
+                holder.typeIcon.setImageResource(R.drawable.ic_text_fields_white_36dp);
             } else {
                 holder.view.setBackgroundResource(R.drawable.task_background_default);
             }
 
             holder.title.setText(current.getTitle());
-            holder.description.setText(current.getDescription());
             holder.view.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Bundle bundle = new Bundle();
-                    bundle.putInt("id", current.getTask_id());
+                    bundle.putInt("id", current.getTaskId());
                     Navigation.findNavController(v).navigate(R.id.action_mainFragment_to_detailsFragment, bundle);
                 }
             });
@@ -87,14 +90,12 @@ public class SimpleItemRecyclerViewAdapter
     class ViewHolder extends RecyclerView.ViewHolder {
         final View view;
         final TextView title;
-        final TextView description;
         final ImageView typeIcon;
 
         ViewHolder(View view) {
             super(view);
             this.view = view;
             title = view.findViewById(R.id.task_title);
-            description = view.findViewById(R.id.task_description);
             typeIcon = view.findViewById(R.id.task_type_icon);
         }
     }

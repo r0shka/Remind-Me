@@ -35,7 +35,6 @@ public abstract class TaskRoomDatabase extends RoomDatabase {
     private static class PopulateDbAsync extends AsyncTask<Void, Void, Void> {
 
         private final TaskDao dao;
-        String[] tasks = {"Finish book"};
 
         PopulateDbAsync(TaskRoomDatabase db) {
             dao = db.dao();
@@ -48,10 +47,17 @@ public abstract class TaskRoomDatabase extends RoomDatabase {
             // when it is first created
             dao.deleteAll();
 
-            for (int i = 0; i <= tasks.length - 1; i++) {
-                NotificationTask task = new NotificationTask(tasks[i], "Description "+i, 1);
-                dao.insert(task);
-            }
+            NotificationTask task = new NotificationTask("Read book", "Description ", 1);
+            dao.insert(task);
+            task = new NotificationTask("Buy plane tickets", "Description ", 1);
+            dao.insert(task);
+            task = new NotificationTask("Go to gym", "Description ", 2);
+            dao.insert(task);
+            task = new NotificationTask("Clean the house", "Description ", 3);
+            dao.insert(task);
+            task = new NotificationTask("Buy groceries", "Description ", 2);
+            dao.insert(task);
+
             return null;
         }
     }

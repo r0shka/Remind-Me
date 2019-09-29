@@ -29,6 +29,6 @@ public interface TaskDao {
     @Query("SELECT * from notification_task_table")
     public LiveData<List<NotificationTask>> getAllTasks();
 
-    @Query("SELECT * from notification_task_table where task_id = :id LIMIT 1")
+    @Query("SELECT * from notification_task_table where taskId = :id LIMIT 1")
     public LiveData<NotificationTask> loadTaskById(int id);
 }

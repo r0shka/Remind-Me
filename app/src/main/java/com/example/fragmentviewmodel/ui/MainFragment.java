@@ -3,6 +3,8 @@ package com.example.fragmentviewmodel.ui;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -15,8 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.Toast;
+import android.view.animation.LinearInterpolator;
 
 import com.example.fragmentviewmodel.R;
 import com.example.fragmentviewmodel.db.entity.NotificationTask;
@@ -29,7 +30,7 @@ import java.util.List;
 public class MainFragment extends Fragment {
 
     private TaskListViewModel viewModel;
-    private Button button;
+    boolean fabClicked;
 
     public static MainFragment newInstance() {
         return new MainFragment();
@@ -51,14 +52,10 @@ public class MainFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
         final SimpleItemRecyclerViewAdapter adapter;
-        // 1. Get ref to RecyclerView
         RecyclerView recyclerView = rootView.findViewById(R.id.task_recycler_view);
-        // 2. Set layoutManger
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        // 3. Create and set an adapter
         adapter = new SimpleItemRecyclerViewAdapter();
-        recyclerView.setAdapter
-                (adapter);
+        recyclerView.setAdapter(adapter);
 
         viewModel = ViewModelProviders.of(this).get(TaskListViewModel.class);
         viewModel.getAllTasks().observe(this, new Observer<List<NotificationTask>>() {
@@ -68,13 +65,94 @@ public class MainFragment extends Fragment {
             }
         });
 
-        FloatingActionButton fab = rootView.findViewById(R.id.floatingActionButton);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Navigation.findNavController(v).navigate(R.id.action_mainFragment_to_newTaskFragment);
+        FloatingActionButton fabVideo = rootView.findViewById(R.id.fab_video);
+        FloatingActionButton fabAudio = rootView.findViewById(R.id.fab_audio);
+        FloatingActionButton fabText = rootView.findViewById(R.id.fab_text);
+
+        FloatingActionButton fabNewTask = rootView.findViewById(R.id.floatingActionButton);
+        resetFabs(fabNewTask, fabVideo, fabAudio, fabText);
+        fabClicked = false;
+        fabNewTask.setOnClickListener(v -> {
+            if(!fabClicked) {
+                unfoldFabs(v, fabVideo, fabAudio, fabText);
+                fabClicked = true;
+            } else {
+                resetFabs(v, fabVideo, fabAudio, fabText);
+                fabClicked = false;
             }
         });
+
+        fabVideo.setOnClickListener(v-> {
+            Bundle bundle = new Bundle();
+            bundle.putInt("taskType", 1);
+            Navigation.findNavController(v).navigate(R.id.action_mainFragment_to_newTaskFragment);
+        });
+
+        fabAudio.setOnClickListener(v-> {
+            Bundle bundle = new Bundle();
+            bundle.putInt("taskType", 2);
+            Navigation.findNavController(v).navigate(R.id.action_mainFragment_to_newTaskFragment);
+        });
+
+        fabText.setOnClickListener(v-> {
+            Bundle bundle = new Bundle();
+            bundle.putInt("taskType", 3);
+            Navigation.findNavController(v).navigate(R.id.action_mainFragment_to_newTaskFragment);
+        });
+
+        displaySnackbar(rootView);
+
+        return rootView;
+    }
+
+    private void resetFabs(View v, View fabVideo, View fabAudio, View fabText){
+        fabVideo.setVisibility(View.INVISIBLE);
+        fabAudio.setVisibility(View.INVISIBLE);
+        fabText.setVisibility(View.INVISIBLE);
+
+        ObjectAnimator translationAnimVideo = ObjectAnimator.ofFloat(fabVideo, "translationY", 0f);
+        ObjectAnimator translationAnimAudio = ObjectAnimator.ofFloat(fabAudio, "translationX", 0f);
+        ObjectAnimator translationAnimText = ObjectAnimator.ofFloat(fabText, "translationX", 0f);
+
+        translationAnimVideo.setInterpolator(new LinearInterpolator());
+        translationAnimAudio.setInterpolator(new LinearInterpolator());
+        translationAnimText.setInterpolator(new LinearInterpolator());
+
+        ObjectAnimator rotationAnim = ObjectAnimator.ofFloat(v, "rotation", 0f);
+
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.playTogether(rotationAnim,
+                translationAnimVideo,
+                translationAnimAudio,
+                translationAnimText);
+        animatorSet.start();
+    }
+
+    private void unfoldFabs(View v, View fabVideo, View fabAudio, View fabText){
+        fabVideo.setVisibility(View.VISIBLE);
+        fabAudio.setVisibility(View.VISIBLE);
+        fabText.setVisibility(View.VISIBLE);
+
+        ObjectAnimator translationAnimVideo = ObjectAnimator.ofFloat(fabVideo, "translationY", -200f);
+        ObjectAnimator translationAnimAudio = ObjectAnimator.ofFloat(fabAudio, "translationX", -200f);
+        ObjectAnimator translationAnimText = ObjectAnimator.ofFloat(fabText, "translationX", 200f);
+
+        translationAnimVideo.setInterpolator(new LinearInterpolator());
+        translationAnimAudio.setInterpolator(new LinearInterpolator());
+        translationAnimText.setInterpolator(new LinearInterpolator());
+
+        ObjectAnimator rotationAnim = ObjectAnimator.ofFloat(v, "rotation", 45f);
+
+        AnimatorSet animatorSet = new AnimatorSet();
+        animatorSet.playTogether(rotationAnim,
+                translationAnimVideo,
+                translationAnimAudio,
+                translationAnimText);
+        animatorSet.start();
+    }
+
+
+    private void displaySnackbar(View rootView){
         if(getArguments()!=null) {
             int newTask = getArguments().getInt("type", 0);
             if(newTask == 1){
@@ -84,7 +162,6 @@ public class MainFragment extends Fragment {
             }
             getArguments().clear();
         }
-        return rootView;
     }
 
     @Override

@@ -10,8 +10,8 @@ public class NotificationTask {
 
     @PrimaryKey(autoGenerate = true)
     @NonNull
-    @ColumnInfo(name = "task_id")
-    private int task_id;
+    @ColumnInfo(name = "taskId")
+    private int taskId;
 
     @ColumnInfo(name = "title")
     @NonNull
@@ -45,12 +45,12 @@ public class NotificationTask {
         return this.description;
     }
 
-    public int getTask_id() {
-        return task_id;
+    public int getTaskId() {
+        return taskId;
     }
 
-    public void setTask_id(int task_id) {
-        this.task_id = task_id;
+    public void setTaskId(int taskId) {
+        this.taskId = taskId;
     }
 
     public int getType() {

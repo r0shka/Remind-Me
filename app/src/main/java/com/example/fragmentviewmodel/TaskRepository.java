@@ -31,14 +31,14 @@ public class TaskRepository {
     }
 
     public void insert (NotificationTask notificationTask) {
-        new insertAsyncTask(taskDao).execute(notificationTask);
+        new InsertAsyncTask(taskDao).execute(notificationTask);
     }
 
-    private static class insertAsyncTask extends AsyncTask<NotificationTask, Void, Void> {
+    private static class InsertAsyncTask extends AsyncTask<NotificationTask, Void, Void> {
 
         private TaskDao asyncTaskDao;
 
-        insertAsyncTask(TaskDao dao) {
+        InsertAsyncTask(TaskDao dao) {
             asyncTaskDao = dao;
         }
 
@@ -71,10 +71,10 @@ public class TaskRepository {
         new deleteTaskAsyncTask(taskDao).execute(notificationTask);
     }
 
-    private static class updateTaskAsyncTask extends AsyncTask<NotificationTask, Void, Void> {
+    private static class UpdateTaskAsyncTask extends AsyncTask<NotificationTask, Void, Void> {
         private TaskDao mAsyncTaskDao;
 
-        updateTaskAsyncTask(TaskDao dao) {
+        UpdateTaskAsyncTask(TaskDao dao) {
             mAsyncTaskDao = dao;
         }
 

@@ -1,7 +1,6 @@
 package com.example.fragmentviewmodel.ui;
 
 
-import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,7 +10,6 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 
-import android.transition.TransitionInflater;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +18,6 @@ import android.widget.TextView;
 
 import com.example.fragmentviewmodel.R;
 import com.example.fragmentviewmodel.db.entity.NotificationTask;
-import com.example.fragmentviewmodel.viewmodel.TaskListViewModel;
 import com.example.fragmentviewmodel.viewmodel.TaskViewModel;
 
 import java.util.List;

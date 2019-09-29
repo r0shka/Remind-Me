@@ -45,5 +45,29 @@
         <action
             android:id="@+id/action_newTaskFragment_to_mainFragment"
             app:destination="@id/mainFragment" />
+        <action
+            android:id="@+id/action_newTaskFragment_to_textInputFragment"
+            app:destination="@id/textInputFragment" />
+        <action
+            android:id="@+id/action_newTaskFragment_to_audioUploadFragment"
+            app:destination="@id/audioUploadFragment" />
+        <action
+            android:id="@+id/action_newTaskFragment_to_videoUploadFragment"
+            app:destination="@id/videoUploadFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/textInputFragment"
+        android:name="com.example.fragmentviewmodel.ui.TextInputFragment"
+        android:label="fragment_text_input"
+        tools:layout="@layout/fragment_text_input" />
+    <fragment
+        android:id="@+id/audioUploadFragment"
+        android:name="com.example.fragmentviewmodel.ui.AudioUploadFragment"
+        android:label="fragment_audio_upload"
+        tools:layout="@layout/fragment_audio_upload" />
+    <fragment
+        android:id="@+id/videoUploadFragment"
+        android:name="com.example.fragmentviewmodel.ui.VideoUploadFragment"
+        android:label="fragment_video_upload"
+        tools:layout="@layout/fragment_video_upload" />
 </navigation>

@@ -12,9 +12,6 @@ import android.view.ViewGroup;
 import com.example.fragmentviewmodel.R;
 
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class VideoUploadFragment extends Fragment {
 
 
