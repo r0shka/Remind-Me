@@ -7,14 +7,14 @@ import androidx.lifecycle.LiveData;
 
 import com.example.videoreminder.db.TaskRoomDatabase;
 import com.example.videoreminder.db.dao.TaskDao;
-import com.example.videoreminder.db.entity.NotificationTask;
+import com.example.videoreminder.db.entity.Task;
 
 import java.util.List;
 
 public class TaskRepository {
 
     private TaskDao taskDao;
-    private LiveData<List<NotificationTask>> allTasks;
+    private LiveData<List<Task>> allTasks;
 
     public TaskRepository(Application application) {
         TaskRoomDatabase db = TaskRoomDatabase.getDatabase(application);
@@ -22,19 +22,19 @@ public class TaskRepository {
         allTasks = taskDao.getAllTasks();
     }
 
-    public LiveData<List<NotificationTask>> getAllTasks(){
+    public LiveData<List<Task>> getAllTasks(){
         return this.allTasks;
     }
 
-    public LiveData<NotificationTask> getTaskById(int id){
+    public LiveData<Task> getTaskById(int id){
         return this.taskDao.loadTaskById(id);
     }
 
-    public void insert (NotificationTask notificationTask) {
-        new InsertAsyncTask(taskDao).execute(notificationTask);
+    public void insert (Task task) {
+        new InsertAsyncTask(taskDao).execute(task);
     }
 
-    private static class InsertAsyncTask extends AsyncTask<NotificationTask, Void, Void> {
+    private static class InsertAsyncTask extends AsyncTask<Task, Void, Void> {
 
         private TaskDao asyncTaskDao;
 
@@ -43,17 +43,17 @@ public class TaskRepository {
         }
 
         @Override
-        protected Void doInBackground(final NotificationTask... params) {
+        protected Void doInBackground(final Task... params) {
             asyncTaskDao.insert(params[0]);
             return null;
         }
     }
 
-    public void deteteTask(NotificationTask notificationTask)  {
-        new DeleteTaskAsyncTask(taskDao).execute(notificationTask);
+    public void deteteTask(Task task)  {
+        new DeleteTaskAsyncTask(taskDao).execute(task);
     }
 
-    private static class DeleteTaskAsyncTask extends AsyncTask<NotificationTask, Void, Void> {
+    private static class DeleteTaskAsyncTask extends AsyncTask<Task, Void, Void> {
         private TaskDao mAsyncTaskDao;
 
         DeleteTaskAsyncTask(TaskDao dao) {
@@ -61,17 +61,17 @@ public class TaskRepository {
         }
 
         @Override
-        protected Void doInBackground(final NotificationTask... params) {
+        protected Void doInBackground(final Task... params) {
             mAsyncTaskDao.deteleTask(params[0]);
             return null;
         }
     }
 
-    public void updateTask(NotificationTask notificationTask)  {
-        new DeleteTaskAsyncTask(taskDao).execute(notificationTask);
+    public void updateTask(Task task)  {
+        new DeleteTaskAsyncTask(taskDao).execute(task);
     }
 
-    private static class UpdateTaskAsyncTask extends AsyncTask<NotificationTask, Void, Void> {
+    private static class UpdateTaskAsyncTask extends AsyncTask<Task, Void, Void> {
         private TaskDao mAsyncTaskDao;
 
         UpdateTaskAsyncTask(TaskDao dao) {
@@ -79,7 +79,7 @@ public class TaskRepository {
         }
 
         @Override
-        protected Void doInBackground(final NotificationTask... params) {
+        protected Void doInBackground(final Task... params) {
             mAsyncTaskDao.updateTask(params[0]);
             return null;
         }

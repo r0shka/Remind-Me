@@ -6,7 +6,6 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.videoreminder.R;
+import com.example.videoreminder.db.entity.Task;
 
 
 /**
@@ -50,22 +50,22 @@ public class NewTaskFragment extends Fragment {
     /**
      * Navigating to next screen depending on task type
      * Task type stored in bundle with "taskType" key
+     *
      * @param rootView Container view
      * @param v Clicked view
      */
     private void moveToNextScreen(View rootView, View v){
         final TextView newTaskTitle = rootView.findViewById(R.id.new_task_title_input);
         String taskTitle = newTaskTitle.getText().toString();
-        Log.i("Task title", " :" + taskTitle);
         Bundle bundle = getArguments();
         bundle.putString("taskTitle", taskTitle);
         if (getArguments() != null) {
             int taskType = getArguments().getInt("taskType", 0);
-            if(taskType == 1){
+            if(taskType == Task.VIDEO_TYPE_TASK){
                 Navigation.findNavController(v).navigate(R.id.action_newTaskFragment_to_videoUploadFragment, bundle);
-            } else if( taskType == 2){
+            } else if( taskType == Task.AUDIO_TYPE_TASK){
                 Navigation.findNavController(v).navigate(R.id.action_newTaskFragment_to_audioUploadFragment, bundle);
-            } else if( taskType == 3) {
+            } else if( taskType == Task.TEXT_TYPE_TASK) {
                 Navigation.findNavController(v).navigate(R.id.action_newTaskFragment_to_textInputFragment, bundle);
             }
         }
@@ -74,6 +74,7 @@ public class NewTaskFragment extends Fragment {
     /**
      * Set screen background color depending on task type
      * Color id stored in bundle with "backgroundColor" key
+     *
      * @param rootView Container view
      */
     private void setBackgroundColor(View rootView) {
@@ -81,7 +82,6 @@ public class NewTaskFragment extends Fragment {
         int colorRes;
         if (getArguments() != null) {
             colorRes = getArguments().getInt("backgroundColor");
-            Log.i("Set bg", ""+colorRes);
             main.setBackgroundResource(colorRes);
         }
     }

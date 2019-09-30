@@ -7,7 +7,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import com.example.videoreminder.db.entity.NotificationTask;
+import com.example.videoreminder.db.entity.Task;
 
 import java.util.List;
 
@@ -15,20 +15,20 @@ import java.util.List;
 public interface TaskDao {
 
     @Insert
-    public void insert(NotificationTask task);
+    public void insert(Task task);
 
     @Delete
-    public void deteleTask(NotificationTask notificationTask);
+    public void deteleTask(Task task);
 
     @Update
-    public void updateTask(NotificationTask notificationTask);
+    public void updateTask(Task task);
 
-    @Query("DELETE FROM notification_task_table")
+    @Query("DELETE FROM TASK_TABLE")
     public void deleteAll();
 
-    @Query("SELECT * from notification_task_table")
-    public LiveData<List<NotificationTask>> getAllTasks();
+    @Query("SELECT * from TASK_TABLE")
+    public LiveData<List<Task>> getAllTasks();
 
-    @Query("SELECT * from notification_task_table where taskId = :id LIMIT 1")
-    public LiveData<NotificationTask> loadTaskById(int id);
+    @Query("SELECT * from TASK_TABLE where id = :id LIMIT 1")
+    public LiveData<Task> loadTaskById(int id);
 }

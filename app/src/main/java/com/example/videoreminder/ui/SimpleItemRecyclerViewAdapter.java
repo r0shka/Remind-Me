@@ -12,19 +12,19 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.videoreminder.R;
-import com.example.videoreminder.db.entity.NotificationTask;
+import com.example.videoreminder.db.entity.Task;
 
 import java.util.List;
 
 public class SimpleItemRecyclerViewAdapter
         extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 
-    private List<NotificationTask> tasks;
+    private List<Task> tasks;
 
     SimpleItemRecyclerViewAdapter() {
     }
 
-    public void setTasks(List<NotificationTask> tasks){
+    public void setTasks(List<Task> tasks){
         this.tasks = tasks;
         notifyDataSetChanged();
     }
@@ -40,7 +40,7 @@ public class SimpleItemRecyclerViewAdapter
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         if (tasks != null) {
-            final NotificationTask current = tasks.get(position);
+            final Task current = tasks.get(position);
             /*
             setting background depending on task type
             1 - Video notification task
@@ -66,7 +66,7 @@ public class SimpleItemRecyclerViewAdapter
                 @Override
                 public void onClick(View v) {
                     Bundle bundle = new Bundle();
-                    bundle.putInt("id", current.getTaskId());
+                    bundle.putInt("id", current.getId());
                     Navigation.findNavController(v).navigate(R.id.action_mainFragment_to_detailsFragment, bundle);
                 }
             });

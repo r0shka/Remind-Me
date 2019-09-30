@@ -10,9 +10,9 @@ import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.example.videoreminder.db.dao.TaskDao;
-import com.example.videoreminder.db.entity.NotificationTask;
+import com.example.videoreminder.db.entity.Task;
 
-@Database(entities = {NotificationTask.class}, version = 4, exportSchema = false)
+@Database(entities = {Task.class}, version = 6, exportSchema = false)
 public abstract class TaskRoomDatabase extends RoomDatabase {
 
     private static TaskRoomDatabase INSTANCE;
@@ -46,15 +46,15 @@ public abstract class TaskRoomDatabase extends RoomDatabase {
             // when it is first created
             dao.deleteAll();
 
-            NotificationTask task = new NotificationTask("Read book", "Description ", 1);
+            Task task = new Task("Read book", "Description ", Task.VIDEO_TYPE_TASK);
             dao.insert(task);
-            task = new NotificationTask("Buy plane tickets", "Description ", 1);
+            task = new Task("Buy plane tickets", "Description ", Task.VIDEO_TYPE_TASK);
             dao.insert(task);
-            task = new NotificationTask("Go to gym", "Description ", 2);
+            task = new Task("Go to gym", "Description ", Task.AUDIO_TYPE_TASK);
             dao.insert(task);
-            task = new NotificationTask("Clean the house", "Description ", 3);
+            task = new Task("Clean the house", "Description ", Task.TEXT_TYPE_TASK);
             dao.insert(task);
-            task = new NotificationTask("Buy groceries", "Description ", 2);
+            task = new Task("Buy groceries", "Description ", Task.AUDIO_TYPE_TASK);
             dao.insert(task);
 
             return null;

@@ -7,7 +7,11 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
 import com.example.videoreminder.TaskRepository;
-import com.example.videoreminder.db.entity.NotificationTask;
+import com.example.videoreminder.db.entity.Task;
+
+/**
+ * ViewModel for a single task
+ */
 
 public class TaskViewModel extends AndroidViewModel {
 
@@ -18,19 +22,19 @@ public class TaskViewModel extends AndroidViewModel {
         repository = new TaskRepository(application);
     }
 
-    public LiveData<NotificationTask> getTaskById(int id){
+    public LiveData<Task> getTaskById(int id){
         return this.repository.getTaskById(id);
     }
 
-    public void deleteTask(NotificationTask notificationTask){
-        repository.deteteTask(notificationTask);
+    public void deleteTask(Task task){
+        repository.deteteTask(task);
     }
 
-    public void updateTask(NotificationTask notificationTask){
-        repository.deteteTask(notificationTask);
+    public void updateTask(Task task){
+        repository.deteteTask(task);
     }
 
-    public void addTask(NotificationTask notificationTask){
-        repository.insert(notificationTask);
+    public void addTask(Task task){
+        repository.insert(task);
     }
 }

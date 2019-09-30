@@ -14,14 +14,13 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
 
 import com.example.videoreminder.R;
-import com.example.videoreminder.db.entity.NotificationTask;
+import com.example.videoreminder.db.entity.Task;
 import com.example.videoreminder.viewmodel.TaskListViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -32,6 +31,8 @@ public class MainFragment extends Fragment {
 
     private TaskListViewModel viewModel;
     private boolean fabClicked;
+    private static final int NEW_TASK = 1;
+    private static final int DELETE_TASK = 2;
 
     public static MainFragment newInstance() {
         return new MainFragment();
@@ -59,10 +60,10 @@ public class MainFragment extends Fragment {
         recyclerView.setAdapter(adapter);
 
         viewModel = ViewModelProviders.of(this).get(TaskListViewModel.class);
-        viewModel.getAllTasks().observe(this, new Observer<List<NotificationTask>>() {
+        viewModel.getAllTasks().observe(this, new Observer<List<Task>>() {
             @Override
-            public void onChanged(List<NotificationTask> notificationTasks) {
-                adapter.setTasks(notificationTasks);
+            public void onChanged(List<Task> tasks) {
+                adapter.setTasks(tasks);
             }
         });
 
@@ -73,6 +74,7 @@ public class MainFragment extends Fragment {
         FloatingActionButton fabNewTask = rootView.findViewById(R.id.floatingActionButton);
         resetFabs(fabNewTask, fabVideo, fabAudio, fabText);
         fabClicked = false;
+
         fabNewTask.setOnClickListener(v -> {
             if(!fabClicked) {
                 unfoldFabs(v, fabVideo, fabAudio, fabText);
@@ -85,22 +87,21 @@ public class MainFragment extends Fragment {
 
         fabVideo.setOnClickListener(v-> {
             Bundle bundle = new Bundle();
-            bundle.putInt("taskType", 1);
+            bundle.putInt("taskType", Task.VIDEO_TYPE_TASK);
             bundle.putInt("backgroundColor", R.color.colorVideoTaskBackground);
-            Log.i("Main bg", ""+R.color.colorVideoTaskBackground);
             Navigation.findNavController(v).navigate(R.id.action_mainFragment_to_newTaskFragment, bundle);
         });
 
         fabAudio.setOnClickListener(v-> {
             Bundle bundle = new Bundle();
-            bundle.putInt("taskType", 2);
+            bundle.putInt("taskType", Task.AUDIO_TYPE_TASK);
             bundle.putInt("backgroundColor", R.color.colorAudioTaskBackground);
             Navigation.findNavController(v).navigate(R.id.action_mainFragment_to_newTaskFragment, bundle);
         });
 
         fabText.setOnClickListener(v-> {
             Bundle bundle = new Bundle();
-            bundle.putInt("taskType", 3);
+            bundle.putInt("taskType", Task.TEXT_TYPE_TASK);
             bundle.putInt("backgroundColor", R.color.colorDefaultTaskBackground);
             Navigation.findNavController(v).navigate(R.id.action_mainFragment_to_newTaskFragment, bundle);
         });
@@ -112,6 +113,7 @@ public class MainFragment extends Fragment {
 
     /**
      * Animation for hiding Floating Action Buttons after pressing "+" fab or passing to next screen
+     *
      * @param v Clicked Floation Action Button view
      * @param fabVideo Floating Action Button for creating new video task
      * @param fabAudio Floating Action Button for creating new audio task
@@ -141,7 +143,8 @@ public class MainFragment extends Fragment {
     }
 
     /**
-     * Animation for unfolding Floating Action Buttons after presing "+" Fab
+     * Animation for unfolding Floating Action Buttons after pressing "+" Fab
+     *
      * @param v Clicked Floating Action Button view
      * @param fabVideo Floating Action Button for creating new video task
      * @param fabAudio Floating Action Button for creating new audio task
@@ -172,15 +175,17 @@ public class MainFragment extends Fragment {
 
 
     /**
-     * Display Snackbar message after adding / deleting a taask
+     * Display Snackbar message after adding / deleting a task
+     * Origin stored as an int in bundle with "origin" key
+     *
      * @param rootView Container Coordinator layout
      */
     private void displaySnackbar(View rootView){
         if(getArguments()!=null) {
-            int newTask = getArguments().getInt("origin", 0);
-            if(newTask == 1){
+            int origin = getArguments().getInt("origin", 0);
+            if(origin == NEW_TASK){
                 Snackbar.make(rootView.findViewById(R.id.main), "You added a new task!", Snackbar.LENGTH_SHORT).show();
-            } else if( newTask == 2){
+            } else if( origin == DELETE_TASK){
                 Snackbar.make(rootView.findViewById(R.id.main), "Task successfully deleted!", Snackbar.LENGTH_LONG).show();
             }
             getArguments().clear();

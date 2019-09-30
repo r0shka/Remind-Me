@@ -5,13 +5,17 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
-@Entity(tableName = "notification_task_table")
-public class NotificationTask {
+@Entity(tableName = "task_table")
+public class Task {
+
+    public static final int VIDEO_TYPE_TASK = 1;
+    public static final int AUDIO_TYPE_TASK = 2;
+    public static final int TEXT_TYPE_TASK = 3;
 
     @PrimaryKey(autoGenerate = true)
     @NonNull
-    @ColumnInfo(name = "taskId")
-    private int taskId;
+    @ColumnInfo(name = "id")
+    private int id;
 
     @ColumnInfo(name = "title")
     @NonNull
@@ -30,7 +34,7 @@ public class NotificationTask {
     private int type;
 
 
-    public NotificationTask(@NonNull String title, String description, int type){
+    public Task(@NonNull String title, String description, int type){
         this.title = title;
         this.description = description;
         this.type = type;
@@ -45,12 +49,12 @@ public class NotificationTask {
         return this.description;
     }
 
-    public int getTaskId() {
-        return taskId;
+    public int getId() {
+        return id;
     }
 
-    public void setTaskId(int taskId) {
-        this.taskId = taskId;
+    public void setId(int id) {
+        this.id = id;
     }
 
     public int getType() {

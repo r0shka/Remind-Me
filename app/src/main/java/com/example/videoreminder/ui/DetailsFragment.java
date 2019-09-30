@@ -17,7 +17,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.videoreminder.R;
-import com.example.videoreminder.db.entity.NotificationTask;
+import com.example.videoreminder.db.entity.Task;
 import com.example.videoreminder.viewmodel.TaskViewModel;
 
 
@@ -27,7 +27,7 @@ import com.example.videoreminder.viewmodel.TaskViewModel;
 public class DetailsFragment extends Fragment {
 
     private TaskViewModel viewModel;
-    private NotificationTask currentTask;
+    private Task currentTask;
 
 
     public DetailsFragment() {
@@ -50,12 +50,12 @@ public class DetailsFragment extends Fragment {
         final View main = rootView.findViewById(R.id.details_fragment);
         if(getArguments()!=null) {
             id = getArguments().getInt("id");
-            viewModel.getTaskById(id).observe(this, new Observer<NotificationTask>() {
+            viewModel.getTaskById(id).observe(this, new Observer<Task>() {
                 @Override
-                public void onChanged(NotificationTask notificationTask) {
-                    currentTask = notificationTask;
-                    title.setText(notificationTask.getTitle());
-                    description.setText(notificationTask.getDescription());
+                public void onChanged(Task task) {
+                    currentTask = task;
+                    title.setText(task.getTitle());
+                    description.setText(task.getDescription());
                     /*
                     setting background depending on task type
                     1 - Video notification task
