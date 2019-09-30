@@ -1,4 +1,4 @@
-package com.example.fragmentviewmodel.ui;
+package com.example.videoreminder.ui;
 
 
 import android.os.Bundle;
@@ -9,20 +9,21 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 
-import com.example.fragmentviewmodel.R;
+import com.example.videoreminder.R;
+
+public class AudioUploadFragment extends Fragment {
 
 
-public class TextInputFragment extends Fragment {
-
-    public TextInputFragment() {
+    public AudioUploadFragment() {
+        // Required empty public constructor
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_text_input, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_audio_upload, container, false);
+        Log.i("AUDIO", "onCreateView");
 
         setBackgroundColor(rootView);
 
@@ -37,4 +38,5 @@ public class TextInputFragment extends Fragment {
             main.setBackgroundResource(colorRes);
         }
     }
+
 }

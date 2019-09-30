@@ -1,4 +1,4 @@
-package com.example.fragmentviewmodel.db.entity;
+package com.example.videoreminder.db.entity;
 
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;

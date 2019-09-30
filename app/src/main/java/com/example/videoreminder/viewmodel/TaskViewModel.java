@@ -1,14 +1,13 @@
-package com.example.fragmentviewmodel.viewmodel;
+package com.example.videoreminder.viewmodel;
 
 import android.app.Application;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
-import com.example.fragmentviewmodel.TaskRepository;
-import com.example.fragmentviewmodel.db.entity.NotificationTask;
+import com.example.videoreminder.TaskRepository;
+import com.example.videoreminder.db.entity.NotificationTask;
 
 public class TaskViewModel extends AndroidViewModel {
 

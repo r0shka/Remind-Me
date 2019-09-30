@@ -1,4 +1,4 @@
-package com.example.fragmentviewmodel.db;
+package com.example.videoreminder.db;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -9,15 +9,14 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
-import com.example.fragmentviewmodel.db.dao.TaskDao;
-import com.example.fragmentviewmodel.db.entity.NotificationTask;
+import com.example.videoreminder.db.dao.TaskDao;
+import com.example.videoreminder.db.entity.NotificationTask;
 
 @Database(entities = {NotificationTask.class}, version = 4, exportSchema = false)
 public abstract class TaskRoomDatabase extends RoomDatabase {
 
-    public abstract TaskDao dao();
-
     private static TaskRoomDatabase INSTANCE;
+    public abstract TaskDao dao();
 
     private static RoomDatabase.Callback roomDatabaseCallback =
             new RoomDatabase.Callback(){

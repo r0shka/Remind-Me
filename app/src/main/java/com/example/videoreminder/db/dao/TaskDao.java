@@ -1,4 +1,4 @@
-package com.example.fragmentviewmodel.db.dao;
+package com.example.videoreminder.db.dao;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
@@ -7,7 +7,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
-import com.example.fragmentviewmodel.db.entity.NotificationTask;
+import com.example.videoreminder.db.entity.NotificationTask;
 
 import java.util.List;
 

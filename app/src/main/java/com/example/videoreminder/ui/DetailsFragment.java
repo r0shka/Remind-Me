@@ -1,4 +1,4 @@
-package com.example.fragmentviewmodel.ui;
+package com.example.videoreminder.ui;
 
 
 import android.os.Bundle;
@@ -16,11 +16,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.fragmentviewmodel.R;
-import com.example.fragmentviewmodel.db.entity.NotificationTask;
-import com.example.fragmentviewmodel.viewmodel.TaskViewModel;
-
-import java.util.List;
+import com.example.videoreminder.R;
+import com.example.videoreminder.db.entity.NotificationTask;
+import com.example.videoreminder.viewmodel.TaskViewModel;
 
 
 /**
@@ -44,7 +42,6 @@ public class DetailsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_details, container, false);
         viewModel = ViewModelProviders.of(this).get(TaskViewModel.class);
         final int id;

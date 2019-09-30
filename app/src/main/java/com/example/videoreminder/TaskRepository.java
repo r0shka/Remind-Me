@@ -1,13 +1,13 @@
-package com.example.fragmentviewmodel;
+package com.example.videoreminder;
 
 import android.app.Application;
 import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
 
-import com.example.fragmentviewmodel.db.TaskRoomDatabase;
-import com.example.fragmentviewmodel.db.dao.TaskDao;
-import com.example.fragmentviewmodel.db.entity.NotificationTask;
+import com.example.videoreminder.db.TaskRoomDatabase;
+import com.example.videoreminder.db.dao.TaskDao;
+import com.example.videoreminder.db.entity.NotificationTask;
 
 import java.util.List;
 
@@ -50,13 +50,13 @@ public class TaskRepository {
     }
 
     public void deteteTask(NotificationTask notificationTask)  {
-        new deleteTaskAsyncTask(taskDao).execute(notificationTask);
+        new DeleteTaskAsyncTask(taskDao).execute(notificationTask);
     }
 
-    private static class deleteTaskAsyncTask extends AsyncTask<NotificationTask, Void, Void> {
+    private static class DeleteTaskAsyncTask extends AsyncTask<NotificationTask, Void, Void> {
         private TaskDao mAsyncTaskDao;
 
-        deleteTaskAsyncTask(TaskDao dao) {
+        DeleteTaskAsyncTask(TaskDao dao) {
             mAsyncTaskDao = dao;
         }
 
@@ -68,7 +68,7 @@ public class TaskRepository {
     }
 
     public void updateTask(NotificationTask notificationTask)  {
-        new deleteTaskAsyncTask(taskDao).execute(notificationTask);
+        new DeleteTaskAsyncTask(taskDao).execute(notificationTask);
     }
 
     private static class UpdateTaskAsyncTask extends AsyncTask<NotificationTask, Void, Void> {

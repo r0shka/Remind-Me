@@ -1,4 +1,4 @@
-package com.example.fragmentviewmodel.ui;
+package com.example.videoreminder.ui;
 
 
 import android.os.Bundle;
@@ -9,33 +9,30 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.fragmentviewmodel.R;
+import com.example.videoreminder.R;
 
 
-public class VideoUploadFragment extends Fragment {
+public class TextInputFragment extends Fragment {
 
-
-    public VideoUploadFragment() {
-        // Required empty public constructor
+    public TextInputFragment() {
     }
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_video_upload, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_text_input, container, false);
+
         setBackgroundColor(rootView);
+
         return rootView;
     }
 
     private void setBackgroundColor(View rootView) {
-        View main = rootView.findViewById(R.id.video_upload_container);
+        View main = rootView.findViewById(R.id.text_input_container);
         int colorRes;
         if (getArguments() != null) {
             colorRes = getArguments().getInt("backgroundColor");
             main.setBackgroundResource(colorRes);
         }
     }
-
 }

@@ -1,4 +1,4 @@
-package com.example.fragmentviewmodel.ui;
+package com.example.videoreminder.ui;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -11,8 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.fragmentviewmodel.R;
-import com.example.fragmentviewmodel.db.entity.NotificationTask;
+import com.example.videoreminder.R;
+import com.example.videoreminder.db.entity.NotificationTask;
 
 import java.util.List;
 

@@ -1,4 +1,4 @@
-package com.example.fragmentviewmodel;
+package com.example.videoreminder;
 
 import org.junit.Test;
 

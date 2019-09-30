@@ -1,10 +1,9 @@
-package com.example.fragmentviewmodel.ui;
+package com.example.videoreminder.ui;
 
 
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 
 import android.util.Log;
@@ -14,8 +13,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.fragmentviewmodel.R;
-import com.example.fragmentviewmodel.viewmodel.TaskViewModel;
+import com.example.videoreminder.R;
 
 
 /**
@@ -59,7 +57,7 @@ public class NewTaskFragment extends Fragment {
         final TextView newTaskTitle = rootView.findViewById(R.id.new_task_title_input);
         String taskTitle = newTaskTitle.getText().toString();
         Log.i("Task title", " :" + taskTitle);
-        Bundle bundle = new Bundle();
+        Bundle bundle = getArguments();
         bundle.putString("taskTitle", taskTitle);
         if (getArguments() != null) {
             int taskType = getArguments().getInt("taskType", 0);
@@ -83,6 +81,7 @@ public class NewTaskFragment extends Fragment {
         int colorRes;
         if (getArguments() != null) {
             colorRes = getArguments().getInt("backgroundColor");
+            Log.i("Set bg", ""+colorRes);
             main.setBackgroundResource(colorRes);
         }
     }

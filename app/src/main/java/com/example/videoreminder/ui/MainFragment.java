@@ -1,4 +1,4 @@
-package com.example.fragmentviewmodel.ui;
+package com.example.videoreminder.ui;
 
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -14,14 +14,15 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.LinearInterpolator;
 
-import com.example.fragmentviewmodel.R;
-import com.example.fragmentviewmodel.db.entity.NotificationTask;
-import com.example.fragmentviewmodel.viewmodel.TaskListViewModel;
+import com.example.videoreminder.R;
+import com.example.videoreminder.db.entity.NotificationTask;
+import com.example.videoreminder.viewmodel.TaskListViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -86,6 +87,7 @@ public class MainFragment extends Fragment {
             Bundle bundle = new Bundle();
             bundle.putInt("taskType", 1);
             bundle.putInt("backgroundColor", R.color.colorVideoTaskBackground);
+            Log.i("Main bg", ""+R.color.colorVideoTaskBackground);
             Navigation.findNavController(v).navigate(R.id.action_mainFragment_to_newTaskFragment, bundle);
         });
 

@@ -1,10 +1,10 @@
-package com.example.fragmentviewmodel.ui;
+package com.example.videoreminder.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
-import com.example.fragmentviewmodel.R;
+import com.example.videoreminder.R;
 
 public class MainActivity extends AppCompatActivity {
 
