@@ -85,19 +85,22 @@ public class MainFragment extends Fragment {
         fabVideo.setOnClickListener(v-> {
             Bundle bundle = new Bundle();
             bundle.putInt("taskType", 1);
-            Navigation.findNavController(v).navigate(R.id.action_mainFragment_to_newTaskFragment);
+            bundle.putInt("backgroundColor", R.color.colorVideoTaskBackground);
+            Navigation.findNavController(v).navigate(R.id.action_mainFragment_to_newTaskFragment, bundle);
         });
 
         fabAudio.setOnClickListener(v-> {
             Bundle bundle = new Bundle();
             bundle.putInt("taskType", 2);
-            Navigation.findNavController(v).navigate(R.id.action_mainFragment_to_newTaskFragment);
+            bundle.putInt("backgroundColor", R.color.colorAudioTaskBackground);
+            Navigation.findNavController(v).navigate(R.id.action_mainFragment_to_newTaskFragment, bundle);
         });
 
         fabText.setOnClickListener(v-> {
             Bundle bundle = new Bundle();
             bundle.putInt("taskType", 3);
-            Navigation.findNavController(v).navigate(R.id.action_mainFragment_to_newTaskFragment);
+            bundle.putInt("backgroundColor", R.color.colorDefaultTaskBackground);
+            Navigation.findNavController(v).navigate(R.id.action_mainFragment_to_newTaskFragment, bundle);
         });
 
         displaySnackbar(rootView);
@@ -105,6 +108,13 @@ public class MainFragment extends Fragment {
         return rootView;
     }
 
+    /**
+     * Animation for hiding Floating Action Buttons after pressing "+" fab or passing to next screen
+     * @param v Clicked Floation Action Button view
+     * @param fabVideo Floating Action Button for creating new video task
+     * @param fabAudio Floating Action Button for creating new audio task
+     * @param fabText Floating Action Button for creating new text task
+     */
     private void resetFabs(View v, View fabVideo, View fabAudio, View fabText){
         fabVideo.setVisibility(View.INVISIBLE);
         fabAudio.setVisibility(View.INVISIBLE);
@@ -128,6 +138,13 @@ public class MainFragment extends Fragment {
         animatorSet.start();
     }
 
+    /**
+     * Animation for unfolding Floating Action Buttons after presing "+" Fab
+     * @param v Clicked Floating Action Button view
+     * @param fabVideo Floating Action Button for creating new video task
+     * @param fabAudio Floating Action Button for creating new audio task
+     * @param fabText Floating Action Button for creating new text task
+     */
     private void unfoldFabs(View v, View fabVideo, View fabAudio, View fabText){
         fabVideo.setVisibility(View.VISIBLE);
         fabAudio.setVisibility(View.VISIBLE);
@@ -152,13 +169,17 @@ public class MainFragment extends Fragment {
     }
 
 
+    /**
+     * Display Snackbar message after adding / deleting a taask
+     * @param rootView Container Coordinator layout
+     */
     private void displaySnackbar(View rootView){
         if(getArguments()!=null) {
-            int newTask = getArguments().getInt("type", 0);
+            int newTask = getArguments().getInt("origin", 0);
             if(newTask == 1){
                 Snackbar.make(rootView.findViewById(R.id.main), "You added a new task!", Snackbar.LENGTH_SHORT).show();
             } else if( newTask == 2){
-                Snackbar.make(rootView.findViewById(R.id.main), "Task successfully deleted!", Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(rootView.findViewById(R.id.main), "Task successfully deleted!", Snackbar.LENGTH_LONG).show();
             }
             getArguments().clear();
         }

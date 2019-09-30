@@ -19,16 +19,23 @@ public class VideoUploadFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static VideoUploadFragment newInstance() {
-        return new VideoUploadFragment();
-    }
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_video_upload, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_video_upload, container, false);
+        setBackgroundColor(rootView);
+        return rootView;
+    }
+
+    private void setBackgroundColor(View rootView) {
+        View main = rootView.findViewById(R.id.video_upload_container);
+        int colorRes;
+        if (getArguments() != null) {
+            colorRes = getArguments().getInt("backgroundColor");
+            main.setBackgroundResource(colorRes);
+        }
     }
 
 }

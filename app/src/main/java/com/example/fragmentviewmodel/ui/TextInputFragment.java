@@ -19,30 +19,22 @@ public class TextInputFragment extends Fragment {
     public TextInputFragment() {
     }
 
-    public static TextInputFragment newInstance() {
-        return new TextInputFragment();
-    }
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_text_input, container, false);
-        final EditText newTaskDescription = rootView.findViewById(R.id.new_task_description_input);
-        String taskDescription = newTaskDescription.getText().toString();
-        Log.i("TEXT ", "onCreateView :"+taskDescription);
+
+        setBackgroundColor(rootView);
+
         return rootView;
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        Log.i("TEXT ", "onStop");
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        Log.i("TEXT ", "onPause");
+    private void setBackgroundColor(View rootView) {
+        View main = rootView.findViewById(R.id.audio_upload_container);
+        int colorRes;
+        if (getArguments() != null) {
+            colorRes = getArguments().getInt("backgroundColor");
+            main.setBackgroundResource(colorRes);
+        }
     }
 }

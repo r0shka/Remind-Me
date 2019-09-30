@@ -12,7 +12,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import com.example.fragmentviewmodel.db.dao.TaskDao;
 import com.example.fragmentviewmodel.db.entity.NotificationTask;
 
-@Database(entities = {NotificationTask.class}, version = 3, exportSchema = false)
+@Database(entities = {NotificationTask.class}, version = 4, exportSchema = false)
 public abstract class TaskRoomDatabase extends RoomDatabase {
 
     public abstract TaskDao dao();

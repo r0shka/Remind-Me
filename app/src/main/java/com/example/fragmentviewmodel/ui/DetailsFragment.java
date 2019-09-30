@@ -93,7 +93,7 @@ public class DetailsFragment extends Fragment {
             public void onClick(View v) {
                 viewModel.deleteTask(currentTask);
                 Bundle bundle = new Bundle();
-                bundle.putInt("type", 2);
+                bundle.putInt("origin", 2);
                 Navigation.findNavController(v).navigate(R.id.action_detailsFragment_to_mainFragment, bundle);
             }
         });

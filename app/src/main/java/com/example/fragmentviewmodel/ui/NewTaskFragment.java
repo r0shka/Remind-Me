@@ -23,27 +23,25 @@ import com.example.fragmentviewmodel.viewmodel.TaskViewModel;
  */
 public class NewTaskFragment extends Fragment {
 
-    private TaskViewModel viewModel;
-
 
     public NewTaskFragment() {
     }
 
-    private int taskType = 0;
 
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final View rootView = inflater.inflate(R.layout.fragment_new_task, container, false);
-        viewModel = ViewModelProviders.of(this).get(TaskViewModel.class);
+        View rootView = inflater.inflate(R.layout.fragment_new_task, container, false);
         TextView nextButton = rootView.findViewById(R.id.new_task_next);
 
+        setBackgroundColor(rootView);
+
         nextButton.setOnClickListener(v -> {
-            if(taskType == 0){
+            if(2 == 3){
                 Toast.makeText(getContext(), "Enter title first", Toast.LENGTH_SHORT).show();
             } else {
-                moveToNextScreen(rootView, viewModel, v);
+                moveToNextScreen(rootView, v);
             }
         });
 
@@ -51,21 +49,42 @@ public class NewTaskFragment extends Fragment {
     }
 
 
-    private void moveToNextScreen(View rootView, final TaskViewModel viewModel, View v){
+    /**
+     * Navigating to next screen depending on task type
+     * Task type stored in bundle with "taskType" key
+     * @param rootView Container view
+     * @param v Clicked view
+     */
+    private void moveToNextScreen(View rootView, View v){
         final TextView newTaskTitle = rootView.findViewById(R.id.new_task_title_input);
         String taskTitle = newTaskTitle.getText().toString();
         Log.i("Task title", " :" + taskTitle);
         Bundle bundle = new Bundle();
-        bundle.putString("title", taskTitle);
-        int newTask = getArguments().getInt("type", 0);
-        if(newTask == 1){
-            Navigation.findNavController(v).navigate(R.id.action_newTaskFragment_to_videoUploadFragment, bundle);
-        } else if( newTask == 2){
-            Navigation.findNavController(v).navigate(R.id.action_newTaskFragment_to_audioUploadFragment, bundle);
-        } else if( newTask == 3) {
-            Navigation.findNavController(v).navigate(R.id.action_newTaskFragment_to_textInputFragment, bundle);
+        bundle.putString("taskTitle", taskTitle);
+        if (getArguments() != null) {
+            int taskType = getArguments().getInt("taskType", 0);
+            if(taskType == 1){
+                Navigation.findNavController(v).navigate(R.id.action_newTaskFragment_to_videoUploadFragment, bundle);
+            } else if( taskType == 2){
+                Navigation.findNavController(v).navigate(R.id.action_newTaskFragment_to_audioUploadFragment, bundle);
+            } else if( taskType == 3) {
+                Navigation.findNavController(v).navigate(R.id.action_newTaskFragment_to_textInputFragment, bundle);
+            }
         }
     }
 
+    /**
+     * Set screen background color depending on task type
+     * Color id stored in bundle with "backgroundColor" key
+     * @param rootView Container view
+     */
+    private void setBackgroundColor(View rootView) {
+        View main = rootView.findViewById(R.id.new_task_container);
+        int colorRes;
+        if (getArguments() != null) {
+            colorRes = getArguments().getInt("backgroundColor");
+            main.setBackgroundResource(colorRes);
+        }
+    }
 
 }

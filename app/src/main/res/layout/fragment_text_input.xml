@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/text_input_container"
     tools:context=".ui.TextInputFragment">
 
     <TextView

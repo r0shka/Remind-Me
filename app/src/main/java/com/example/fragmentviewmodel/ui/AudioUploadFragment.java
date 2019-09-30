@@ -19,18 +19,24 @@ public class AudioUploadFragment extends Fragment {
         // Required empty public constructor
     }
 
-    public static AudioUploadFragment newInstance() {
-        return new AudioUploadFragment();
-    }
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_audio_upload, container, false);
         Log.i("AUDIO", "onCreateView");
+
+        setBackgroundColor(rootView);
+
         return rootView;
+    }
+
+    private void setBackgroundColor(View rootView) {
+        View main = rootView.findViewById(R.id.audio_upload_container);
+        int colorRes;
+        if (getArguments() != null) {
+            colorRes = getArguments().getInt("backgroundColor");
+            main.setBackgroundResource(colorRes);
+        }
     }
 
 }
