@@ -88,9 +88,9 @@ public class SimpleItemRecyclerViewAdapter
      * within the RecyclerView.
      */
     class ViewHolder extends RecyclerView.ViewHolder {
-        final View view;
-        final TextView title;
-        final ImageView typeIcon;
+        private final View view;
+        private final TextView title;
+        private final ImageView typeIcon;
 
         ViewHolder(View view) {
             super(view);

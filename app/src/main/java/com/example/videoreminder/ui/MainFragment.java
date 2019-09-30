@@ -31,7 +31,7 @@ import java.util.List;
 public class MainFragment extends Fragment {
 
     private TaskListViewModel viewModel;
-    boolean fabClicked;
+    private boolean fabClicked;
 
     public static MainFragment newInstance() {
         return new MainFragment();
