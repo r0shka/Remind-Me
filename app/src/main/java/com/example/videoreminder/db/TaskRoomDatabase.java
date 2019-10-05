@@ -46,15 +46,13 @@ public abstract class TaskRoomDatabase extends RoomDatabase {
             // when it is first created
             dao.deleteAll();
 
-            Task task = new Task("Read book", "Description ", Task.VIDEO_TYPE_TASK);
+            Task task = new Task("Read a book", "Description ", Task.VIDEO_TYPE_TASK);
             dao.insert(task);
             task = new Task("Buy plane tickets", "Description ", Task.VIDEO_TYPE_TASK);
             dao.insert(task);
             task = new Task("Go to gym", "Description ", Task.AUDIO_TYPE_TASK);
             dao.insert(task);
             task = new Task("Clean the house", "Description ", Task.TEXT_TYPE_TASK);
-            dao.insert(task);
-            task = new Task("Buy groceries", "Description ", Task.AUDIO_TYPE_TASK);
             dao.insert(task);
 
             return null;

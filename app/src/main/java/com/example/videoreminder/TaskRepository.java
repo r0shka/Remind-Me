@@ -4,6 +4,8 @@ import android.app.Application;
 import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
+import androidx.paging.DataSource;
+import androidx.paging.PagedList;
 
 import com.example.videoreminder.db.TaskRoomDatabase;
 import com.example.videoreminder.db.dao.TaskDao;
@@ -14,7 +16,7 @@ import java.util.List;
 public class TaskRepository {
 
     private TaskDao taskDao;
-    private LiveData<List<Task>> allTasks;
+    private DataSource.Factory<Integer, Task> allTasks;
 
     public TaskRepository(Application application) {
         TaskRoomDatabase db = TaskRoomDatabase.getDatabase(application);
@@ -22,7 +24,7 @@ public class TaskRepository {
         allTasks = taskDao.getAllTasks();
     }
 
-    public LiveData<List<Task>> getAllTasks(){
+    public DataSource.Factory<Integer, Task> getAllTasks(){
         return this.allTasks;
     }
 

@@ -1,6 +1,7 @@
 package com.example.videoreminder.db.entity;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
@@ -64,4 +65,19 @@ public class Task {
     public void setType(int type) {
         this.type = type;
     }
+
+    // use for ordering the items in view
+    public static DiffUtil.ItemCallback<Task> DIFF_CALLBACK = new DiffUtil.ItemCallback<Task>() {
+        @Override
+        public boolean areItemsTheSame(@NonNull Task oldItem, @NonNull Task newItem) {
+            return oldItem.equals(newItem);
+        }
+
+        @Override
+        public boolean areContentsTheSame(@NonNull Task oldItem, @NonNull Task newItem) {
+            int a = oldItem.getId();
+            int b = newItem.getId();
+            return a == b;
+        }
+    };
 }

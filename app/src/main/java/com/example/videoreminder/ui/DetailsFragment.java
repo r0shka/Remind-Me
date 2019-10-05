@@ -21,9 +21,6 @@ import com.example.videoreminder.R;
 import com.example.videoreminder.db.entity.Task;
 import com.example.videoreminder.viewmodel.TaskViewModel;
 
-import java.util.Arrays;
-import java.util.Set;
-
 
 /**
  * A simple {@link Fragment} subclass.
@@ -74,17 +71,12 @@ public class DetailsFragment extends Fragment {
                 currentTask = task;
                 title.setText(currentTask.getTitle());
                 description.setText(currentTask.getDescription());
-                /*
-                   setting background depending on task type
-                   1 - Video notification task
-                   2 - Audio notification task
-                   3 - Text notification task
-                    */
-                if(currentTask.getType()==1){
+
+                if(currentTask.getType() == Task.VIDEO_TYPE_TASK){
                     main.setBackgroundResource(R.color.colorVideoTaskBackground);
-                } else if(currentTask.getType()==2){
+                } else if(currentTask.getType() == Task.AUDIO_TYPE_TASK){
                     main.setBackgroundResource(R.color.colorAudioTaskBackground);
-                } else {
+                } else if(currentTask.getType() == Task.TEXT_TYPE_TASK){
                     main.setBackgroundResource(R.color.colorDefaultTaskBackground);
                 }
             }
@@ -92,22 +84,14 @@ public class DetailsFragment extends Fragment {
         getArguments().clear();
 
         ImageView closeTask = rootView.findViewById(R.id.task_details_close);
-        closeTask.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Navigation.findNavController(v).navigate(R.id.action_detailsFragment_to_mainFragment);
-            }
-        });
+        closeTask.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.action_detailsFragment_to_mainFragment));
 
         ImageView deleteTask = rootView.findViewById(R.id.task_details_delete);
-        deleteTask.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                viewModel.deleteTask(currentTask);
-                Bundle bundle = new Bundle();
-                bundle.putInt("origin", 2);
-                Navigation.findNavController(v).navigate(R.id.action_detailsFragment_to_mainFragment, bundle);
-            }
+        deleteTask.setOnClickListener(v -> {
+            viewModel.deleteTask(currentTask);
+            Bundle bundle = new Bundle();
+            bundle.putInt("origin", MainFragment.DELETE_TASK_ORIGIN);
+            Navigation.findNavController(v).navigate(R.id.action_detailsFragment_to_mainFragment, bundle);
         });
 
         return rootView;

@@ -1,6 +1,5 @@
 package com.example.videoreminder.ui;
 
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.animation.AnimatorSet;
@@ -14,6 +13,7 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,18 +25,18 @@ import com.example.videoreminder.viewmodel.TaskListViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
-import java.util.List;
-
 public class MainFragment extends Fragment {
 
     private TaskListViewModel viewModel;
-    private boolean fabClicked;
-    private static final int NEW_TASK = 1;
-    private static final int DELETE_TASK = 2;
 
-    public static MainFragment newInstance() {
-        return new MainFragment();
-    }
+    private FloatingActionButton fabNewTask;
+    private FloatingActionButton fabVideo;
+    private FloatingActionButton fabAudio;
+    private FloatingActionButton fabText;
+
+    private boolean fabNewTaskClicked;
+    public static final int NEW_TASK_ORIGIN = 1;
+    public static final int DELETE_TASK_ORIGIN = 2;
 
     @Nullable
     public View onCreateViewHolder(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -52,36 +52,45 @@ public class MainFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        return inflater.inflate(R.layout.fragment_main, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         final SimpleItemRecyclerViewAdapter adapter;
-        RecyclerView recyclerView = rootView.findViewById(R.id.task_recycler_view);
+        RecyclerView recyclerView = view.findViewById(R.id.task_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         adapter = new SimpleItemRecyclerViewAdapter();
         recyclerView.setAdapter(adapter);
 
-        viewModel = ViewModelProviders.of(this).get(TaskListViewModel.class);
-        viewModel.getAllTasks().observe(this, new Observer<List<Task>>() {
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onChanged(List<Task> tasks) {
-                adapter.setTasks(tasks);
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                resetFabs();
+                fabNewTaskClicked = false;
             }
         });
 
-        FloatingActionButton fabVideo = rootView.findViewById(R.id.fab_video);
-        FloatingActionButton fabAudio = rootView.findViewById(R.id.fab_audio);
-        FloatingActionButton fabText = rootView.findViewById(R.id.fab_text);
+        viewModel = ViewModelProviders.of(this).get(TaskListViewModel.class);
+        viewModel.getAllTasks().observe(this, adapter::submitList);
 
-        FloatingActionButton fabNewTask = rootView.findViewById(R.id.floatingActionButton);
-        resetFabs(fabNewTask, fabVideo, fabAudio, fabText);
-        fabClicked = false;
+        fabVideo = view.findViewById(R.id.fab_video);
+        fabAudio = view.findViewById(R.id.fab_audio);
+        fabText = view.findViewById(R.id.fab_text);
+        fabNewTask = view.findViewById(R.id.floatingActionButton);
+
+        resetFabs();
+        fabNewTaskClicked = false;
 
         fabNewTask.setOnClickListener(v -> {
-            if(!fabClicked) {
-                unfoldFabs(v, fabVideo, fabAudio, fabText);
-                fabClicked = true;
+            if(!fabNewTaskClicked) {
+                revealFabs();
+                fabNewTaskClicked = true;
             } else {
-                resetFabs(v, fabVideo, fabAudio, fabText);
-                fabClicked = false;
+                resetFabs();
+                fabNewTaskClicked = false;
             }
         });
 
@@ -106,23 +115,39 @@ public class MainFragment extends Fragment {
             Navigation.findNavController(v).navigate(R.id.action_mainFragment_to_newTaskFragment, bundle);
         });
 
-        displaySnackbar(rootView);
+        if(getArguments() != null) {
+            int origin = getArguments().getInt("origin", 0);
+            if (origin == NEW_TASK_ORIGIN) {
+                commitTask(view);
+            } else if (origin == DELETE_TASK_ORIGIN) {
+                deleteTask(view);
+            }
+            getArguments().clear();
+        }
+    }
 
-        return rootView;
+    private void commitTask(View rootView){
+        Log.d("Main fragment: ", "commiting task...");
+        // TO DO creating task
+        Snackbar.make(rootView.findViewById(R.id.main), "You added a new task!", Snackbar.LENGTH_SHORT)
+                .show();
+    }
+
+    private void deleteTask(View rootView){
+        Log.d("Main fragment: ", "deleting task...");
+        // TO DO deleting task
+        Snackbar.make(rootView.findViewById(R.id.main), "Task successfully deleted!", Snackbar.LENGTH_LONG)
+                .show();
     }
 
     /**
      * Animation for hiding Floating Action Buttons after pressing "+" fab or passing to next screen
      *
-     * @param v Clicked Floation Action Button view
-     * @param fabVideo Floating Action Button for creating new video task
-     * @param fabAudio Floating Action Button for creating new audio task
-     * @param fabText Floating Action Button for creating new text task
      */
-    private void resetFabs(View v, View fabVideo, View fabAudio, View fabText){
-        fabVideo.setVisibility(View.INVISIBLE);
-        fabAudio.setVisibility(View.INVISIBLE);
-        fabText.setVisibility(View.INVISIBLE);
+    private void resetFabs(){
+        fabVideo.hide();
+        fabAudio.hide();
+        fabText.hide();
 
         ObjectAnimator translationAnimVideo = ObjectAnimator.ofFloat(fabVideo, "translationY", 0f);
         ObjectAnimator translationAnimAudio = ObjectAnimator.ofFloat(fabAudio, "translationX", 0f);
@@ -132,7 +157,7 @@ public class MainFragment extends Fragment {
         translationAnimAudio.setInterpolator(new LinearInterpolator());
         translationAnimText.setInterpolator(new LinearInterpolator());
 
-        ObjectAnimator rotationAnim = ObjectAnimator.ofFloat(v, "rotation", 0f);
+        ObjectAnimator rotationAnim = ObjectAnimator.ofFloat(fabNewTask, "rotation", 0f);
 
         AnimatorSet animatorSet = new AnimatorSet();
         animatorSet.playTogether(rotationAnim,
@@ -143,17 +168,13 @@ public class MainFragment extends Fragment {
     }
 
     /**
-     * Animation for unfolding Floating Action Buttons after pressing "+" Fab
+     * Animation for revealing Floating Action Buttons after pressing "+" Fab
      *
-     * @param v Clicked Floating Action Button view
-     * @param fabVideo Floating Action Button for creating new video task
-     * @param fabAudio Floating Action Button for creating new audio task
-     * @param fabText Floating Action Button for creating new text task
      */
-    private void unfoldFabs(View v, View fabVideo, View fabAudio, View fabText){
-        fabVideo.setVisibility(View.VISIBLE);
-        fabAudio.setVisibility(View.VISIBLE);
-        fabText.setVisibility(View.VISIBLE);
+    private void revealFabs(){
+        fabVideo.show();
+        fabAudio.show();
+        fabText.show();
 
         ObjectAnimator translationAnimVideo = ObjectAnimator.ofFloat(fabVideo, "translationY", -200f);
         ObjectAnimator translationAnimAudio = ObjectAnimator.ofFloat(fabAudio, "translationX", -200f);
@@ -163,7 +184,7 @@ public class MainFragment extends Fragment {
         translationAnimAudio.setInterpolator(new LinearInterpolator());
         translationAnimText.setInterpolator(new LinearInterpolator());
 
-        ObjectAnimator rotationAnim = ObjectAnimator.ofFloat(v, "rotation", 45f);
+        ObjectAnimator rotationAnim = ObjectAnimator.ofFloat(fabNewTask, "rotation", 45f);
 
         AnimatorSet animatorSet = new AnimatorSet();
         animatorSet.playTogether(rotationAnim,
@@ -173,27 +194,4 @@ public class MainFragment extends Fragment {
         animatorSet.start();
     }
 
-
-    /**
-     * Display Snackbar message after adding / deleting a task
-     * Origin stored as an int in bundle with "origin" key
-     *
-     * @param rootView Container Coordinator layout
-     */
-    private void displaySnackbar(View rootView){
-        if(getArguments()!=null) {
-            int origin = getArguments().getInt("origin", 0);
-            if(origin == NEW_TASK){
-                Snackbar.make(rootView.findViewById(R.id.main), "You added a new task!", Snackbar.LENGTH_SHORT).show();
-            } else if( origin == DELETE_TASK){
-                Snackbar.make(rootView.findViewById(R.id.main), "Task successfully deleted!", Snackbar.LENGTH_LONG).show();
-            }
-            getArguments().clear();
-        }
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-    }
 }

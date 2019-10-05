@@ -116,7 +116,11 @@
     </fragment>
     <fragment
         android:id="@+id/pickDateFragment"
-        android:name="com.example.videoreminder.PickDateFragment"
+        android:name="com.example.videoreminder.ui.PickDateFragment"
         android:label="fragment_pick_date"
-        tools:layout="@layout/fragment_pick_date" />
+        tools:layout="@layout/fragment_pick_date" >
+        <action
+            android:id="@+id/action_pickDateFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+    </fragment>
 </navigation>

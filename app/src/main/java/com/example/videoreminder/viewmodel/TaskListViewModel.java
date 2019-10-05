@@ -5,6 +5,8 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.paging.LivePagedListBuilder;
+import androidx.paging.PagedList;
 
 import com.example.videoreminder.TaskRepository;
 import com.example.videoreminder.db.entity.Task;
@@ -17,15 +19,15 @@ import java.util.List;
 public class TaskListViewModel extends AndroidViewModel {
 
     private TaskRepository repository;
-    private LiveData<List<Task>> allTasks;
+    private LiveData<PagedList<Task>> allTasks;
 
     public TaskListViewModel(@NonNull Application application) {
         super(application);
         repository = new TaskRepository(application);
-        allTasks = repository.getAllTasks();
+        allTasks = new LivePagedListBuilder<>(repository.getAllTasks(), 10).build();
     }
 
-    public LiveData<List<Task>> getAllTasks(){
+    public LiveData<PagedList<Task>> getAllTasks(){
         return this.allTasks;
     }
 }

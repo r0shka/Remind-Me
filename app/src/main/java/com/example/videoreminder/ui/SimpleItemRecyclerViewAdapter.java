@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.navigation.Navigation;
+import androidx.paging.PagedListAdapter;
+import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.videoreminder.R;
@@ -17,17 +19,14 @@ import com.example.videoreminder.db.entity.Task;
 import java.util.List;
 
 public class SimpleItemRecyclerViewAdapter
-        extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
+        extends PagedListAdapter<Task, SimpleItemRecyclerViewAdapter.ViewHolder> {
 
-    private List<Task> tasks;
 
-    SimpleItemRecyclerViewAdapter() {
+
+    public SimpleItemRecyclerViewAdapter(){
+        super(Task.DIFF_CALLBACK);
     }
 
-    public void setTasks(List<Task> tasks){
-        this.tasks = tasks;
-        notifyDataSetChanged();
-    }
 
     @NonNull
     @Override
@@ -39,8 +38,8 @@ public class SimpleItemRecyclerViewAdapter
 
     @Override
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
-        if (tasks != null) {
-            final Task current = tasks.get(position);
+        final Task current = getItem(position);
+        if (current != null) {
             /*
             setting background depending on task type
             1 - Video notification task
@@ -74,13 +73,6 @@ public class SimpleItemRecyclerViewAdapter
             // Covers the case of data not being ready yet.
             holder.title.setText("No tasks for now!");
         }
-    }
-
-    @Override
-    public int getItemCount() {
-        if (tasks != null)
-            return tasks.size();
-        else return 0;
     }
 
     /**

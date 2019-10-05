@@ -3,12 +3,16 @@ package com.example.videoreminder.ui;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,22 +34,24 @@ public class NewTaskFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_new_task, container, false);
-        TextView nextButton = rootView.findViewById(R.id.new_task_next);
+        return inflater.inflate(R.layout.fragment_new_task, container, false);
+    }
 
-        setBackgroundColor(rootView);
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        TextView nextButton = view.findViewById(R.id.new_task_next);
+
+        setBackgroundColor(view);
 
         nextButton.setOnClickListener(v -> {
             if(2 == 3){
                 Toast.makeText(getContext(), "Enter title first", Toast.LENGTH_SHORT).show();
             } else {
-                moveToNextScreen(rootView, v);
+                moveToNextScreen(view, v);
             }
         });
-
-        return rootView;
     }
-
 
     /**
      * Navigating to next screen depending on task type
@@ -82,6 +88,7 @@ public class NewTaskFragment extends Fragment {
         int colorRes;
         if (getArguments() != null) {
             colorRes = getArguments().getInt("backgroundColor");
+            Log.d("NewTask, bg color:", ""+colorRes);
             main.setBackgroundResource(colorRes);
         }
     }
