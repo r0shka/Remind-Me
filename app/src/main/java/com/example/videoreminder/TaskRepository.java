@@ -5,13 +5,11 @@ import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
 import androidx.paging.DataSource;
-import androidx.paging.PagedList;
 
 import com.example.videoreminder.db.TaskRoomDatabase;
 import com.example.videoreminder.db.dao.TaskDao;
 import com.example.videoreminder.db.entity.Task;
 
-import java.util.List;
 
 public class TaskRepository {
 

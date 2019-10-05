@@ -17,7 +17,6 @@ public class VideoUploadFragment extends Fragment {
 
 
     public VideoUploadFragment() {
-        // Required empty public constructor
     }
 
 

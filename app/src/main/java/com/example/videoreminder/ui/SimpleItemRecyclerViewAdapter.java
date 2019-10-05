@@ -10,13 +10,11 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.navigation.Navigation;
 import androidx.paging.PagedListAdapter;
-import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.videoreminder.R;
 import com.example.videoreminder.db.entity.Task;
 
-import java.util.List;
 
 public class SimpleItemRecyclerViewAdapter
         extends PagedListAdapter<Task, SimpleItemRecyclerViewAdapter.ViewHolder> {
@@ -40,12 +38,6 @@ public class SimpleItemRecyclerViewAdapter
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         final Task current = getItem(position);
         if (current != null) {
-            /*
-            setting background depending on task type
-            1 - Video notification task
-            2 - Audio notification task
-            3 - Text notification task
-             */
             if(current.getType() == 1){
                 holder.view.setBackgroundResource(R.drawable.task_background_video);
                 holder.typeIcon.setImageResource(R.drawable.ic_videocam_white_36dp);
@@ -61,13 +53,10 @@ public class SimpleItemRecyclerViewAdapter
             }
 
             holder.title.setText(current.getTitle());
-            holder.view.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Bundle bundle = new Bundle();
-                    bundle.putInt("id", current.getId());
-                    Navigation.findNavController(v).navigate(R.id.action_mainFragment_to_detailsFragment, bundle);
-                }
+            holder.view.setOnClickListener(v -> {
+                Bundle bundle = new Bundle();
+                bundle.putInt("id", current.getId());
+                Navigation.findNavController(v).navigate(R.id.action_mainFragment_to_detailsFragment, bundle);
             });
         } else {
             // Covers the case of data not being ready yet.

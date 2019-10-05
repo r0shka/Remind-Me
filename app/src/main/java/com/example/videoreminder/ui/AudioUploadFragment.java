@@ -16,7 +16,6 @@ public class AudioUploadFragment extends Fragment {
 
 
     public AudioUploadFragment() {
-        // Required empty public constructor
     }
 
     @Override
