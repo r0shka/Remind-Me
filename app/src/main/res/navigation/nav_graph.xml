@@ -81,25 +81,14 @@
         android:label="fragment_text_input"
         tools:layout="@layout/fragment_text_input" >
         <action
-            android:id="@+id/action_textInputFragment_to_pickDateFragment"
-            app:destination="@id/pickDateFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+            android:id="@+id/action_textInputFragment_to_setReminderFragment"
+            app:destination="@id/setReminderFragment" />
     </fragment>
     <fragment
         android:id="@+id/audioUploadFragment"
         android:name="com.example.videoreminder.ui.AudioUploadFragment"
         android:label="fragment_audio_upload"
         tools:layout="@layout/fragment_audio_upload" >
-        <action
-            android:id="@+id/action_audioUploadFragment_to_pickDateFragment"
-            app:destination="@id/pickDateFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
     <fragment
         android:id="@+id/videoUploadFragment"
@@ -107,18 +96,18 @@
         android:label="fragment_video_upload"
         tools:layout="@layout/fragment_video_upload" >
         <action
-            android:id="@+id/action_videoUploadFragment_to_pickDateFragment"
-            app:destination="@id/pickDateFragment"
+            android:id="@+id/action_videoUploadFragment_to_setRemiderFragment"
+            app:destination="@id/setReminderFragment"
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
     <fragment
-        android:id="@+id/pickDateFragment"
-        android:name="com.example.videoreminder.ui.PickDateFragment"
+        android:id="@+id/setReminderFragment"
+        android:name="com.example.videoreminder.ui.SetReminderFragment"
         android:label="fragment_pick_date"
-        tools:layout="@layout/fragment_pick_date" >
+        tools:layout="@layout/fragment_set_reminder" >
         <action
             android:id="@+id/action_pickDateFragment_to_mainFragment"
             app:destination="@id/mainFragment" />

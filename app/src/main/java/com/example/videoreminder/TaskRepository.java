@@ -49,7 +49,7 @@ public class TaskRepository {
         }
     }
 
-    public void deteteTask(Task task)  {
+    public void deleteTask(Task task)  {
         new DeleteTaskAsyncTask(taskDao).execute(task);
     }
 

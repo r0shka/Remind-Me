@@ -74,7 +74,7 @@ public class MainFragment extends Fragment {
         });
 
         viewModel = ViewModelProviders.of(this).get(TaskListViewModel.class);
-        viewModel.getAllTasks().observe(this, adapter::submitList);
+        viewModel.getAllTasks().observe(this, pagedList -> adapter.submitList(pagedList));
 
         fabVideo = view.findViewById(R.id.fab_video);
         fabAudio = view.findViewById(R.id.fab_audio);
@@ -175,10 +175,12 @@ public class MainFragment extends Fragment {
         fabVideo.show();
         fabAudio.show();
         fabText.show();
+        float density = getResources().getDisplayMetrics().density;
+        Log.i("Density:", ""+density);
 
-        ObjectAnimator translationAnimVideo = ObjectAnimator.ofFloat(fabVideo, "translationY", -200f);
-        ObjectAnimator translationAnimAudio = ObjectAnimator.ofFloat(fabAudio, "translationX", -200f);
-        ObjectAnimator translationAnimText = ObjectAnimator.ofFloat(fabText, "translationX", 200f);
+        ObjectAnimator translationAnimVideo = ObjectAnimator.ofFloat(fabVideo, "translationY", -70f*density);
+        ObjectAnimator translationAnimAudio = ObjectAnimator.ofFloat(fabAudio, "translationX", -70f*density);
+        ObjectAnimator translationAnimText = ObjectAnimator.ofFloat(fabText, "translationX", 70f*density);
 
         translationAnimVideo.setInterpolator(new LinearInterpolator());
         translationAnimAudio.setInterpolator(new LinearInterpolator());

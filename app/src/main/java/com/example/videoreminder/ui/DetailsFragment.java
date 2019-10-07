@@ -65,20 +65,17 @@ public class DetailsFragment extends Fragment {
             taskId = -1;
         }
 
-        viewModel.getTaskById(taskId).observe(this, new Observer<Task>() {
-            @Override
-            public void onChanged(Task task) {
-                currentTask = task;
-                title.setText(currentTask.getTitle());
-                description.setText(currentTask.getDescription());
+        viewModel.getTaskById(taskId).observe(this, task -> {
+            currentTask = task;
+            title.setText(currentTask.getTitle());
+            description.setText(currentTask.getDescription());
 
-                if(currentTask.getType() == Task.VIDEO_TYPE_TASK){
-                    main.setBackgroundResource(R.color.colorVideoTaskBackground);
-                } else if(currentTask.getType() == Task.AUDIO_TYPE_TASK){
-                    main.setBackgroundResource(R.color.colorAudioTaskBackground);
-                } else if(currentTask.getType() == Task.TEXT_TYPE_TASK){
-                    main.setBackgroundResource(R.color.colorDefaultTaskBackground);
-                }
+            if(currentTask.getType() == Task.VIDEO_TYPE_TASK){
+                main.setBackgroundResource(R.color.colorVideoTaskBackground);
+            } else if(currentTask.getType() == Task.AUDIO_TYPE_TASK){
+                main.setBackgroundResource(R.color.colorAudioTaskBackground);
+            } else if(currentTask.getType() == Task.TEXT_TYPE_TASK){
+                main.setBackgroundResource(R.color.colorDefaultTaskBackground);
             }
         });
         getArguments().clear();

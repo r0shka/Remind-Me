@@ -5,14 +5,14 @@
     android:layout_height="match_parent"
     android:id="@+id/pick_date_container"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.PickDateFragment">
+    tools:context=".ui.SetReminderFragment">
 
     <TextView
         android:id="@+id/new_task_description_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
-        android:text="Pick date"
+        android:text="Set reminder"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -27,5 +27,29 @@
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <Button
+        android:id="@+id/pick_hour_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pick hour"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/new_task_description_text" />
+
+    <Button
+        android:id="@+id/pick_date_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pick date"
+        app:layout_constraintStart_toEndOf="@+id/pick_hour_button"
+        app:layout_constraintTop_toBottomOf="@+id/new_task_description_text" />
+
+    <Spinner
+        android:id="@+id/frequency_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pick_hour_button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

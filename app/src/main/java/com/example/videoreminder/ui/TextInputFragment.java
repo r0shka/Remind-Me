@@ -1,6 +1,10 @@
 package com.example.videoreminder.ui;
 
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -14,6 +18,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.videoreminder.R;
+
+import java.util.Calendar;
+
+import static android.content.Context.ALARM_SERVICE;
 
 
 public class TextInputFragment extends Fragment {
@@ -37,8 +45,13 @@ public class TextInputFragment extends Fragment {
             TextView newTaskDescription = view.findViewById(R.id.new_task_description_input);
             String description = newTaskDescription.getText().toString();
             bundle.putString("taskDescription", description);
-            Navigation.findNavController(v).navigate(R.id.action_textInputFragment_to_pickDateFragment, bundle);
+            setAlarm();
+            Navigation.findNavController(v).navigate(R.id.action_textInputFragment_to_setReminderFragment, bundle);
         });
+    }
+
+    private void setAlarm(){
+
     }
 
     private void setBackgroundColor(View rootView) {
