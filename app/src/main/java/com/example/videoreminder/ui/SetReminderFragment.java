@@ -15,7 +15,6 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 
-import android.os.SystemClock;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,6 +32,8 @@ import com.example.videoreminder.ui.dialogs.DatePickerFragment;
 import com.example.videoreminder.ui.dialogs.TimePickerFragment;
 import com.example.videoreminder.viewmodel.DateHourSharedViewModel;
 import com.example.videoreminder.viewmodel.TaskViewModel;
+
+import java.util.Calendar;
 
 import static android.content.Context.ALARM_SERVICE;
 import static android.content.Context.NOTIFICATION_SERVICE;
@@ -72,29 +73,6 @@ public class SetReminderFragment extends Fragment implements AdapterView.OnItemS
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        notificationManager = (NotificationManager) getContext().getSystemService(NOTIFICATION_SERVICE);
-        // Set up the Notification Broadcast Intent.
-        Intent notifyIntent = new Intent(getContext(), AlarmReceiver.class);
-        final PendingIntent notifyPendingIntent = PendingIntent.getBroadcast
-                (getContext(), NOTIFICATION_ID, notifyIntent,
-                        PendingIntent.FLAG_UPDATE_CURRENT);
-        final AlarmManager alarmManager = (AlarmManager) getContext().getSystemService
-                (ALARM_SERVICE);
-        long repeatInterval = 1000 * 20;
-
-        long triggerTime = SystemClock.elapsedRealtime()
-                + repeatInterval;
-
-        // If the Toggle is turned on, set the repeating alarm with
-        // a 15 minute interval.
-        if (alarmManager != null) {
-//            alarmManager.setInexactRepeating
-//                    (AlarmManager.ELAPSED_REALTIME_WAKEUP,
-//                            triggerTime, repeatInterval,
-//                            notifyPendingIntent);
-        }
-        createNotificationChannel();
-
         viewModel = ViewModelProviders.of(this).get(TaskViewModel.class);
         dateHourSharedViewModel = ViewModelProviders.of(getActivity()).get(DateHourSharedViewModel.class);
         setBackgroundColor(view);
@@ -123,6 +101,7 @@ public class SetReminderFragment extends Fragment implements AdapterView.OnItemS
         nextButton.setOnClickListener(v -> {
             Bundle bundle = getArguments();
             commitTask();
+            setReminder();
             Navigation.findNavController(v).navigate(R.id.action_pickDateFragment_to_mainFragment, bundle);
         });
     }
@@ -210,6 +189,36 @@ public class SetReminderFragment extends Fragment implements AdapterView.OnItemS
             Log.i("Day picked", "" + day);
             pickerDay = day;
         });
+    }
+
+    private void setReminder(){
+        notificationManager = (NotificationManager) getContext().getSystemService(NOTIFICATION_SERVICE);
+        // Set up the Notification Broadcast Intent.
+        Intent notifyIntent = new Intent(getContext(), AlarmReceiver.class);
+        final PendingIntent notifyPendingIntent = PendingIntent.getBroadcast
+                (getContext(), NOTIFICATION_ID, notifyIntent,
+                        PendingIntent.FLAG_UPDATE_CURRENT);
+        final AlarmManager alarmManager = (AlarmManager) getContext().getSystemService
+                (ALARM_SERVICE);
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY, pickerHour);
+        calendar.set(Calendar.MINUTE, pickerMin);
+        calendar.set(Calendar.DATE, pickerDay);
+        calendar.set(Calendar.MONTH, pickerMonth);
+        calendar.set(Calendar.YEAR, pickerYear);
+
+        // If the Toggle is turned on, set the repeating alarm with
+        // a 15 minute interval.
+        if (alarmManager != null) {
+            alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                    AlarmManager.INTERVAL_DAY, notifyPendingIntent);
+            Log.d("SetReminder", "Alarm set! ------------------");
+            Log.d("Alarm set for: ", ""+pickerHour+"h"+pickerMin+", "+
+                    pickerDay+"/"+pickerMonth+"/"+pickerYear);
+        }
+        createNotificationChannel();
     }
 
 

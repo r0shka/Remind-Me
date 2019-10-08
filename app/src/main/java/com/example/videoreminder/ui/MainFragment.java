@@ -64,6 +64,7 @@ public class MainFragment extends Fragment {
         adapter = new SimpleItemRecyclerViewAdapter();
         recyclerView.setAdapter(adapter);
 
+        // Hide fabs when scrolling
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
@@ -81,9 +82,11 @@ public class MainFragment extends Fragment {
         fabText = view.findViewById(R.id.fab_text);
         fabNewTask = view.findViewById(R.id.floatingActionButton);
 
+        // Reset fabs in case they were previously opened
         resetFabs();
         fabNewTaskClicked = false;
 
+        // Main fab behaviour
         fabNewTask.setOnClickListener(v -> {
             if(!fabNewTaskClicked) {
                 revealFabs();
@@ -176,7 +179,6 @@ public class MainFragment extends Fragment {
         fabAudio.show();
         fabText.show();
         float density = getResources().getDisplayMetrics().density;
-        Log.i("Density:", ""+density);
 
         ObjectAnimator translationAnimVideo = ObjectAnimator.ofFloat(fabVideo, "translationY", -70f*density);
         ObjectAnimator translationAnimAudio = ObjectAnimator.ofFloat(fabAudio, "translationX", -70f*density);

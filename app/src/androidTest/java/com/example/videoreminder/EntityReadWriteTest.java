@@ -3,17 +3,14 @@ package com.example.videoreminder;
 
 import android.content.Context;
 
-import androidx.lifecycle.LiveData;
 import androidx.room.Room;
 import androidx.test.platform.app.InstrumentationRegistry;
 
 import com.example.videoreminder.db.TaskRoomDatabase;
 import com.example.videoreminder.db.dao.TaskDao;
-import com.example.videoreminder.db.entity.Task;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
@@ -34,14 +31,6 @@ public class EntityReadWriteTest {
     @After
     public void closeDb() throws IOException {
         db.close();
-    }
-
-    @Test
-    public void writeUserAndReadInList() throws Exception {
-        Task task = new Task("Oops", "Hey!", 1);
-        int id = task.getId();
-        String name;
-        dao.insert(task);
     }
 
 
