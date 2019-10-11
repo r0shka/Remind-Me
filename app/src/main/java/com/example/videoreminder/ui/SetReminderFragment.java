@@ -7,6 +7,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -43,10 +44,11 @@ public class SetReminderFragment extends Fragment implements AdapterView.OnItemS
 
     private TaskViewModel viewModel;
     private DateHourSharedViewModel dateHourSharedViewModel;
+    private boolean isRepeatingAlarm;
+    private long periodicity;
 
     private int pickerHour = 0;
     private int pickerMin = 0;
-
     private int pickerYear = 0;
     private int pickerMonth = 0;
     private int pickerDay = 0;
@@ -84,6 +86,7 @@ public class SetReminderFragment extends Fragment implements AdapterView.OnItemS
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
+        isRepeatingAlarm = false;
 
         observeTime();
         observeDate();
@@ -101,7 +104,7 @@ public class SetReminderFragment extends Fragment implements AdapterView.OnItemS
         nextButton.setOnClickListener(v -> {
             Bundle bundle = getArguments();
             commitTask();
-            setReminder();
+            setAlarm();
             Navigation.findNavController(v).navigate(R.id.action_pickDateFragment_to_mainFragment, bundle);
         });
     }
@@ -123,35 +126,6 @@ public class SetReminderFragment extends Fragment implements AdapterView.OnItemS
         if (getArguments() != null) {
             colorRes = getArguments().getInt("backgroundColor");
             main.setBackgroundResource(colorRes);
-        }
-    }
-
-    /**
-     * Creates a Notification channel, for OREO and higher.
-     */
-    public void createNotificationChannel() {
-
-        // Create a notification manager object.
-        notificationManager =
-                (NotificationManager) getContext().getSystemService(NOTIFICATION_SERVICE);
-
-        // Notification channels are only available in OREO and higher.
-        // So, add a check on SDK version.
-        if (android.os.Build.VERSION.SDK_INT >=
-                android.os.Build.VERSION_CODES.O) {
-
-            // Create the NotificationChannel with all the parameters.
-            NotificationChannel notificationChannel = new NotificationChannel
-                    (PRIMARY_CHANNEL_ID,
-                            "Stand up notification",
-                            NotificationManager.IMPORTANCE_HIGH);
-
-            notificationChannel.enableLights(true);
-            notificationChannel.setLightColor(Color.RED);
-            notificationChannel.enableVibration(true);
-            notificationChannel.setDescription("Notifies every 15 minutes to " +
-                    "stand up and walk");
-            notificationManager.createNotificationChannel(notificationChannel);
         }
     }
 
@@ -191,15 +165,13 @@ public class SetReminderFragment extends Fragment implements AdapterView.OnItemS
         });
     }
 
-    private void setReminder(){
+    private void setAlarm(){
         notificationManager = (NotificationManager) getContext().getSystemService(NOTIFICATION_SERVICE);
-        // Set up the Notification Broadcast Intent.
         Intent notifyIntent = new Intent(getContext(), AlarmReceiver.class);
         final PendingIntent notifyPendingIntent = PendingIntent.getBroadcast
                 (getContext(), NOTIFICATION_ID, notifyIntent,
                         PendingIntent.FLAG_UPDATE_CURRENT);
-        final AlarmManager alarmManager = (AlarmManager) getContext().getSystemService
-                (ALARM_SERVICE);
+        final AlarmManager alarmManager = (AlarmManager) getContext().getSystemService(ALARM_SERVICE);
 
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(System.currentTimeMillis());
@@ -212,8 +184,13 @@ public class SetReminderFragment extends Fragment implements AdapterView.OnItemS
         // If the Toggle is turned on, set the repeating alarm with
         // a 15 minute interval.
         if (alarmManager != null) {
-            alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-                    AlarmManager.INTERVAL_DAY, notifyPendingIntent);
+            if(isRepeatingAlarm){
+                alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                        periodicity, notifyPendingIntent);
+            } else {
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                        notifyPendingIntent);
+            }
             Log.d("SetReminder", "Alarm set! ------------------");
             Log.d("Alarm set for: ", ""+pickerHour+"h"+pickerMin+", "+
                     pickerDay+"/"+pickerMonth+"/"+pickerYear);
@@ -221,10 +198,58 @@ public class SetReminderFragment extends Fragment implements AdapterView.OnItemS
         createNotificationChannel();
     }
 
+    /**
+     * Creates a Notification channel, for OREO and higher.
+     */
+    private void createNotificationChannel() {
 
+        // Create a notification manager object.
+        notificationManager =
+                (NotificationManager) getContext().getSystemService(NOTIFICATION_SERVICE);
+
+        // Notification channels are only available in OREO and higher.
+        // So, add a check on SDK version.
+        if (Build.VERSION.SDK_INT >=
+                Build.VERSION_CODES.O) {
+
+            // Create the NotificationChannel with all the parameters.
+            NotificationChannel notificationChannel = new NotificationChannel
+                    (PRIMARY_CHANNEL_ID,
+                            "Stand up notification",
+                            NotificationManager.IMPORTANCE_HIGH);
+
+            notificationChannel.enableLights(true);
+            notificationChannel.setLightColor(Color.RED);
+            notificationChannel.enableVibration(true);
+            notificationChannel.setDescription("Notifies every 15 minutes to " +
+                    "stand up and walk");
+            notificationManager.createNotificationChannel(notificationChannel);
+        }
+    }
+
+    /**
+     * Set periodicity based on selected item in spinner.
+     * Using index instead of String content comparison in order to avoid translation problems.
+     * Should implement monthly and yearly periodicity at some point.
+     * @param adapterView parent
+     * @param view
+     * @param selectedItemIndex index of selected item, 0 for one time, 1 for daily, 2 for weekly
+     * @param l
+     */
     @Override
-    public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        adapterView.getItemAtPosition(i);
+    public void onItemSelected(AdapterView<?> adapterView, View view, int selectedItemIndex, long l) {
+        Log.i("Periodicity selected", "i="+selectedItemIndex);
+        switch (selectedItemIndex){
+            case 1:
+                isRepeatingAlarm = true;
+                periodicity = AlarmManager.INTERVAL_DAY; break;
+            case 2:
+                isRepeatingAlarm = true;
+                periodicity = AlarmManager.INTERVAL_DAY * 7; break;
+            default:
+                isRepeatingAlarm = false;
+                break;
+        }
     }
 
     @Override
