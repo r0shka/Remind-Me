@@ -15,7 +15,7 @@ import com.example.videoreminder.db.entity.Task;
 public interface TaskDao {
 
     @Insert
-    public void insert(Task task);
+    public long insert(Task task);
 
     @Delete
     public void deteleTask(Task task);
@@ -30,5 +30,5 @@ public interface TaskDao {
     public DataSource.Factory<Integer, Task> getAllTasks();
 
     @Query("SELECT * from TASK_TABLE where id = :id LIMIT 1")
-    public LiveData<Task> loadTaskById(int id);
+    public LiveData<Task> loadTaskById(long id);
 }

@@ -9,13 +9,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.lifecycle.ViewModelProviders;
-import androidx.navigation.Navigation;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +18,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProviders;
+import androidx.navigation.Navigation;
 
 import com.example.videoreminder.AlarmReceiver;
 import com.example.videoreminder.R;
@@ -53,8 +52,9 @@ public class SetReminderFragment extends Fragment implements AdapterView.OnItemS
     private int pickerMonth = 0;
     private int pickerDay = 0;
 
-    // Notification ID.
+    // Notification ID, set to task id to have multiples notifications
     private static final int NOTIFICATION_ID = 0;
+    private long taskId = 0;
     // Notification channel ID.
     private static final String PRIMARY_CHANNEL_ID =
             "primary_notification_channel";
@@ -109,13 +109,13 @@ public class SetReminderFragment extends Fragment implements AdapterView.OnItemS
         });
     }
 
-    private void commitTask(){
+    private void commitTask() {
         if (getArguments() != null) {
             String title = getArguments().getString("taskTitle");
             String description = getArguments().getString("taskDescription");
             int type = getArguments().getInt("taskType");
             Task task = new Task(title, description, type);
-            viewModel.addTask(task);
+            taskId = viewModel.addTask(task);
             getArguments().putInt("origin", MainFragment.NEW_TASK_ORIGIN);
         }
     }
@@ -134,12 +134,12 @@ public class SetReminderFragment extends Fragment implements AdapterView.OnItemS
         newFragment.show(getFragmentManager(), "timePicker");
     }
 
-    private void showDatePickerDialog(){
+    private void showDatePickerDialog() {
         DatePickerFragment newFragment = new DatePickerFragment();
         newFragment.show(getFragmentManager(), "datePicker");
     }
 
-    private void observeTime(){
+    private void observeTime() {
         dateHourSharedViewModel.getHour().observe(this, hour -> {
             Log.i("Hour picked", "" + hour);
             pickerHour = hour;
@@ -150,7 +150,7 @@ public class SetReminderFragment extends Fragment implements AdapterView.OnItemS
         });
     }
 
-    private void observeDate(){
+    private void observeDate() {
         dateHourSharedViewModel.getYear().observe(this, year -> {
             Log.i("Year picked", "" + year);
             pickerYear = year;
@@ -165,9 +165,20 @@ public class SetReminderFragment extends Fragment implements AdapterView.OnItemS
         });
     }
 
-    private void setAlarm(){
+    private void setAlarm() {
         notificationManager = (NotificationManager) getContext().getSystemService(NOTIFICATION_SERVICE);
         Intent notifyIntent = new Intent(getContext(), AlarmReceiver.class);
+
+        String title = getArguments().getString("taskTitle");
+        String description = getArguments().getString("taskDescription");
+        int type = getArguments().getInt("taskType");
+
+        notifyIntent.putExtra("taskTitle", title);
+        notifyIntent.putExtra("taskDescription", description);
+        notifyIntent.putExtra("taskType", type);
+        notifyIntent.putExtra("taskId", taskId);
+        Log.i("=====Id set:", " " + taskId);
+
         final PendingIntent notifyPendingIntent = PendingIntent.getBroadcast
                 (getContext(), NOTIFICATION_ID, notifyIntent,
                         PendingIntent.FLAG_UPDATE_CURRENT);
@@ -184,7 +195,7 @@ public class SetReminderFragment extends Fragment implements AdapterView.OnItemS
         // If the Toggle is turned on, set the repeating alarm with
         // a 15 minute interval.
         if (alarmManager != null) {
-            if(isRepeatingAlarm){
+            if (isRepeatingAlarm) {
                 alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
                         periodicity, notifyPendingIntent);
             } else {
@@ -192,8 +203,8 @@ public class SetReminderFragment extends Fragment implements AdapterView.OnItemS
                         notifyPendingIntent);
             }
             Log.d("SetReminder", "Alarm set! ------------------");
-            Log.d("Alarm set for: ", ""+pickerHour+"h"+pickerMin+", "+
-                    pickerDay+"/"+pickerMonth+"/"+pickerYear);
+            Log.d("Alarm set for: ", "" + pickerHour + "h" + pickerMin + ", " +
+                    pickerDay + "/" + pickerMonth + "/" + pickerYear);
         }
         createNotificationChannel();
     }
@@ -204,13 +215,11 @@ public class SetReminderFragment extends Fragment implements AdapterView.OnItemS
     private void createNotificationChannel() {
 
         // Create a notification manager object.
-        notificationManager =
-                (NotificationManager) getContext().getSystemService(NOTIFICATION_SERVICE);
+        notificationManager = (NotificationManager) getContext().getSystemService(NOTIFICATION_SERVICE);
 
         // Notification channels are only available in OREO and higher.
         // So, add a check on SDK version.
-        if (Build.VERSION.SDK_INT >=
-                Build.VERSION_CODES.O) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 
             // Create the NotificationChannel with all the parameters.
             NotificationChannel notificationChannel = new NotificationChannel
@@ -231,18 +240,20 @@ public class SetReminderFragment extends Fragment implements AdapterView.OnItemS
      * Set periodicity based on selected item in spinner.
      * Using index instead of String content comparison in order to avoid translation problems.
      * Should implement monthly and yearly periodicity at some point.
-     * @param adapterView parent
+     *
+     * @param adapterView       parent
      * @param view
      * @param selectedItemIndex index of selected item, 0 for one time, 1 for daily, 2 for weekly
      * @param l
      */
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int selectedItemIndex, long l) {
-        Log.i("Periodicity selected", "i="+selectedItemIndex);
-        switch (selectedItemIndex){
+        Log.i("Periodicity selected", "i=" + selectedItemIndex);
+        switch (selectedItemIndex) {
             case 1:
                 isRepeatingAlarm = true;
                 periodicity = AlarmManager.INTERVAL_DAY; break;
+//                periodicity = 3000; break;
             case 2:
                 isRepeatingAlarm = true;
                 periodicity = AlarmManager.INTERVAL_DAY * 7; break;

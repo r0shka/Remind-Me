@@ -55,7 +55,7 @@ public class SimpleItemRecyclerViewAdapter
             holder.title.setText(current.getTitle());
             holder.view.setOnClickListener(v -> {
                 Bundle bundle = new Bundle();
-                bundle.putInt("id", current.getId());
+                bundle.putLong("id", current.getId());
                 Navigation.findNavController(v).navigate(R.id.action_mainFragment_to_detailsFragment, bundle);
             });
         } else {

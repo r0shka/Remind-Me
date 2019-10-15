@@ -16,7 +16,7 @@ public class Task {
     @PrimaryKey(autoGenerate = true)
     @NonNull
     @ColumnInfo(name = "id")
-    private int id;
+    private long id;
 
     @ColumnInfo(name = "title")
     @NonNull
@@ -50,11 +50,11 @@ public class Task {
         return this.description;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 
@@ -75,8 +75,8 @@ public class Task {
 
         @Override
         public boolean areContentsTheSame(@NonNull Task oldItem, @NonNull Task newItem) {
-            int a = oldItem.getId();
-            int b = newItem.getId();
+            long a = oldItem.getId();
+            long b = newItem.getId();
             return a == b;
         }
     };

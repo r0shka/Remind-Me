@@ -28,7 +28,7 @@ public class DetailsFragment extends Fragment {
 
     private TaskViewModel viewModel;
     private Task currentTask;
-    private int taskId;
+    private long taskId;
 
 
     public DetailsFragment() {
@@ -42,7 +42,7 @@ public class DetailsFragment extends Fragment {
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt("id", taskId);
+        outState.putLong("id", taskId);
     }
 
     @Override
@@ -55,11 +55,11 @@ public class DetailsFragment extends Fragment {
         final View main = rootView.findViewById(R.id.details_fragment);
 
         if(getArguments().size() != 0) {
-            Log.i("id from passed bundle", "" + getArguments().getInt("id"));
-            taskId = getArguments().getInt("id");
+            Log.i("id from passed bundle", "" + getArguments().getLong("id"));
+            taskId = getArguments().getLong("id");
         } else if(savedInstanceState != null) {
-            Log.i("id from saved bundle", "" + savedInstanceState.getInt("id"));
-            taskId = savedInstanceState.getInt("id");
+            Log.i("id from saved bundle", "" + savedInstanceState.getLong("id"));
+            taskId = savedInstanceState.getLong("id");
         } else {
             taskId = -1;
         }
