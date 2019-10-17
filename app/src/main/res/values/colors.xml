@@ -4,8 +4,9 @@
     <color name="colorPrimaryDark">#373737</color>
     <color name="colorAccent">#000000</color>
 
-    <color name="colorVideoTaskBackground">#FF1744</color>
-    <color name="colorAudioTaskBackground">#3D5AFE</color>
-    <color name="colorDefaultTaskBackground">#6A1B9A</color>
-    <color name="colorListBackground">#008577</color>
+    <color name="background_color_red">#FF1744</color>
+    <color name="background_color_blue">#3D5AFE</color>
+    <color name="background_color_violet">#6A1B9A</color>
+    <color name="background_color_green">#00897B</color>
+    <color name="background_color_orange">#FB8C00</color>
 </resources>

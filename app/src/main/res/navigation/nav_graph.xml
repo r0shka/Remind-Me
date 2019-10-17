@@ -54,54 +54,8 @@
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <action
-            android:id="@+id/action_newTaskFragment_to_textInputFragment"
-            app:destination="@id/textInputFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
-        <action
-            android:id="@+id/action_newTaskFragment_to_audioUploadFragment"
-            app:destination="@id/audioUploadFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
-        <action
-            android:id="@+id/action_newTaskFragment_to_videoUploadFragment"
-            app:destination="@id/videoUploadFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
-    </fragment>
-    <fragment
-        android:id="@+id/textInputFragment"
-        android:name="com.example.videoreminder.ui.TextInputFragment"
-        android:label="fragment_text_input"
-        tools:layout="@layout/fragment_text_input" >
-        <action
-            android:id="@+id/action_textInputFragment_to_setReminderFragment"
+            android:id="@+id/action_newTaskFragment_to_setReminderFragment"
             app:destination="@id/setReminderFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/audioUploadFragment"
-        android:name="com.example.videoreminder.ui.AudioUploadFragment"
-        android:label="fragment_audio_upload"
-        tools:layout="@layout/fragment_audio_upload" >
-    </fragment>
-    <fragment
-        android:id="@+id/videoUploadFragment"
-        android:name="com.example.videoreminder.ui.VideoUploadFragment"
-        android:label="fragment_video_upload"
-        tools:layout="@layout/fragment_video_upload" >
-        <action
-            android:id="@+id/action_videoUploadFragment_to_setRemiderFragment"
-            app:destination="@id/setReminderFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
     <fragment
         android:id="@+id/setReminderFragment"

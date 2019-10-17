@@ -68,15 +68,9 @@ public class DetailsFragment extends Fragment {
             currentTask = task;
             title.setText(currentTask.getTitle());
             description.setText(currentTask.getDescription());
-
-            if(currentTask.getType() == Task.VIDEO_TYPE_TASK){
-                main.setBackgroundResource(R.color.colorVideoTaskBackground);
-            } else if(currentTask.getType() == Task.AUDIO_TYPE_TASK){
-                main.setBackgroundResource(R.color.colorAudioTaskBackground);
-            } else if(currentTask.getType() == Task.TEXT_TYPE_TASK){
-                main.setBackgroundResource(R.color.colorDefaultTaskBackground);
-            }
+            setBackgroundColor(currentTask.getBackgroundColor(), main);
         });
+
         getArguments().clear();
 
         ImageView closeTask = rootView.findViewById(R.id.task_details_close);
@@ -91,6 +85,20 @@ public class DetailsFragment extends Fragment {
         });
 
         return rootView;
+    }
+
+    private void setBackgroundColor(int backgroundColor, View main){
+        if(backgroundColor == Task.BG_COLOR_BLUE){
+            main.setBackgroundResource(R.color.background_color_blue);
+        } else if(backgroundColor == Task.BG_COLOR_GREEN){
+            main.setBackgroundResource(R.color.background_color_green);
+        } else if(backgroundColor == Task.BG_COLOR_ORANGE){
+            main.setBackgroundResource(R.color.background_color_orange);
+        } else if(backgroundColor == Task.BG_COLOR_RED){
+            main.setBackgroundResource(R.color.background_color_red);
+        } else if(backgroundColor== Task.BG_COLOR_VIOLET){
+            main.setBackgroundResource(R.color.background_color_violet);
+        }
     }
 
     @Override

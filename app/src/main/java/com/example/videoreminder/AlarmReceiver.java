@@ -12,7 +12,6 @@ import android.util.Log;
 import androidx.core.app.NotificationCompat;
 import androidx.navigation.NavDeepLinkBuilder;
 
-import com.example.videoreminder.db.entity.Task;
 import com.example.videoreminder.ui.MainActivity;
 
 public class AlarmReceiver extends BroadcastReceiver {
@@ -27,8 +26,6 @@ public class AlarmReceiver extends BroadcastReceiver {
     private long taskId;
     private String taskTitle;
     private String taskDescription;
-    private int taskType;
-    private int smallIcon;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -38,10 +35,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         taskId = intent.getLongExtra("taskId", 0);
         taskTitle = intent.getStringExtra("taskTitle");
         taskDescription = intent.getStringExtra("taskDescription");
-        taskType = intent.getIntExtra("taskType", 0);
         Log.i("=====Alarm receiver:", "Task id:"+taskId);
-        // Deliver the notification.
-        setSmallIcon();
         deliverNotification(context);
     }
 
@@ -69,7 +63,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         // Build the notification
         NotificationCompat.Builder builder = new NotificationCompat.Builder
                 (context, PRIMARY_CHANNEL_ID)
-                .setSmallIcon(smallIcon)
+                .setSmallIcon(R.drawable.ic_text_fields_white_36dp)
                 .setContentTitle(taskTitle)
                 .setContentText(taskDescription)
                 .setContentIntent(deeplinkPendingIntent)
@@ -81,17 +75,4 @@ public class AlarmReceiver extends BroadcastReceiver {
         notificationManager.notify(NOTIFICATION_ID, builder.build());
     }
 
-    private void setSmallIcon(){
-        switch (taskType){
-            case Task.VIDEO_TYPE_TASK:
-                smallIcon = R.drawable.ic_videocam_white_36dp; break;
-            case Task.AUDIO_TYPE_TASK:
-                smallIcon = R.drawable.ic_audio_white_36dp; break;
-            case Task.TEXT_TYPE_TASK:
-                smallIcon = R.drawable.ic_text_fields_white_36dp; break;
-            default:
-                smallIcon = R.drawable.ic_videocam_white_36dp;  break;
-
-        }
-    }
 }

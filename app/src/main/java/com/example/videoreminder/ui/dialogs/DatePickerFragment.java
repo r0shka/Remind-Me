@@ -21,9 +21,6 @@ import com.example.videoreminder.viewmodel.DateHourSharedViewModel;
 
 import java.util.Calendar;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class DatePickerFragment extends DialogFragment implements DatePickerDialog.OnDateSetListener {
 
     private DateHourSharedViewModel dateHourSharedViewModel;

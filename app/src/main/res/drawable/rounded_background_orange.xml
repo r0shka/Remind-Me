@@ -3,10 +3,10 @@
     android:shape="rectangle">
     <stroke
         android:width="4dp"
-        android:color="@color/colorAudioTaskBackground" />
+        android:color="@color/background_color_orange" />
 
     <solid
-        android:color="@color/colorAudioTaskBackground"
+        android:color="@color/background_color_orange"
         />
 
 

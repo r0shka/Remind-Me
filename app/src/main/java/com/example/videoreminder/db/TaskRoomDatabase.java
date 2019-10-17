@@ -12,7 +12,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import com.example.videoreminder.db.dao.TaskDao;
 import com.example.videoreminder.db.entity.Task;
 
-@Database(entities = {Task.class}, version = 6, exportSchema = false)
+@Database(entities = {Task.class}, version = 8, exportSchema = false)
 public abstract class TaskRoomDatabase extends RoomDatabase {
 
     private static TaskRoomDatabase INSTANCE;
@@ -46,13 +46,13 @@ public abstract class TaskRoomDatabase extends RoomDatabase {
             // when it is first created
             dao.deleteAll();
 
-            Task task = new Task("Read a book", "Description ", Task.VIDEO_TYPE_TASK);
+            Task task = new Task("Read a book", "Read the damn book already!",Task.BG_COLOR_RED);
             dao.insert(task);
-            task = new Task("Buy plane tickets", "Description ", Task.VIDEO_TYPE_TASK);
+            task = new Task("Buy plane tickets", "You should really visit your grandparents", Task.BG_COLOR_GREEN);
             dao.insert(task);
-            task = new Task("Go to gym", "Description ", Task.AUDIO_TYPE_TASK);
+            task = new Task("Go to gym", "Move your ass!", Task.BG_COLOR_ORANGE);
             dao.insert(task);
-            task = new Task("Clean the house", "Description ", Task.TEXT_TYPE_TASK);
+            task = new Task("Clean the house", "Clean it, you filthy animal", Task.BG_COLOR_ORANGE);
             dao.insert(task);
 
             return null;

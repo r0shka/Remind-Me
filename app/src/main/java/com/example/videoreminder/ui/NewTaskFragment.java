@@ -16,16 +16,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.videoreminder.R;
-import com.example.videoreminder.db.entity.Task;
 
 
 public class NewTaskFragment extends Fragment {
 
-
     public NewTaskFragment() {
     }
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -36,9 +32,9 @@ public class NewTaskFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        TextView nextButton = view.findViewById(R.id.new_task_next);
-
         setBackgroundColor(view);
+
+        TextView nextButton = view.findViewById(R.id.new_task_next);
 
         nextButton.setOnClickListener(v -> {
             if(2 == 3){
@@ -59,18 +55,12 @@ public class NewTaskFragment extends Fragment {
     private void moveToNextScreen(View rootView, View v){
         final TextView newTaskTitle = rootView.findViewById(R.id.new_task_title_input);
         String taskTitle = newTaskTitle.getText().toString();
-        Bundle bundle = getArguments();
+        final TextView newTaskDescription = rootView.findViewById(R.id.new_task_description_input);
+        String taskDescription = newTaskDescription.getText().toString();
+        Bundle bundle = new Bundle();
         bundle.putString("taskTitle", taskTitle);
-        if (getArguments() != null) {
-            int taskType = getArguments().getInt("taskType", 0);
-            if(taskType == Task.VIDEO_TYPE_TASK){
-                Navigation.findNavController(v).navigate(R.id.action_newTaskFragment_to_videoUploadFragment, bundle);
-            } else if( taskType == Task.AUDIO_TYPE_TASK){
-                Navigation.findNavController(v).navigate(R.id.action_newTaskFragment_to_audioUploadFragment, bundle);
-            } else if( taskType == Task.TEXT_TYPE_TASK) {
-                Navigation.findNavController(v).navigate(R.id.action_newTaskFragment_to_textInputFragment, bundle);
-            }
-        }
+        bundle.putString("taskDescription", taskDescription);
+        Navigation.findNavController(v).navigate(R.id.action_newTaskFragment_to_setReminderFragment, bundle);
     }
 
     /**
@@ -81,12 +71,7 @@ public class NewTaskFragment extends Fragment {
      */
     private void setBackgroundColor(View rootView) {
         View main = rootView.findViewById(R.id.new_task_container);
-        int colorRes;
-        if (getArguments() != null) {
-            colorRes = getArguments().getInt("backgroundColor");
-            Log.d("NewTask, bg color:", ""+colorRes);
-            main.setBackgroundResource(colorRes);
-        }
+        main.setBackgroundResource(R.color.background_color_orange);
     }
 
 }

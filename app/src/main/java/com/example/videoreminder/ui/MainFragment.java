@@ -30,11 +30,7 @@ public class MainFragment extends Fragment {
     private TaskListViewModel viewModel;
 
     private FloatingActionButton fabNewTask;
-    private FloatingActionButton fabVideo;
-    private FloatingActionButton fabAudio;
-    private FloatingActionButton fabText;
 
-    private boolean fabNewTaskClicked;
     public static final int NEW_TASK_ORIGIN = 1;
     public static final int DELETE_TASK_ORIGIN = 2;
 
@@ -64,59 +60,14 @@ public class MainFragment extends Fragment {
         adapter = new SimpleItemRecyclerViewAdapter();
         recyclerView.setAdapter(adapter);
 
-        // Hide fabs when scrolling
-        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                resetFabs();
-                fabNewTaskClicked = false;
-            }
-        });
-
         viewModel = ViewModelProviders.of(this).get(TaskListViewModel.class);
-        viewModel.getAllTasks().observe(this, pagedList -> adapter.submitList(pagedList));
+        viewModel.getAllTasks().observe(this, adapter::submitList);
 
-        fabVideo = view.findViewById(R.id.fab_video);
-        fabAudio = view.findViewById(R.id.fab_audio);
-        fabText = view.findViewById(R.id.fab_text);
         fabNewTask = view.findViewById(R.id.floatingActionButton);
-
-        // Reset fabs in case they were previously opened
-        resetFabs();
-        fabNewTaskClicked = false;
-
-        // Main fab behaviour
         fabNewTask.setOnClickListener(v -> {
-            if(!fabNewTaskClicked) {
-                revealFabs();
-                fabNewTaskClicked = true;
-            } else {
-                resetFabs();
-                fabNewTaskClicked = false;
-            }
+            Navigation.findNavController(v).navigate(R.id.action_mainFragment_to_newTaskFragment);
         });
 
-        fabVideo.setOnClickListener(v-> {
-            Bundle bundle = new Bundle();
-            bundle.putInt("taskType", Task.VIDEO_TYPE_TASK);
-            bundle.putInt("backgroundColor", R.color.colorVideoTaskBackground);
-            Navigation.findNavController(v).navigate(R.id.action_mainFragment_to_newTaskFragment, bundle);
-        });
-
-        fabAudio.setOnClickListener(v-> {
-            Bundle bundle = new Bundle();
-            bundle.putInt("taskType", Task.AUDIO_TYPE_TASK);
-            bundle.putInt("backgroundColor", R.color.colorAudioTaskBackground);
-            Navigation.findNavController(v).navigate(R.id.action_mainFragment_to_newTaskFragment, bundle);
-        });
-
-        fabText.setOnClickListener(v-> {
-            Bundle bundle = new Bundle();
-            bundle.putInt("taskType", Task.TEXT_TYPE_TASK);
-            bundle.putInt("backgroundColor", R.color.colorDefaultTaskBackground);
-            Navigation.findNavController(v).navigate(R.id.action_mainFragment_to_newTaskFragment, bundle);
-        });
 
         if(getArguments() != null) {
             int origin = getArguments().getInt("origin", 0);
@@ -143,59 +94,5 @@ public class MainFragment extends Fragment {
                 .show();
     }
 
-    /**
-     * Animation for hiding Floating Action Buttons after pressing "+" fab or passing to next screen
-     *
-     */
-    private void resetFabs(){
-        fabVideo.hide();
-        fabAudio.hide();
-        fabText.hide();
-
-        ObjectAnimator translationAnimVideo = ObjectAnimator.ofFloat(fabVideo, "translationY", 0f);
-        ObjectAnimator translationAnimAudio = ObjectAnimator.ofFloat(fabAudio, "translationX", 0f);
-        ObjectAnimator translationAnimText = ObjectAnimator.ofFloat(fabText, "translationX", 0f);
-
-        translationAnimVideo.setInterpolator(new LinearInterpolator());
-        translationAnimAudio.setInterpolator(new LinearInterpolator());
-        translationAnimText.setInterpolator(new LinearInterpolator());
-
-        ObjectAnimator rotationAnim = ObjectAnimator.ofFloat(fabNewTask, "rotation", 0f);
-
-        AnimatorSet animatorSet = new AnimatorSet();
-        animatorSet.playTogether(rotationAnim,
-                translationAnimVideo,
-                translationAnimAudio,
-                translationAnimText);
-        animatorSet.start();
-    }
-
-    /**
-     * Animation for revealing Floating Action Buttons after pressing "+" Fab
-     *
-     */
-    private void revealFabs(){
-        fabVideo.show();
-        fabAudio.show();
-        fabText.show();
-        float density = getResources().getDisplayMetrics().density;
-
-        ObjectAnimator translationAnimVideo = ObjectAnimator.ofFloat(fabVideo, "translationY", -70f*density);
-        ObjectAnimator translationAnimAudio = ObjectAnimator.ofFloat(fabAudio, "translationX", -70f*density);
-        ObjectAnimator translationAnimText = ObjectAnimator.ofFloat(fabText, "translationX", 70f*density);
-
-        translationAnimVideo.setInterpolator(new LinearInterpolator());
-        translationAnimAudio.setInterpolator(new LinearInterpolator());
-        translationAnimText.setInterpolator(new LinearInterpolator());
-
-        ObjectAnimator rotationAnim = ObjectAnimator.ofFloat(fabNewTask, "rotation", 45f);
-
-        AnimatorSet animatorSet = new AnimatorSet();
-        animatorSet.playTogether(rotationAnim,
-                translationAnimVideo,
-                translationAnimAudio,
-                translationAnimText);
-        animatorSet.start();
-    }
 
 }

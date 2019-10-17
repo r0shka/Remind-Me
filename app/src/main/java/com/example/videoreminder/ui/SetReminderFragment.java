@@ -113,8 +113,7 @@ public class SetReminderFragment extends Fragment implements AdapterView.OnItemS
         if (getArguments() != null) {
             String title = getArguments().getString("taskTitle");
             String description = getArguments().getString("taskDescription");
-            int type = getArguments().getInt("taskType");
-            Task task = new Task(title, description, type);
+            Task task = new Task(title, description, R.color.background_color_green);
             taskId = viewModel.addTask(task);
             getArguments().putInt("origin", MainFragment.NEW_TASK_ORIGIN);
         }
@@ -122,11 +121,7 @@ public class SetReminderFragment extends Fragment implements AdapterView.OnItemS
 
     private void setBackgroundColor(View rootView) {
         View main = rootView.findViewById(R.id.pick_date_container);
-        int colorRes;
-        if (getArguments() != null) {
-            colorRes = getArguments().getInt("backgroundColor");
-            main.setBackgroundResource(colorRes);
-        }
+        main.setBackgroundResource(R.color.background_color_green);
     }
 
     private void showTimePickerDialog() {

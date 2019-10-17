@@ -39,7 +39,7 @@ public class TaskRepository {
         return this.taskDao.loadTaskById(id);
     }
 
-    public long insert (Task task) {
+    public long insert(Task task) {
         Callable<Long> insertCallable = () -> taskDao.insert(task);
         long rowId = 0;
 
@@ -54,41 +54,12 @@ public class TaskRepository {
     }
 
     public void deleteTask(Task task)  {
-//        new DeleteTaskAsyncTask(taskDao).execute(task);
         executorService.execute( ()-> taskDao.deteleTask(task));
     }
 
-    private static class DeleteTaskAsyncTask extends AsyncTask<Task, Void, Void> {
-        private TaskDao mAsyncTaskDao;
-
-        DeleteTaskAsyncTask(TaskDao dao) {
-            mAsyncTaskDao = dao;
-        }
-
-        @Override
-        protected Void doInBackground(final Task... params) {
-            mAsyncTaskDao.deteleTask(params[0]);
-            return null;
-        }
-    }
-
     public void updateTask(Task task)  {
-//        new DeleteTaskAsyncTask(taskDao).execute(task);
         executorService.execute( ()-> taskDao.updateTask(task));
     }
 
-    private static class UpdateTaskAsyncTask extends AsyncTask<Task, Void, Void> {
-        private TaskDao mAsyncTaskDao;
-
-        UpdateTaskAsyncTask(TaskDao dao) {
-            mAsyncTaskDao = dao;
-        }
-
-        @Override
-        protected Void doInBackground(final Task... params) {
-            mAsyncTaskDao.updateTask(params[0]);
-            return null;
-        }
-    }
 
 }

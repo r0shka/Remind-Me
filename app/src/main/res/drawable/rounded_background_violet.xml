@@ -3,10 +3,10 @@
     android:shape="rectangle">
     <stroke
         android:width="4dp"
-        android:color="@color/colorVideoTaskBackground" />
+        android:color="@color/background_color_violet" />
 
     <solid
-        android:color="@color/colorVideoTaskBackground"
+        android:color="@color/background_color_violet"
         />
 
 

@@ -9,9 +9,11 @@ import androidx.room.PrimaryKey;
 @Entity(tableName = "task_table")
 public class Task {
 
-    public static final int VIDEO_TYPE_TASK = 1;
-    public static final int AUDIO_TYPE_TASK = 2;
-    public static final int TEXT_TYPE_TASK = 3;
+    public static final int BG_COLOR_RED = 0;
+    public static final int BG_COLOR_BLUE = 1;
+    public static final int BG_COLOR_VIOLET = 2;
+    public static final int BG_COLOR_GREEN = 3;
+    public static final int BG_COLOR_ORANGE = 4;
 
     @PrimaryKey(autoGenerate = true)
     @NonNull
@@ -25,20 +27,14 @@ public class Task {
     @ColumnInfo(name = "description")
     private String description;
 
-    /*
-    Task notification type,
-    1 - Video notification
-    2 - Audio notification
-    3 - Text notification
-     */
-    @ColumnInfo(name = "task_type")
-    private int type;
+    @ColumnInfo(name = "color")
+    private int backgroundColor;
 
 
-    public Task(@NonNull String title, String description, int type){
+    public Task(@NonNull String title, String description, int backgroundColor){
         this.title = title;
         this.description = description;
-        this.type = type;
+        this.backgroundColor = backgroundColor;
     }
 
     @NonNull
@@ -50,21 +46,17 @@ public class Task {
         return this.description;
     }
 
-    public long getId() {
-        return id;
+    public int getBackgroundColor() { return backgroundColor;
     }
 
     public void setId(long id) {
         this.id = id;
     }
 
-    public int getType() {
-        return type;
+    public long getId() {
+        return id;
     }
 
-    public void setType(int type) {
-        this.type = type;
-    }
 
     // use for ordering the items in view
     public static DiffUtil.ItemCallback<Task> DIFF_CALLBACK = new DiffUtil.ItemCallback<Task>() {
@@ -80,4 +72,5 @@ public class Task {
             return a == b;
         }
     };
+
 }
