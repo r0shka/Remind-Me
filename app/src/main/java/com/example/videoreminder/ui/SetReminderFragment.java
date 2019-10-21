@@ -113,7 +113,8 @@ public class SetReminderFragment extends Fragment implements AdapterView.OnItemS
         if (getArguments() != null) {
             String title = getArguments().getString("taskTitle");
             String description = getArguments().getString("taskDescription");
-            Task task = new Task(title, description, R.color.background_color_green);
+            int taskBackgroundColor = getArguments().getInt("taskBackgroundColor");
+            Task task = new Task(title, description, taskBackgroundColor);
             taskId = viewModel.addTask(task);
             getArguments().putInt("origin", MainFragment.NEW_TASK_ORIGIN);
         }
@@ -166,11 +167,9 @@ public class SetReminderFragment extends Fragment implements AdapterView.OnItemS
 
         String title = getArguments().getString("taskTitle");
         String description = getArguments().getString("taskDescription");
-        int type = getArguments().getInt("taskType");
 
         notifyIntent.putExtra("taskTitle", title);
         notifyIntent.putExtra("taskDescription", description);
-        notifyIntent.putExtra("taskType", type);
         notifyIntent.putExtra("taskId", taskId);
         Log.i("=====Id set:", " " + taskId);
 

@@ -16,9 +16,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.videoreminder.R;
+import com.example.videoreminder.db.entity.Task;
 
 
 public class NewTaskFragment extends Fragment {
+
+    private View.OnClickListener pickColorListener;
+    private int taskBackgroundColor;
 
     public NewTaskFragment() {
     }
@@ -32,10 +36,14 @@ public class NewTaskFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        setBackgroundColor(view);
+        /* Setting default background color*/
+        view.setBackgroundResource(R.color.background_color_orange);
+        taskBackgroundColor = Task.BG_COLOR_ORANGE;
+
+        createBackgroundColorListener(view);
+        attachBackgroundColorListener(view);
 
         TextView nextButton = view.findViewById(R.id.new_task_next);
-
         nextButton.setOnClickListener(v -> {
             if(2 == 3){
                 Toast.makeText(getContext(), "Enter title first", Toast.LENGTH_SHORT).show();
@@ -60,18 +68,59 @@ public class NewTaskFragment extends Fragment {
         Bundle bundle = new Bundle();
         bundle.putString("taskTitle", taskTitle);
         bundle.putString("taskDescription", taskDescription);
+        bundle.putInt("taskBackgroundColor", taskBackgroundColor);
         Navigation.findNavController(v).navigate(R.id.action_newTaskFragment_to_setReminderFragment, bundle);
     }
 
     /**
-     * Set screen background color depending on task type
-     * Color id stored in bundle with "backgroundColor" key
-     *
-     * @param rootView Container view
+     * Create OnClickListener that sets background color based on pressed view
+     * @param rootView
      */
-    private void setBackgroundColor(View rootView) {
-        View main = rootView.findViewById(R.id.new_task_container);
-        main.setBackgroundResource(R.color.background_color_orange);
+    private void createBackgroundColorListener(View rootView){
+        pickColorListener = view1 -> {
+            Log.d("Inside listener", "Button pressed");
+            switch (view1.getId()) {
+                case R.id.select_color_blue:
+                    rootView.setBackgroundResource(R.color.background_color_blue);
+                    taskBackgroundColor = Task.BG_COLOR_BLUE;
+                    break;
+                case R.id.select_color_green:
+                    rootView.setBackgroundResource(R.color.background_color_green);
+                    taskBackgroundColor = Task.BG_COLOR_GREEN;
+                    break;
+                case R.id.select_color_orange:
+                    rootView.setBackgroundResource(R.color.background_color_orange);
+                    taskBackgroundColor = Task.BG_COLOR_ORANGE;
+                    break;
+                case R.id.select_color_red:
+                    rootView.setBackgroundResource(R.color.background_color_red);
+                    taskBackgroundColor = Task.BG_COLOR_RED;
+                    break;
+                case R.id.select_color_violet:
+                    rootView.setBackgroundResource(R.color.background_color_violet);
+                    taskBackgroundColor = Task.BG_COLOR_VIOLET;
+                    break;
+            }
+        };
     }
+
+    /**
+     * Attaching same listener to select color views
+     * @param rootView
+     */
+    private void attachBackgroundColorListener(View rootView){
+        View selectColorBlue = rootView.findViewById(R.id.select_color_blue);
+        View selectColorOrange = rootView.findViewById(R.id.select_color_orange);
+        View selectColorGreen = rootView.findViewById(R.id.select_color_green);
+        View selectColorRed = rootView.findViewById(R.id.select_color_red);
+        View selectColorViolet = rootView.findViewById(R.id.select_color_violet);
+
+        selectColorBlue.setOnClickListener(pickColorListener);
+        selectColorOrange.setOnClickListener(pickColorListener);
+        selectColorGreen.setOnClickListener(pickColorListener);
+        selectColorRed.setOnClickListener(pickColorListener);
+        selectColorViolet.setOnClickListener(pickColorListener);
+    }
+
 
 }
