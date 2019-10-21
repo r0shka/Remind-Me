@@ -11,7 +11,6 @@ import androidx.paging.PagedList;
 import com.example.videoreminder.TaskRepository;
 import com.example.videoreminder.db.entity.Task;
 
-import java.util.List;
 
 /**
  * ViewModel for the list of tasks

@@ -78,7 +78,6 @@ public class NewTaskFragment extends Fragment {
      */
     private void createBackgroundColorListener(View rootView){
         pickColorListener = view1 -> {
-            Log.d("Inside listener", "Button pressed");
             switch (view1.getId()) {
                 case R.id.select_color_blue:
                     rootView.setBackgroundResource(R.color.background_color_blue);
@@ -100,6 +99,7 @@ public class NewTaskFragment extends Fragment {
                     rootView.setBackgroundResource(R.color.background_color_violet);
                     taskBackgroundColor = Task.BG_COLOR_VIOLET;
                     break;
+                default: break;
             }
         };
     }

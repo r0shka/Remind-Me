@@ -2,8 +2,6 @@ package com.example.videoreminder.ui;
 
 import androidx.lifecycle.ViewModelProviders;
 
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -17,10 +15,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.LinearInterpolator;
 
 import com.example.videoreminder.R;
-import com.example.videoreminder.db.entity.Task;
 import com.example.videoreminder.viewmodel.TaskListViewModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;

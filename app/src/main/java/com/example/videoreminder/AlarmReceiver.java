@@ -5,7 +5,6 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -49,10 +48,6 @@ public class AlarmReceiver extends BroadcastReceiver {
         // this activity
         Intent contentIntent = new Intent(context, MainActivity.class);
 
-        PendingIntent contentPendingIntent = PendingIntent.getActivity
-                (context, NOTIFICATION_ID, contentIntent, PendingIntent
-                        .FLAG_UPDATE_CURRENT);
-
         Bundle bundle = new Bundle();
         bundle.putLong("id", taskId);
         PendingIntent deeplinkPendingIntent = new NavDeepLinkBuilder(context)
@@ -71,7 +66,6 @@ public class AlarmReceiver extends BroadcastReceiver {
                 .setAutoCancel(true)
                 .setDefaults(NotificationCompat.DEFAULT_ALL);
 
-        // Deliver the notification
         notificationManager.notify(NOTIFICATION_ID, builder.build());
     }
 
