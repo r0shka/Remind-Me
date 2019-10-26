@@ -67,4 +67,15 @@
         app:layout_constraintTop_toBottomOf="@+id/task_details_title"
         tools:text="Task description" />
 
+    <TextView
+        android:id="@+id/task_details_cancel_alarm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cancel alarm"
+        android:textSize="36sp"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toTopOf="@+id/task_details_delete"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

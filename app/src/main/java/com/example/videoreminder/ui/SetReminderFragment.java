@@ -52,8 +52,6 @@ public class SetReminderFragment extends Fragment implements AdapterView.OnItemS
     private int pickerMonth = 0;
     private int pickerDay = 0;
 
-    // Notification ID, set to task id to have multiples notifications
-    private static final int NOTIFICATION_ID = 0;
     private long taskId = 0;
     // Notification channel ID.
     private static final String PRIMARY_CHANNEL_ID =
@@ -90,6 +88,7 @@ public class SetReminderFragment extends Fragment implements AdapterView.OnItemS
 
         observeTime();
         observeDate();
+
         Button pickHourButton = view.findViewById(R.id.pick_hour_button);
         pickHourButton.setOnClickListener(v -> {
             showTimePickerDialog();
@@ -173,8 +172,9 @@ public class SetReminderFragment extends Fragment implements AdapterView.OnItemS
         notifyIntent.putExtra("taskId", taskId);
         Log.i("=====Id set:", " " + taskId);
 
+        /* casting long id to int, hoping there won't be 2.1 billion tasks */
         final PendingIntent notifyPendingIntent = PendingIntent.getBroadcast
-                (getContext(), NOTIFICATION_ID, notifyIntent,
+                (getContext(), (int) taskId, notifyIntent,
                         PendingIntent.FLAG_UPDATE_CURRENT);
         final AlarmManager alarmManager = (AlarmManager) getContext().getSystemService(ALARM_SERVICE);
 
@@ -186,8 +186,6 @@ public class SetReminderFragment extends Fragment implements AdapterView.OnItemS
         calendar.set(Calendar.MONTH, pickerMonth);
         calendar.set(Calendar.YEAR, pickerYear);
 
-        // If the Toggle is turned on, set the repeating alarm with
-        // a 15 minute interval.
         if (alarmManager != null) {
             if (isRepeatingAlarm) {
                 alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
@@ -235,7 +233,7 @@ public class SetReminderFragment extends Fragment implements AdapterView.OnItemS
      * Using index instead of String content comparison in order to avoid translation problems.
      * Should implement monthly and yearly periodicity at some point.
      *
-     * @param adapterView       parent
+     * @param adapterView parent
      * @param view
      * @param selectedItemIndex index of selected item, 0 for one time, 1 for daily, 2 for weekly
      * @param l
@@ -246,8 +244,8 @@ public class SetReminderFragment extends Fragment implements AdapterView.OnItemS
         switch (selectedItemIndex) {
             case 1:
                 isRepeatingAlarm = true;
-                periodicity = AlarmManager.INTERVAL_DAY; break;
-//                periodicity = 3000; break;
+//                periodicity = AlarmManager.INTERVAL_DAY; break;
+                periodicity = 5000; break;
             case 2:
                 isRepeatingAlarm = true;
                 periodicity = AlarmManager.INTERVAL_DAY * 7; break;

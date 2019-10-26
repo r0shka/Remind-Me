@@ -24,17 +24,20 @@ public class Task {
     @NonNull
     private String title;
 
+    @ColumnInfo(name = "isActive")
+    private boolean isActive;
+
     @ColumnInfo(name = "description")
     private String description;
 
     @ColumnInfo(name = "color")
     private int backgroundColor;
 
-
     public Task(@NonNull String title, String description, int backgroundColor){
         this.title = title;
         this.description = description;
         this.backgroundColor = backgroundColor;
+        this.isActive = true;
     }
 
     @NonNull
@@ -46,17 +49,13 @@ public class Task {
         return this.description;
     }
 
-    public int getBackgroundColor() { return backgroundColor;
-    }
+    public int getBackgroundColor(){ return backgroundColor; }
 
-    public void setId(long id) {
-        this.id = id;
-    }
+    public void setId(long id){ this.id = id; }
 
     public long getId() {
         return id;
     }
-
 
     // use for ordering the items in view
     public static DiffUtil.ItemCallback<Task> DIFF_CALLBACK = new DiffUtil.ItemCallback<Task>() {
@@ -73,4 +72,11 @@ public class Task {
         }
     };
 
+    public boolean isActive() {
+        return isActive;
+    }
+
+    public void setActive(boolean active) {
+        isActive = active;
+    }
 }

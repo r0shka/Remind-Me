@@ -1,6 +1,9 @@
 package com.example.videoreminder.ui;
 
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,9 +19,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.videoreminder.AlarmReceiver;
 import com.example.videoreminder.R;
 import com.example.videoreminder.db.entity.Task;
 import com.example.videoreminder.viewmodel.TaskViewModel;
+
+import static android.content.Context.ALARM_SERVICE;
 
 
 /**
@@ -80,11 +86,23 @@ public class DetailsFragment extends Fragment {
         deleteTask.setOnClickListener(v -> {
             viewModel.deleteTask(currentTask);
             Bundle bundle = new Bundle();
+            cancelAlarm();
             bundle.putInt("origin", MainFragment.DELETE_TASK_ORIGIN);
             Navigation.findNavController(v).navigate(R.id.action_detailsFragment_to_mainFragment, bundle);
         });
 
+        TextView cancelAlarm = rootView.findViewById(R.id.task_details_cancel_alarm);
+        cancelAlarm.setOnClickListener(v->cancelAlarm());
         return rootView;
+    }
+
+    private void cancelAlarm(){
+        final AlarmManager alarmManager = (AlarmManager) getContext().getSystemService(ALARM_SERVICE);
+        Intent cancelServiceIntent = new Intent(getContext(), AlarmReceiver.class);
+        PendingIntent cancelServicePendingIntent = PendingIntent.getBroadcast
+                (getContext(), (int) taskId, cancelServiceIntent,
+                        PendingIntent.FLAG_UPDATE_CURRENT);
+        alarmManager.cancel(cancelServicePendingIntent);
     }
 
     private void setBackgroundColor(int backgroundColor, View main){

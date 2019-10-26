@@ -30,7 +30,6 @@ public class AlarmReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         notificationManager = (NotificationManager)
                 context.getSystemService(Context.NOTIFICATION_SERVICE);
-
         taskId = intent.getLongExtra("taskId", 0);
         taskTitle = intent.getStringExtra("taskTitle");
         taskDescription = intent.getStringExtra("taskDescription");
@@ -46,8 +45,6 @@ public class AlarmReceiver extends BroadcastReceiver {
     private void deliverNotification(Context context) {
         // Create the content intent for the notification, which launches
         // this activity
-        Intent contentIntent = new Intent(context, MainActivity.class);
-
         Bundle bundle = new Bundle();
         bundle.putLong("id", taskId);
         PendingIntent deeplinkPendingIntent = new NavDeepLinkBuilder(context)

@@ -17,8 +17,7 @@
             app:enterAnim="@anim/nav_default_enter_anim"
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim"
-            app:popUpTo="@+id/mainFragment" />
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
         <action
             android:id="@+id/action_mainFragment_to_newTaskFragment"
             app:destination="@id/newTaskFragment"
@@ -35,11 +34,7 @@
         tools:layout="@layout/fragment_details" >
         <action
             android:id="@+id/action_detailsFragment_to_mainFragment"
-            app:destination="@id/mainFragment"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+            app:destination="@id/mainFragment" />
     </fragment>
     <fragment
         android:id="@+id/newTaskFragment"

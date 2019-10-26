@@ -12,7 +12,7 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import com.example.videoreminder.db.dao.TaskDao;
 import com.example.videoreminder.db.entity.Task;
 
-@Database(entities = {Task.class}, version = 8, exportSchema = false)
+@Database(entities = {Task.class}, version = 9, exportSchema = false)
 public abstract class TaskRoomDatabase extends RoomDatabase {
 
     private static TaskRoomDatabase INSTANCE;
