@@ -1,12 +1,9 @@
 package com.example.videoreminder.db.entity;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.DiffUtil;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
-
-import java.util.Calendar;
 
 @Entity(tableName = "task_table")
 public class Task {
@@ -45,7 +42,7 @@ public class Task {
                 String description,
                 int backgroundColor,
                 long periodicity,
-                long alarmTimestamp){
+                long alarmTimestamp) {
         this.title = title;
         this.description = description;
         this.backgroundColor = backgroundColor;
@@ -55,36 +52,26 @@ public class Task {
     }
 
     @NonNull
-    public String getTitle(){
+    public String getTitle() {
         return this.title;
     }
 
-    public String getDescription(){
+    public String getDescription() {
         return this.description;
     }
 
-    public int getBackgroundColor(){ return backgroundColor; }
+    public int getBackgroundColor() {
+        return backgroundColor;
+    }
 
-    public void setId(long id){ this.id = id; }
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public long getId() {
         return id;
     }
 
-    // use for ordering the items in view
-    public static DiffUtil.ItemCallback<Task> DIFF_CALLBACK = new DiffUtil.ItemCallback<Task>() {
-        @Override
-        public boolean areItemsTheSame(@NonNull Task oldItem, @NonNull Task newItem) {
-            return oldItem.equals(newItem);
-        }
-
-        @Override
-        public boolean areContentsTheSame(@NonNull Task oldItem, @NonNull Task newItem) {
-            long a = oldItem.getId();
-            long b = newItem.getId();
-            return a == b;
-        }
-    };
 
     public boolean isActive() {
         return isActive;
@@ -109,4 +96,6 @@ public class Task {
     public void setAlarmTimestamp(long alarmTimestamp) {
         this.alarmTimestamp = alarmTimestamp;
     }
+
+
 }

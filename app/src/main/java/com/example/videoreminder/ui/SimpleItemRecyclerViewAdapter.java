@@ -1,7 +1,6 @@
 package com.example.videoreminder.ui;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,19 +13,19 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.videoreminder.R;
 import com.example.videoreminder.db.entity.Task;
+import com.example.videoreminder.utils.Utils;
 
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Locale;
 
 
 public class SimpleItemRecyclerViewAdapter
         extends PagedListAdapter<Task, SimpleItemRecyclerViewAdapter.ViewHolder> {
 
-    public SimpleItemRecyclerViewAdapter(){
-        super(Task.DIFF_CALLBACK);
+    public SimpleItemRecyclerViewAdapter() {
+        super(Utils.DIFF_CALLBACK);
     }
 
     @NonNull
@@ -41,30 +40,19 @@ public class SimpleItemRecyclerViewAdapter
     public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         final Task current = getItem(position);
         if (current != null) {
-            if(current.getBackgroundColor() == Task.BG_COLOR_BLUE){
-                holder.view.setBackgroundResource(R.drawable.rounded_background_blue);
-            } else if(current.getBackgroundColor() == Task.BG_COLOR_GREEN){
-                holder.view.setBackgroundResource(R.drawable.rounded_background_green);
-            } else if(current.getBackgroundColor() == Task.BG_COLOR_ORANGE){
-                holder.view.setBackgroundResource(R.drawable.rounded_background_orange);
-            } else if(current.getBackgroundColor() == Task.BG_COLOR_RED){
-                holder.view.setBackgroundResource(R.drawable.rounded_background_red);
-            } else if(current.getBackgroundColor() == Task.BG_COLOR_VIOLET){
-                holder.view.setBackgroundResource(R.drawable.rounded_background_violet);
-            }
+            Utils.setRoundedBackgroundColor(current.getBackgroundColor(), holder.view);
             holder.title.setText(current.getTitle());
             holder.description.setText(current.getDescription());
 
-            Timestamp ts =new Timestamp(current.getAlarmTimestamp());
+            Timestamp ts = new Timestamp(current.getAlarmTimestamp());
             Date alarmTimestamp = new Date(ts.getTime());
             Date todayTimestamp = new Date(System.currentTimeMillis());
-
             DateFormat dateFormat = new SimpleDateFormat("dd/MM");
 
             String alarmDate = dateFormat.format(alarmTimestamp);
             String todayDate = dateFormat.format(todayTimestamp);
 
-            if(todayDate.compareTo(alarmDate) == 0){
+            if (todayDate.compareTo(alarmDate) == 0) {
                 holder.date.setText("Today");
             } else {
                 holder.date.setText(alarmDate);

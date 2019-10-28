@@ -11,7 +11,6 @@ import android.util.Log;
 import androidx.core.app.NotificationCompat;
 import androidx.navigation.NavDeepLinkBuilder;
 
-import com.example.videoreminder.ui.MainActivity;
 
 public class AlarmReceiver extends BroadcastReceiver {
 

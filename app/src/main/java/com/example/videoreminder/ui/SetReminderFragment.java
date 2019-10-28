@@ -30,7 +30,7 @@ import com.example.videoreminder.R;
 import com.example.videoreminder.db.entity.Task;
 import com.example.videoreminder.ui.dialogs.DatePickerFragment;
 import com.example.videoreminder.ui.dialogs.TimePickerFragment;
-import com.example.videoreminder.utils.Util;
+import com.example.videoreminder.utils.Utils;
 import com.example.videoreminder.viewmodel.DateHourSharedViewModel;
 import com.example.videoreminder.viewmodel.TaskViewModel;
 
@@ -101,7 +101,7 @@ public class SetReminderFragment extends Fragment implements AdapterView.OnItemS
         });
 
         Bundle bundle = getArguments();
-        Util.setBackgroundColor(bundle.getInt("taskBackgroundColor"), view);
+        Utils.setBackgroundColor(bundle.getInt("taskBackgroundColor"), view);
         Log.d("----->SetReminder", "color received:"+bundle.getInt("backgroundColor"));
         TextView nextButton = view.findViewById(R.id.pick_date_next);
         nextButton.setOnClickListener(v -> {

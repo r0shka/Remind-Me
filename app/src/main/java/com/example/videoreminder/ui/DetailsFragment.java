@@ -22,7 +22,7 @@ import android.widget.TextView;
 import com.example.videoreminder.AlarmReceiver;
 import com.example.videoreminder.R;
 import com.example.videoreminder.db.entity.Task;
-import com.example.videoreminder.utils.Util;
+import com.example.videoreminder.utils.Utils;
 import com.example.videoreminder.viewmodel.TaskViewModel;
 
 import static android.content.Context.ALARM_SERVICE;
@@ -75,7 +75,7 @@ public class DetailsFragment extends Fragment {
             currentTask = task;
             title.setText(currentTask.getTitle());
             description.setText(currentTask.getDescription());
-            Util.setBackgroundColor(currentTask.getBackgroundColor(), main);
+            Utils.setBackgroundColor(currentTask.getBackgroundColor(), main);
         });
 
         getArguments().clear();
