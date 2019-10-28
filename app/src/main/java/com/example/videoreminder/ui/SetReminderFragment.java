@@ -30,6 +30,7 @@ import com.example.videoreminder.R;
 import com.example.videoreminder.db.entity.Task;
 import com.example.videoreminder.ui.dialogs.DatePickerFragment;
 import com.example.videoreminder.ui.dialogs.TimePickerFragment;
+import com.example.videoreminder.utils.Util;
 import com.example.videoreminder.viewmodel.DateHourSharedViewModel;
 import com.example.videoreminder.viewmodel.TaskViewModel;
 
@@ -45,6 +46,7 @@ public class SetReminderFragment extends Fragment implements AdapterView.OnItemS
     private DateHourSharedViewModel dateHourSharedViewModel;
     private boolean isRepeatingAlarm;
     private long periodicity;
+    private long alarmTimestamp;
 
     private int pickerHour = 0;
     private int pickerMin = 0;
@@ -57,7 +59,6 @@ public class SetReminderFragment extends Fragment implements AdapterView.OnItemS
     private static final String PRIMARY_CHANNEL_ID =
             "primary_notification_channel";
     private NotificationManager notificationManager;
-
 
     public SetReminderFragment() {
     }
@@ -99,11 +100,13 @@ public class SetReminderFragment extends Fragment implements AdapterView.OnItemS
             showDatePickerDialog();
         });
 
+        Bundle bundle = getArguments();
+        Util.setBackgroundColor(bundle.getInt("taskBackgroundColor"), view);
+        Log.d("----->SetReminder", "color received:"+bundle.getInt("backgroundColor"));
         TextView nextButton = view.findViewById(R.id.pick_date_next);
         nextButton.setOnClickListener(v -> {
-            Bundle bundle = getArguments();
-            commitTask();
             setAlarm();
+            commitTask();
             Navigation.findNavController(v).navigate(R.id.action_pickDateFragment_to_mainFragment, bundle);
         });
     }
@@ -113,7 +116,7 @@ public class SetReminderFragment extends Fragment implements AdapterView.OnItemS
             String title = getArguments().getString("taskTitle");
             String description = getArguments().getString("taskDescription");
             int taskBackgroundColor = getArguments().getInt("taskBackgroundColor");
-            Task task = new Task(title, description, taskBackgroundColor);
+            Task task = new Task(title, description, taskBackgroundColor, periodicity, alarmTimestamp);
             taskId = viewModel.addTask(task);
             getArguments().putInt("origin", MainFragment.NEW_TASK_ORIGIN);
         }
@@ -160,6 +163,9 @@ public class SetReminderFragment extends Fragment implements AdapterView.OnItemS
         });
     }
 
+    /**
+     * Set alarm based on selected date and periodicity
+     */
     private void setAlarm() {
         notificationManager = (NotificationManager) getContext().getSystemService(NOTIFICATION_SERVICE);
         Intent notifyIntent = new Intent(getContext(), AlarmReceiver.class);
@@ -178,20 +184,14 @@ public class SetReminderFragment extends Fragment implements AdapterView.OnItemS
                         PendingIntent.FLAG_UPDATE_CURRENT);
         final AlarmManager alarmManager = (AlarmManager) getContext().getSystemService(ALARM_SERVICE);
 
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTimeInMillis(System.currentTimeMillis());
-        calendar.set(Calendar.HOUR_OF_DAY, pickerHour);
-        calendar.set(Calendar.MINUTE, pickerMin);
-        calendar.set(Calendar.DATE, pickerDay);
-        calendar.set(Calendar.MONTH, pickerMonth);
-        calendar.set(Calendar.YEAR, pickerYear);
+        setAlarmTimestamp();
 
         if (alarmManager != null) {
             if (isRepeatingAlarm) {
-                alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                alarmManager.setInexactRepeating(AlarmManager.RTC_WAKEUP, alarmTimestamp,
                         periodicity, notifyPendingIntent);
             } else {
-                alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP, alarmTimestamp,
                         notifyPendingIntent);
             }
             Log.d("SetReminder", "Alarm set! ------------------");
@@ -205,7 +205,6 @@ public class SetReminderFragment extends Fragment implements AdapterView.OnItemS
      * Creates a Notification channel, for OREO and higher.
      */
     private void createNotificationChannel() {
-
         // Create a notification manager object.
         notificationManager = (NotificationManager) getContext().getSystemService(NOTIFICATION_SERVICE);
 
@@ -226,6 +225,17 @@ public class SetReminderFragment extends Fragment implements AdapterView.OnItemS
                     "stand up and walk");
             notificationManager.createNotificationChannel(notificationChannel);
         }
+    }
+
+    private void setAlarmTimestamp(){
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY, pickerHour);
+        calendar.set(Calendar.MINUTE, pickerMin);
+        calendar.set(Calendar.DATE, pickerDay);
+        calendar.set(Calendar.MONTH, pickerMonth);
+        calendar.set(Calendar.YEAR, pickerYear);
+        alarmTimestamp = calendar.getTimeInMillis();
     }
 
     /**

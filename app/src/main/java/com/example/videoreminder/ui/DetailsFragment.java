@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.example.videoreminder.AlarmReceiver;
 import com.example.videoreminder.R;
 import com.example.videoreminder.db.entity.Task;
+import com.example.videoreminder.utils.Util;
 import com.example.videoreminder.viewmodel.TaskViewModel;
 
 import static android.content.Context.ALARM_SERVICE;
@@ -74,13 +75,13 @@ public class DetailsFragment extends Fragment {
             currentTask = task;
             title.setText(currentTask.getTitle());
             description.setText(currentTask.getDescription());
-            setBackgroundColor(currentTask.getBackgroundColor(), main);
+            Util.setBackgroundColor(currentTask.getBackgroundColor(), main);
         });
 
         getArguments().clear();
 
         ImageView closeTask = rootView.findViewById(R.id.task_details_close);
-        closeTask.setOnClickListener(v -> Navigation.findNavController(v).navigate(R.id.action_detailsFragment_to_mainFragment));
+        closeTask.setOnClickListener(v -> Navigation.findNavController(v).navigateUp());
 
         ImageView deleteTask = rootView.findViewById(R.id.task_details_delete);
         deleteTask.setOnClickListener(v -> {
@@ -105,19 +106,7 @@ public class DetailsFragment extends Fragment {
         alarmManager.cancel(cancelServicePendingIntent);
     }
 
-    private void setBackgroundColor(int backgroundColor, View main){
-        if(backgroundColor == Task.BG_COLOR_BLUE){
-            main.setBackgroundResource(R.color.background_color_blue);
-        } else if(backgroundColor == Task.BG_COLOR_GREEN){
-            main.setBackgroundResource(R.color.background_color_green);
-        } else if(backgroundColor == Task.BG_COLOR_ORANGE){
-            main.setBackgroundResource(R.color.background_color_orange);
-        } else if(backgroundColor == Task.BG_COLOR_RED){
-            main.setBackgroundResource(R.color.background_color_red);
-        } else if(backgroundColor== Task.BG_COLOR_VIOLET){
-            main.setBackgroundResource(R.color.background_color_violet);
-        }
-    }
+
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {

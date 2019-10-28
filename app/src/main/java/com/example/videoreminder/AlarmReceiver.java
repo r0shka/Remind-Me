@@ -55,7 +55,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         // Build the notification
         NotificationCompat.Builder builder = new NotificationCompat.Builder
                 (context, PRIMARY_CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_text_fields_white_36dp)
+                .setSmallIcon(R.drawable.ic_notifications_white_24dp)
                 .setContentTitle(taskTitle)
                 .setContentText(taskDescription)
                 .setContentIntent(deeplinkPendingIntent)

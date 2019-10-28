@@ -1,5 +1,6 @@
 package com.example.videoreminder.db;
 
+import android.app.AlarmManager;
 import android.content.Context;
 import android.os.AsyncTask;
 
@@ -12,7 +13,9 @@ import androidx.sqlite.db.SupportSQLiteDatabase;
 import com.example.videoreminder.db.dao.TaskDao;
 import com.example.videoreminder.db.entity.Task;
 
-@Database(entities = {Task.class}, version = 9, exportSchema = false)
+import java.util.Calendar;
+
+@Database(entities = {Task.class}, version = 10, exportSchema = false)
 public abstract class TaskRoomDatabase extends RoomDatabase {
 
     private static TaskRoomDatabase INSTANCE;
@@ -42,19 +45,43 @@ public abstract class TaskRoomDatabase extends RoomDatabase {
         @Override
         protected Void doInBackground(final Void... params) {
             // Start the app with a clean database every time.
-            // Not needed if you only populate the database
-            // when it is first created
             dao.deleteAll();
+            Calendar alarmDateTime = Calendar.getInstance();
+            alarmDateTime.setTimeInMillis(System.currentTimeMillis());
+            alarmDateTime.set(Calendar.HOUR_OF_DAY, 20);
+            alarmDateTime.set(Calendar.MINUTE, 50);
+            alarmDateTime.set(Calendar.DATE, 30);
+            alarmDateTime.set(Calendar.MONTH, 9);
+            alarmDateTime.set(Calendar.YEAR, 2019);
+            long timeStamp = alarmDateTime.getTimeInMillis();
 
-            Task task = new Task("Read a book", "Read the damn book already!",Task.BG_COLOR_RED);
-            dao.insert(task);
-            task = new Task("Buy plane tickets", "You should really visit your grandparents", Task.BG_COLOR_GREEN);
-            dao.insert(task);
-            task = new Task("Go to gym", "Move your ass!", Task.BG_COLOR_ORANGE);
-            dao.insert(task);
-            task = new Task("Clean the house", "Clean it, you filthy animal", Task.BG_COLOR_ORANGE);
+            Task task = new Task("Read a book",
+                    "Read the damn book already!",
+                    Task.BG_COLOR_RED,
+                    AlarmManager.INTERVAL_HOUR,
+                    timeStamp);
             dao.insert(task);
 
+            task = new Task("Buy plane tickets",
+                    "You should really visit your grandparents",
+                    Task.BG_COLOR_GREEN,
+                    AlarmManager.INTERVAL_HOUR,
+                    timeStamp);
+            dao.insert(task);
+
+            task = new Task("Go to gym",
+                    "Move your ass!",
+                    Task.BG_COLOR_ORANGE,
+                    AlarmManager.INTERVAL_HOUR,
+                    timeStamp);
+            dao.insert(task);
+
+            task = new Task("Clean the house",
+                    "Clean it, you filthy animal",
+                    Task.BG_COLOR_ORANGE,
+                    AlarmManager.INTERVAL_DAY,
+                    timeStamp);
+            dao.insert(task);
             return null;
         }
     }

@@ -6,6 +6,8 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.util.Calendar;
+
 @Entity(tableName = "task_table")
 public class Task {
 
@@ -24,20 +26,32 @@ public class Task {
     @NonNull
     private String title;
 
-    @ColumnInfo(name = "isActive")
-    private boolean isActive;
-
     @ColumnInfo(name = "description")
     private String description;
+
+    @ColumnInfo(name = "is_active")
+    private boolean isActive;
+
+    @ColumnInfo(name = "periodicity")
+    private long periodicity;
 
     @ColumnInfo(name = "color")
     private int backgroundColor;
 
-    public Task(@NonNull String title, String description, int backgroundColor){
+    @ColumnInfo(name = "alarm_timestamp")
+    private long alarmTimestamp;
+
+    public Task(@NonNull String title,
+                String description,
+                int backgroundColor,
+                long periodicity,
+                long alarmTimestamp){
         this.title = title;
         this.description = description;
         this.backgroundColor = backgroundColor;
         this.isActive = true;
+        this.periodicity = periodicity;
+        this.alarmTimestamp = alarmTimestamp;
     }
 
     @NonNull
@@ -78,5 +92,21 @@ public class Task {
 
     public void setActive(boolean active) {
         isActive = active;
+    }
+
+    public long getPeriodicity() {
+        return periodicity;
+    }
+
+    public void setPeriodicity(long periodicity) {
+        this.periodicity = periodicity;
+    }
+
+    public long getAlarmTimestamp() {
+        return alarmTimestamp;
+    }
+
+    public void setAlarmTimestamp(long alarmTimestamp) {
+        this.alarmTimestamp = alarmTimestamp;
     }
 }

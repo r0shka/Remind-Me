@@ -1,6 +1,7 @@
 package com.example.videoreminder.ui;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,16 +15,19 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.videoreminder.R;
 import com.example.videoreminder.db.entity.Task;
 
+import java.sql.Timestamp;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 
 public class SimpleItemRecyclerViewAdapter
         extends PagedListAdapter<Task, SimpleItemRecyclerViewAdapter.ViewHolder> {
 
-
-
     public SimpleItemRecyclerViewAdapter(){
         super(Task.DIFF_CALLBACK);
     }
-
 
     @NonNull
     @Override
@@ -50,6 +54,22 @@ public class SimpleItemRecyclerViewAdapter
             }
             holder.title.setText(current.getTitle());
             holder.description.setText(current.getDescription());
+
+            Timestamp ts =new Timestamp(current.getAlarmTimestamp());
+            Date alarmTimestamp = new Date(ts.getTime());
+            Date todayTimestamp = new Date(System.currentTimeMillis());
+
+            DateFormat dateFormat = new SimpleDateFormat("dd/MM");
+
+            String alarmDate = dateFormat.format(alarmTimestamp);
+            String todayDate = dateFormat.format(todayTimestamp);
+
+            if(todayDate.compareTo(alarmDate) == 0){
+                holder.date.setText("Today");
+            } else {
+                holder.date.setText(alarmDate);
+            }
+
             holder.view.setOnClickListener(v -> {
                 Bundle bundle = new Bundle();
                 bundle.putLong("id", current.getId());
@@ -69,12 +89,14 @@ public class SimpleItemRecyclerViewAdapter
         private final View view;
         private final TextView title;
         private final TextView description;
+        private final TextView date;
 
         ViewHolder(View view) {
             super(view);
             this.view = view;
             title = view.findViewById(R.id.task_title);
             description = view.findViewById(R.id.task_description);
+            date = view.findViewById(R.id.task_date);
         }
     }
 }
