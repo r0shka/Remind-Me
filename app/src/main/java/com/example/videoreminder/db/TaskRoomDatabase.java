@@ -15,7 +15,7 @@ import com.example.videoreminder.db.entity.Task;
 
 import java.util.Calendar;
 
-@Database(entities = {Task.class}, version = 10, exportSchema = false)
+@Database(entities = {Task.class}, version = 11, exportSchema = false)
 public abstract class TaskRoomDatabase extends RoomDatabase {
 
     private static TaskRoomDatabase INSTANCE;
@@ -58,28 +58,28 @@ public abstract class TaskRoomDatabase extends RoomDatabase {
             Task task = new Task("Read a book",
                     "Read the damn book already!",
                     Task.BG_COLOR_RED,
-                    AlarmManager.INTERVAL_HOUR,
+                    Task.PERIODICITY_WEEKLY,
                     timeStamp);
             dao.insert(task);
 
             task = new Task("Buy plane tickets",
                     "You should really visit your grandparents",
                     Task.BG_COLOR_GREEN,
-                    AlarmManager.INTERVAL_HOUR,
+                    Task.PERIODICITY_ONE_TIME,
                     timeStamp);
             dao.insert(task);
 
             task = new Task("Go to gym",
                     "Move your ass!",
                     Task.BG_COLOR_ORANGE,
-                    AlarmManager.INTERVAL_HOUR,
+                    Task.PERIODICITY_ONE_TIME,
                     timeStamp);
             dao.insert(task);
 
             task = new Task("Clean the house",
                     "Clean it, you filthy animal",
                     Task.BG_COLOR_ORANGE,
-                    AlarmManager.INTERVAL_DAY,
+                    Task.PERIODICITY_DAILY,
                     timeStamp);
             dao.insert(task);
             return null;

@@ -10,16 +10,13 @@
     android:elevation="4dp"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/task_date"
+    <ImageView
+        android:id="@+id/task_periodicity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="8dp"
-        android:textColor="@android:color/white"
-        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="27/10" />
+        android:padding="4dp"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/task_title"
@@ -31,14 +28,14 @@
         android:textColor="@android:color/white"
         android:textSize="20sp"
         android:textStyle="bold"
-        android:transitionName="title_transition"
+        app:layout_constraintEnd_toStartOf="@+id/task_periodicity"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:text="Placeholder text" />
 
     <TextView
         android:id="@+id/task_description"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:ellipsize="end"
         android:maxLines="2"
@@ -47,6 +44,7 @@
         android:paddingBottom="8dp"
         android:textColor="@android:color/white"
         android:textSize="16sp"
+        app:layout_constraintEnd_toStartOf="@+id/task_periodicity"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/task_title"
         tools:text="Placeholder text " />

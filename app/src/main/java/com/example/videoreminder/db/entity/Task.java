@@ -1,5 +1,7 @@
 package com.example.videoreminder.db.entity;
 
+import android.app.AlarmManager;
+
 import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
@@ -14,6 +16,10 @@ public class Task {
     public static final int BG_COLOR_GREEN = 3;
     public static final int BG_COLOR_ORANGE = 4;
 
+    public static final long PERIODICITY_ONE_TIME = -1;
+    public static final long PERIODICITY_DAILY = AlarmManager.INTERVAL_DAY;
+    public static final long PERIODICITY_WEEKLY = AlarmManager.INTERVAL_DAY * 7;
+
     @PrimaryKey(autoGenerate = true)
     @NonNull
     @ColumnInfo(name = "id")
@@ -25,9 +31,6 @@ public class Task {
 
     @ColumnInfo(name = "description")
     private String description;
-
-    @ColumnInfo(name = "is_active")
-    private boolean isActive;
 
     @ColumnInfo(name = "periodicity")
     private long periodicity;
@@ -46,7 +49,6 @@ public class Task {
         this.title = title;
         this.description = description;
         this.backgroundColor = backgroundColor;
-        this.isActive = true;
         this.periodicity = periodicity;
         this.alarmTimestamp = alarmTimestamp;
     }
@@ -73,13 +75,6 @@ public class Task {
     }
 
 
-    public boolean isActive() {
-        return isActive;
-    }
-
-    public void setActive(boolean active) {
-        isActive = active;
-    }
 
     public long getPeriodicity() {
         return periodicity;

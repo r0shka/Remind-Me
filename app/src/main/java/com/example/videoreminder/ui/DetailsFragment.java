@@ -74,7 +74,7 @@ public class DetailsFragment extends Fragment {
         viewModel.getTaskById(taskId).observe(this, task -> {
             currentTask = task;
             title.setText(currentTask.getTitle());
-            description.setText(currentTask.getDescription());
+            description.setText(currentTask.getDescription()+""+currentTask.getPeriodicity());
             Utils.setBackgroundColor(currentTask.getBackgroundColor(), main);
         });
 
@@ -91,9 +91,6 @@ public class DetailsFragment extends Fragment {
             bundle.putInt("origin", MainFragment.DELETE_TASK_ORIGIN);
             Navigation.findNavController(v).navigate(R.id.action_detailsFragment_to_mainFragment, bundle);
         });
-
-        TextView cancelAlarm = rootView.findViewById(R.id.task_details_cancel_alarm);
-        cancelAlarm.setOnClickListener(v->cancelAlarm());
         return rootView;
     }
 

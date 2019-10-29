@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.example.videoreminder.R;
 import com.example.videoreminder.db.entity.Task;
+import com.google.android.material.textfield.TextInputEditText;
 
 
 public class NewTaskFragment extends Fragment {
@@ -36,8 +37,8 @@ public class NewTaskFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         /* Setting default background color*/
-        view.setBackgroundResource(R.color.background_color_orange);
-        taskBackgroundColor = Task.BG_COLOR_ORANGE;
+        view.setBackgroundResource(R.color.background_color_blue);
+        taskBackgroundColor = Task.BG_COLOR_BLUE;
 
         createBackgroundColorListener(view);
         attachBackgroundColorListener(view);
@@ -53,16 +54,14 @@ public class NewTaskFragment extends Fragment {
     }
 
     /**
-     * Navigating to next screen depending on task type
-     * Task type stored in bundle with "taskType" key
-     *
+     * Navigating to next screen
      * @param rootView Container view
      * @param v Clicked view
      */
     private void moveToNextScreen(View rootView, View v){
-        final TextView newTaskTitle = rootView.findViewById(R.id.new_task_title_input);
+        final TextInputEditText newTaskTitle = rootView.findViewById(R.id.new_task_title_input_text);
+        final TextInputEditText newTaskDescription = rootView.findViewById(R.id.new_task_description_input_text);
         String taskTitle = newTaskTitle.getText().toString();
-        final TextView newTaskDescription = rootView.findViewById(R.id.new_task_description_input);
         String taskDescription = newTaskDescription.getText().toString();
         Bundle bundle = new Bundle();
         bundle.putString("taskTitle", taskTitle);

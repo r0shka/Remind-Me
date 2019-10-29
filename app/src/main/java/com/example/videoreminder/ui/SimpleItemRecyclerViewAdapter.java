@@ -1,9 +1,11 @@
 package com.example.videoreminder.ui;
 
+import android.app.AlarmManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -44,19 +46,8 @@ public class SimpleItemRecyclerViewAdapter
             holder.title.setText(current.getTitle());
             holder.description.setText(current.getDescription());
 
-            Timestamp ts = new Timestamp(current.getAlarmTimestamp());
-            Date alarmTimestamp = new Date(ts.getTime());
-            Date todayTimestamp = new Date(System.currentTimeMillis());
-            DateFormat dateFormat = new SimpleDateFormat("dd/MM");
-
-            String alarmDate = dateFormat.format(alarmTimestamp);
-            String todayDate = dateFormat.format(todayTimestamp);
-
-            if (todayDate.compareTo(alarmDate) == 0) {
-                holder.date.setText("Today");
-            } else {
-                holder.date.setText(alarmDate);
-            }
+            if(current.getPeriodicity() != Task.PERIODICITY_ONE_TIME)
+                holder.periodicity.setImageResource(R.drawable.ic_repeat_white_36dp);
 
             holder.view.setOnClickListener(v -> {
                 Bundle bundle = new Bundle();
@@ -77,14 +68,14 @@ public class SimpleItemRecyclerViewAdapter
         private final View view;
         private final TextView title;
         private final TextView description;
-        private final TextView date;
+        private final ImageView periodicity;
 
         ViewHolder(View view) {
             super(view);
             this.view = view;
             title = view.findViewById(R.id.task_title);
             description = view.findViewById(R.id.task_description);
-            date = view.findViewById(R.id.task_date);
+            periodicity = view.findViewById(R.id.task_periodicity);
         }
     }
 }

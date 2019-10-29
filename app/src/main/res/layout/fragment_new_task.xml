@@ -5,47 +5,21 @@
     android:id="@+id/new_task_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorPrimary"
+    android:background="@color/background_color_blue"
     android:fillViewport="true">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:context=".ui.NewTaskFragment">
 
-
-        <EditText
-            android:id="@+id/new_task_title_input"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:ems="15"
-            android:hint="What should you be reminded of?"
-            android:inputType="textPersonName"
-            android:textColor="@android:color/white"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/new_task_title_text" />
-
-        <EditText
-            android:id="@+id/new_task_description_input"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            android:ems="15"
-            android:hint="What's your task"
-            android:importantForAutofill="no"
-            android:inputType="textPersonName"
-            android:textColor="@android:color/white"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/new_task_title_input" />
 
         <TextView
             android:id="@+id/new_task_title_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:text="Title"
+            android:text="What's your task?"
             android:textColor="@android:color/white"
             android:textSize="24sp"
             app:layout_constraintStart_toStartOf="parent"
@@ -117,6 +91,48 @@
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintStart_toEndOf="@+id/select_color_orange"
             app:layout_constraintTop_toBottomOf="@+id/new_task_description_input" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/new_task_title_input"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:theme="@style/TextLabel"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/new_task_title_text">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/new_task_title_input_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Title"
+                android:maxLines="1"
+                android:padding="8dp"
+                android:textColor="@android:color/white" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/new_task_description_input"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:theme="@style/TextLabel"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/new_task_title_input">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/new_task_description_input_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Description"
+                android:maxLines="3"
+                android:padding="8dp"
+                android:textColor="@android:color/white" />
+        </com.google.android.material.textfield.TextInputLayout>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,73 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/details_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_color_red"
-    tools:context=".ui.DetailsFragment">
+    android:fillViewport="true">
 
-    <ImageView
-        android:id="@+id/task_details_close"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/details_fragment"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_close_white_48dp"
-        android:layout_margin="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:background="@color/background_color_red"
+        tools:context=".ui.DetailsFragment">
+
+        <ImageView
+            android:id="@+id/task_details_close"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:src="@drawable/ic_close_white_48dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
 
-    <ImageView
-        android:id="@+id/task_details_delete"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:src="@drawable/ic_delete_white_48dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        <ImageView
+            android:id="@+id/task_details_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:src="@drawable/ic_delete_white_48dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
-    <TextView
-        android:id="@+id/task_details_title"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:ellipsize="end"
-        android:maxLines="3"
-        android:textColor="@android:color/white"
-        android:textSize="24sp"
-        android:transitionName="title_transition"
-        app:layout_constraintEnd_toStartOf="@+id/task_details_close"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Task title" />
+        <TextView
+            android:id="@+id/task_details_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:ellipsize="end"
+            android:textColor="@android:color/white"
+            android:textSize="24sp"
+            android:transitionName="title_transition"
+            app:layout_constraintEnd_toStartOf="@+id/task_details_close"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="Task title" />
 
-    <TextView
-        android:id="@+id/task_details_description"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:ellipsize="end"
-        android:maxLines="3"
-        android:textColor="@android:color/white"
-        android:textSize="18sp"
-        android:transitionName="title_transition"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/task_details_title"
-        tools:text="Task description" />
+        <TextView
+            android:id="@+id/task_details_description"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="16dp"
+            android:ellipsize="end"
+            android:textColor="@android:color/white"
+            android:textSize="18sp"
+            android:transitionName="title_transition"
+            app:layout_constraintBottom_toTopOf="@+id/task_details_delete"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/task_details_title"
+            tools:text="Task description" />
 
-    <TextView
-        android:id="@+id/task_details_cancel_alarm"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Cancel alarm"
-        android:textSize="36sp"
-        android:textColor="@android:color/white"
-        app:layout_constraintBottom_toTopOf="@+id/task_details_delete"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
