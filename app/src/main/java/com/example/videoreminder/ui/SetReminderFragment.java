@@ -13,10 +13,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -33,14 +29,19 @@ import com.example.videoreminder.ui.dialogs.TimePickerFragment;
 import com.example.videoreminder.utils.Utils;
 import com.example.videoreminder.viewmodel.DateHourSharedViewModel;
 import com.example.videoreminder.viewmodel.TaskViewModel;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 import static android.content.Context.ALARM_SERVICE;
 import static android.content.Context.NOTIFICATION_SERVICE;
 
 
-public class SetReminderFragment extends Fragment implements AdapterView.OnItemSelectedListener {
+public class SetReminderFragment extends Fragment {
 
     private TaskViewModel viewModel;
     private DateHourSharedViewModel dateHourSharedViewModel;
@@ -80,17 +81,41 @@ public class SetReminderFragment extends Fragment implements AdapterView.OnItemS
         viewModel = ViewModelProviders.of(this).get(TaskViewModel.class);
         dateHourSharedViewModel = ViewModelProviders.of(getActivity()).get(DateHourSharedViewModel.class);
 
-        Spinner spinner = view.findViewById(R.id.frequency_spinner);
-        // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),
-                R.array.reminder_periodicity_array, R.layout.spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(this);
-
         observeTime();
         observeDate();
         setDefaultDateTime();
+
+        isRepeatingAlarm = false;
+        periodicity = Task.PERIODICITY_ONE_TIME;
+        ChipGroup chipGroup = view.findViewById(R.id.chip_group_pick_periodicity);
+        chipGroup.setOnCheckedChangeListener((group, checkedId) -> {
+            // Disable uncheck of already selected chip
+            Chip chip = chipGroup.findViewById(checkedId);
+            if (chip != null) {
+                for (int i = 0; i < chipGroup.getChildCount(); i++) {
+                    chipGroup.getChildAt(i).setClickable(true);
+                }
+                chip.setClickable(false);
+            }
+
+            switch (checkedId){
+                case R.id.chip_once:
+                    periodicity = Task.PERIODICITY_ONE_TIME;
+                    Log.i("PERIODICITY", "ONE TIME");
+                    isRepeatingAlarm = false;
+                    break;
+                case R.id.chip_daily:
+                    periodicity = Task.PERIODICITY_DAILY;
+                    Log.i("PERIODICITY", "DAILY");
+                    isRepeatingAlarm = true;
+                    break;
+                case R.id.chip_weekly:
+                    periodicity = Task.PERIODICITY_WEEKLY;
+                    Log.i("PERIODICITY", "WEEKLY");
+                    isRepeatingAlarm = true;
+                    break;
+            }
+        });
 
         pickHour = view.findViewById(R.id.pick_hour);
         pickHour.setOnClickListener(v -> {
@@ -139,18 +164,28 @@ public class SetReminderFragment extends Fragment implements AdapterView.OnItemS
     }
 
     private void observeTime() {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
+
         dateHourSharedViewModel.getHour().observe(this, hour -> {
             Log.i("Hour picked", "" + hour);
             pickerHour = hour;
         });
+
         dateHourSharedViewModel.getMinute().observe(this, minute -> {
             Log.i("Minute picked", "" + minute);
             pickerMin = minute;
-            pickHour.setText(pickerHour+":"+pickerMin);
+            try {
+                Date date = simpleDateFormat.parse(pickerHour+":"+pickerMin);
+                pickHour.setText(simpleDateFormat.format(date));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         });
     }
 
     private void observeDate() {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM");
+
         dateHourSharedViewModel.getYear().observe(this, year -> {
             Log.i("Year picked", "" + year);
             pickerYear = year;
@@ -162,9 +197,13 @@ public class SetReminderFragment extends Fragment implements AdapterView.OnItemS
         dateHourSharedViewModel.getDay().observe(this, day -> {
             Log.i("Day picked", "" + day);
             pickerDay = day;
-            pickDate.setText(pickerDay+"/"+pickerMonth);
+            try {
+                Date date = simpleDateFormat.parse(pickerDay+"/"+(pickerMonth+1));
+                pickDate.setText(simpleDateFormat.format(date));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         });
-
     }
 
     /**
@@ -253,41 +292,5 @@ public class SetReminderFragment extends Fragment implements AdapterView.OnItemS
         calendar.set(Calendar.MONTH, pickerMonth);
         calendar.set(Calendar.YEAR, pickerYear);
         alarmTimestamp = calendar.getTimeInMillis();
-    }
-
-    /**
-     * Set periodicity based on selected item in spinner.
-     * Using index instead of String content comparison in order to avoid translation problems.
-     * Should implement monthly and yearly periodicity at some point.
-     *
-     * @param adapterView parent
-     * @param view
-     * @param selectedItemIndex index of selected item, 0 for one time, 1 for daily, 2 for weekly
-     * @param l
-     */
-    @Override
-    public void onItemSelected(AdapterView<?> adapterView, View view, int selectedItemIndex, long l) {
-        Log.i("Periodicity selected", "i=" + selectedItemIndex);
-        switch (selectedItemIndex) {
-            case 0:
-                isRepeatingAlarm = false;
-                periodicity = Task.PERIODICITY_ONE_TIME;
-                break;
-            case 1:
-                isRepeatingAlarm = true;
-                periodicity = Task.PERIODICITY_DAILY;
-                break;
-            case 2:
-                isRepeatingAlarm = true;
-                periodicity = Task.PERIODICITY_WEEKLY;
-                break;
-            default:
-                isRepeatingAlarm = false;
-                break;
-        }
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> adapterView) {
     }
 }
