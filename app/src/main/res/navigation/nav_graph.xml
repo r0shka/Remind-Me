@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.example.videoreminder.ui.MainFragment"
+        android:name="com.example.remindme.ui.MainFragment"
         android:label="main_fragment"
         tools:layout="@layout/fragment_main" >
         <action
@@ -29,7 +29,7 @@
 
     <fragment
         android:id="@+id/detailsFragment"
-        android:name="com.example.videoreminder.ui.DetailsFragment"
+        android:name="com.example.remindme.ui.DetailsFragment"
         android:label="fragment_details"
         tools:layout="@layout/fragment_details" >
         <action
@@ -38,7 +38,7 @@
     </fragment>
     <fragment
         android:id="@+id/newTaskFragment"
-        android:name="com.example.videoreminder.ui.NewTaskFragment"
+        android:name="com.example.remindme.ui.NewTaskFragment"
         android:label="fragment_new_task"
         tools:layout="@layout/fragment_new_task" >
         <action
@@ -54,7 +54,7 @@
     </fragment>
     <fragment
         android:id="@+id/setReminderFragment"
-        android:name="com.example.videoreminder.ui.SetReminderFragment"
+        android:name="com.example.remindme.ui.SetReminderFragment"
         android:label="fragment_pick_date"
         tools:layout="@layout/fragment_set_reminder" >
         <action
