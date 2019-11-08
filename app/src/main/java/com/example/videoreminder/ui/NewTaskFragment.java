@@ -8,7 +8,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +27,9 @@ public class NewTaskFragment extends Fragment {
     private String taskTitle;
     private String taskDescription;
 
+    private TextInputEditText newTaskTitle;
+    private TextInputEditText newTaskDescription;
+
     public NewTaskFragment() {
     }
 
@@ -43,6 +45,9 @@ public class NewTaskFragment extends Fragment {
         /* Setting default background color*/
         view.setBackgroundResource(R.color.background_color_blue);
         taskBackgroundColor = Task.BG_COLOR_BLUE;
+
+        newTaskTitle = view.findViewById(R.id.new_task_title_input_text);
+        newTaskDescription = view.findViewById(R.id.new_task_description_input_text);
 
         ChipGroup chipGroup = view.findViewById(R.id.chip_group_pick_color);
         chipGroup.setOnCheckedChangeListener((group, checkedId) -> {
@@ -81,22 +86,19 @@ public class NewTaskFragment extends Fragment {
 
         TextView nextButton = view.findViewById(R.id.new_task_next);
         nextButton.setOnClickListener(v -> {
-            if(2 == 3){
-                Toast.makeText(getContext(), "Enter title first", Toast.LENGTH_SHORT).show();
+            if(newTaskTitle.getText().toString().isEmpty()){
+                Toast.makeText(getContext(), getString(R.string.empty_title_message), Toast.LENGTH_SHORT).show();
             } else {
-                moveToNextScreen(view, v);
+                moveToNextScreen(v);
             }
         });
     }
 
     /**
      * Navigating to next screen
-     * @param rootView Container view
      * @param v Clicked view
      */
-    private void moveToNextScreen(View rootView, View v){
-        final TextInputEditText newTaskTitle = rootView.findViewById(R.id.new_task_title_input_text);
-        final TextInputEditText newTaskDescription = rootView.findViewById(R.id.new_task_description_input_text);
+    private void moveToNextScreen(View v){
         taskTitle = newTaskTitle.getText().toString();
         taskDescription = newTaskDescription.getText().toString();
         Bundle bundle = new Bundle();

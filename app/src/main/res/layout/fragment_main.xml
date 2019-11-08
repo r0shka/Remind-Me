@@ -21,6 +21,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/task_list_content" />
 
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floatingActionButton"
         android:layout_width="wrap_content"
@@ -30,6 +31,15 @@
         android:focusable="true"
         android:src="@drawable/ic_add_white_48dp"
         android:layout_gravity="center|bottom" />
+
+    <TextView
+        android:id="@+id/empty_list_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:textSize="24sp"
+        android:visibility="gone"
+        android:text="@string/empty_list_message" />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

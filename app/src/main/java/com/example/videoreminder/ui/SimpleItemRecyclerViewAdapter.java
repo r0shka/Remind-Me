@@ -1,6 +1,5 @@
 package com.example.videoreminder.ui;
 
-import android.app.AlarmManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,10 +16,6 @@ import com.example.videoreminder.R;
 import com.example.videoreminder.db.entity.Task;
 import com.example.videoreminder.utils.Utils;
 
-import java.sql.Timestamp;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 
 public class SimpleItemRecyclerViewAdapter
@@ -48,15 +43,18 @@ public class SimpleItemRecyclerViewAdapter
 
             if(current.getPeriodicity() != Task.PERIODICITY_ONE_TIME)
                 holder.periodicity.setImageResource(R.drawable.ic_repeat_white_36dp);
+            // Display past one time task as expired
+            else if(current.getAlarmTimestamp() < System.currentTimeMillis()) {
+                holder.view.setBackgroundResource(R.drawable.rounded_background_grey);
+                holder.periodicity.setImageResource(R.drawable.ic_close_white_36dp);
+                holder.view.setElevation(0);
+            }
 
             holder.view.setOnClickListener(v -> {
                 Bundle bundle = new Bundle();
                 bundle.putLong("id", current.getId());
                 Navigation.findNavController(v).navigate(R.id.action_mainFragment_to_detailsFragment, bundle);
             });
-        } else {
-            // Covers the case of data not being ready yet.
-            holder.title.setText("No tasks for now!");
         }
     }
 

@@ -26,7 +26,7 @@ public interface TaskDao {
     @Query("DELETE FROM TASK_TABLE")
     public void deleteAll();
 
-    @Query("SELECT * FROM TASK_TABLE")
+    @Query("SELECT * FROM TASK_TABLE ORDER BY periodicity DESC, alarm_timestamp DESC")
     public DataSource.Factory<Integer, Task> getAllTasks();
 
     @Query("SELECT * FROM TASK_TABLE WHERE id = :id LIMIT 1")

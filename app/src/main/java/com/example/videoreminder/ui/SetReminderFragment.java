@@ -101,17 +101,14 @@ public class SetReminderFragment extends Fragment {
             switch (checkedId){
                 case R.id.chip_once:
                     periodicity = Task.PERIODICITY_ONE_TIME;
-                    Log.i("PERIODICITY", "ONE TIME");
                     isRepeatingAlarm = false;
                     break;
                 case R.id.chip_daily:
                     periodicity = Task.PERIODICITY_DAILY;
-                    Log.i("PERIODICITY", "DAILY");
                     isRepeatingAlarm = true;
                     break;
                 case R.id.chip_weekly:
                     periodicity = Task.PERIODICITY_WEEKLY;
-                    Log.i("PERIODICITY", "WEEKLY");
                     isRepeatingAlarm = true;
                     break;
             }
@@ -129,7 +126,6 @@ public class SetReminderFragment extends Fragment {
 
         Bundle bundle = getArguments();
         Utils.setBackgroundColor(bundle.getInt("taskBackgroundColor"), view);
-        Log.d("----->SetReminder", "color received:"+bundle.getInt("backgroundColor"));
         TextView nextButton = view.findViewById(R.id.pick_date_next);
         nextButton.setOnClickListener(v -> {
             setAlarmTimestamp();
@@ -185,6 +181,7 @@ public class SetReminderFragment extends Fragment {
 
     private void observeDate() {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM");
+        SimpleDateFormat simpleDateFormatYear = new SimpleDateFormat("dd/MM/yyyy");
 
         dateHourSharedViewModel.getYear().observe(this, year -> {
             Log.i("Year picked", "" + year);
@@ -198,7 +195,7 @@ public class SetReminderFragment extends Fragment {
             Log.i("Day picked", "" + day);
             pickerDay = day;
             try {
-                Date date = simpleDateFormat.parse(pickerDay+"/"+(pickerMonth+1));
+                Date date = simpleDateFormatYear.parse(pickerDay+"/"+(pickerMonth+1)+"/"+pickerYear);
                 pickDate.setText(simpleDateFormat.format(date));
             } catch (ParseException e) {
                 e.printStackTrace();
@@ -220,7 +217,6 @@ public class SetReminderFragment extends Fragment {
         notifyIntent.putExtra("taskDescription", description);
         notifyIntent.putExtra("taskId", taskId);
         notifyIntent.putExtra("taskPeriodicity", periodicity);
-        Log.i("=====Id set:", " " + taskId);
 
         /* casting long id to int, hoping there won't be 2.1 billion tasks */
         final PendingIntent notifyPendingIntent = PendingIntent.getBroadcast
@@ -235,9 +231,6 @@ public class SetReminderFragment extends Fragment {
             } else {
                 alarmManager.setExact(AlarmManager.RTC_WAKEUP, alarmTimestamp, notifyPendingIntent);
             }
-            Log.d("SetReminder", "Alarm set! ------------------");
-            Log.d("Alarm set for: ", "" + pickerHour + "h" + pickerMin + ", " +
-                    pickerDay + "/" + pickerMonth + "/" + pickerYear);
         }
         createNotificationChannel();
     }

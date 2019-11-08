@@ -1,7 +1,6 @@
 package com.example.videoreminder;
 
 import android.app.Application;
-import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.paging.DataSource;
@@ -45,7 +44,6 @@ public class TaskRepository {
         Future<Long> future = executorService.submit(insertCallable);
         try {
             rowId = future.get();
-            Log.d("=====ADDED TASK WITH ID", ""+rowId);
         } catch (InterruptedException | ExecutionException e1) {
             e1.printStackTrace();
         }

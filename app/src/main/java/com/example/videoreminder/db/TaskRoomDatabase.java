@@ -1,6 +1,5 @@
 package com.example.videoreminder.db;
 
-import android.app.AlarmManager;
 import android.content.Context;
 import android.os.AsyncTask;
 
@@ -15,7 +14,7 @@ import com.example.videoreminder.db.entity.Task;
 
 import java.util.Calendar;
 
-@Database(entities = {Task.class}, version = 11, exportSchema = false)
+@Database(entities = {Task.class}, version = 13, exportSchema = false)
 public abstract class TaskRoomDatabase extends RoomDatabase {
 
     private static TaskRoomDatabase INSTANCE;
@@ -51,36 +50,47 @@ public abstract class TaskRoomDatabase extends RoomDatabase {
             alarmDateTime.set(Calendar.HOUR_OF_DAY, 20);
             alarmDateTime.set(Calendar.MINUTE, 50);
             alarmDateTime.set(Calendar.DATE, 30);
-            alarmDateTime.set(Calendar.MONTH, 9);
+            alarmDateTime.set(Calendar.MONTH, 10);
             alarmDateTime.set(Calendar.YEAR, 2019);
-            long timeStamp = alarmDateTime.getTimeInMillis();
+            long timeStampFuture = alarmDateTime.getTimeInMillis();
+
+            alarmDateTime = Calendar.getInstance();
+            alarmDateTime.setTimeInMillis(System.currentTimeMillis());
+            alarmDateTime.set(Calendar.HOUR_OF_DAY, 20);
+            alarmDateTime.set(Calendar.MINUTE, 50);
+            alarmDateTime.set(Calendar.DATE, 30);
+            alarmDateTime.set(Calendar.MONTH, 8);
+            alarmDateTime.set(Calendar.YEAR, 2019);
+            long timeStampPast = alarmDateTime.getTimeInMillis();
+
 
             Task task = new Task("Read a book",
-                    "Read the damn book already!",
+                    "How about Atomic Habits: An Easy & Proven Way to Build Good Habits & Break Bad Ones by James Clear?"+
+                    " or The Count of Monte Cristo by Alexandre Dumas?",
                     Task.BG_COLOR_RED,
                     Task.PERIODICITY_WEEKLY,
-                    timeStamp);
+                    timeStampFuture);
             dao.insert(task);
 
             task = new Task("Buy plane tickets",
                     "You should really visit your grandparents",
                     Task.BG_COLOR_GREEN,
                     Task.PERIODICITY_ONE_TIME,
-                    timeStamp);
+                    timeStampFuture);
             dao.insert(task);
 
             task = new Task("Go to gym",
                     "Move your ass!",
                     Task.BG_COLOR_ORANGE,
                     Task.PERIODICITY_ONE_TIME,
-                    timeStamp);
+                    timeStampPast);
             dao.insert(task);
 
             task = new Task("Clean the house",
                     "Clean it, you filthy animal",
                     Task.BG_COLOR_ORANGE,
                     Task.PERIODICITY_DAILY,
-                    timeStamp);
+                    timeStampPast);
             dao.insert(task);
             return null;
         }

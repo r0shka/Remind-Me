@@ -21,6 +21,8 @@ public class Utils {
             view.setBackgroundResource(R.color.background_color_red);
         } else if(backgroundColor== Task.BG_COLOR_VIOLET){
             view.setBackgroundResource(R.color.background_color_violet);
+        } else if(backgroundColor== Task.BG_COLOR_GREY){
+            view.setBackgroundResource(R.color.background_color_grey);
         }
     }
 
@@ -35,6 +37,8 @@ public class Utils {
             view.setBackgroundResource(R.drawable.rounded_background_red);
         } else if (backgroundColor == Task.BG_COLOR_VIOLET) {
             view.setBackgroundResource(R.drawable.rounded_background_violet);
+        } else if (backgroundColor == Task.BG_COLOR_GREY) {
+            view.setBackgroundResource(R.drawable.rounded_background_grey);
         }
     }
 

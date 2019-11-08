@@ -6,10 +6,10 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.core.app.NotificationCompat;
 import androidx.navigation.NavDeepLinkBuilder;
+
 
 
 public class AlarmReceiver extends BroadcastReceiver {
@@ -32,7 +32,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         taskId = intent.getLongExtra("taskId", 0);
         taskTitle = intent.getStringExtra("taskTitle");
         taskDescription = intent.getStringExtra("taskDescription");
-        Log.i("=====Alarm receiver:", "Task id:"+taskId);
+
         deliverNotification(context);
     }
 

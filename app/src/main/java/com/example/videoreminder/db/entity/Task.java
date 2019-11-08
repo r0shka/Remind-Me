@@ -15,6 +15,7 @@ public class Task {
     public static final int BG_COLOR_VIOLET = 2;
     public static final int BG_COLOR_GREEN = 3;
     public static final int BG_COLOR_ORANGE = 4;
+    public static final int BG_COLOR_GREY = 5;
 
     public static final long PERIODICITY_ONE_TIME = -1;
     public static final long PERIODICITY_DAILY = AlarmManager.INTERVAL_DAY;
@@ -64,6 +65,10 @@ public class Task {
 
     public int getBackgroundColor() {
         return backgroundColor;
+    }
+
+    public void setBackgroundColor(int color){
+        this.backgroundColor = color;
     }
 
     public void setId(long id) {

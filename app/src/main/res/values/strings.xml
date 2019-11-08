@@ -3,6 +3,24 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="new_task_message">You added a new task!</string>
+    <string name="deleted_task_message">Task successfully deleted!</string>
+    <string name="empty_list_message">Press \'+\' to add you first task</string>
+    <string name="expired_task_message">Expired task. Can be deleted.</string>
+    <string name="one_time_message">Notifies on %s at %s</string>
+    <string name="daily_message">Notifies everyday at %s</string>
+    <string name="weekly_message">Notifies every %s at %s</string>
+    <string name="empty_title_message">Title cannot be empty!</string>
+    <string name="loading">Loading</string>
+    <string name="title_new_task">Title</string>
+    <string name="description_new_task">Description</string>
+    <string name="next_button">Next</string>
+    <string name="save_button">Save</string>
+    <string name="periodicity_message">How often do you want to be notified...</string>
+    <string name="date_message">...and when?</string>
+    <string name="periodicity_once">Once</string>
+    <string name="periodicity_daily">Daily</string>
+    <string name="periodicity_weekly">Weekly</string>
 
     <string-array name="reminder_periodicity_array">
         <item>Once</item>

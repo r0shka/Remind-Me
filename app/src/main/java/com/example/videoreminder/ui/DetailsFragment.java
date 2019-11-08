@@ -12,7 +12,6 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.navigation.Navigation;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,6 +24,9 @@ import com.example.videoreminder.db.entity.Task;
 import com.example.videoreminder.utils.Utils;
 import com.example.videoreminder.viewmodel.TaskViewModel;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import static android.content.Context.ALARM_SERVICE;
 
 
@@ -36,6 +38,10 @@ public class DetailsFragment extends Fragment {
     private TaskViewModel viewModel;
     private Task currentTask;
     private long taskId;
+
+    private TextView title;
+    private TextView description;
+    private TextView alarmDate;
 
 
     public DetailsFragment() {
@@ -57,15 +63,14 @@ public class DetailsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_details, container, false);
         viewModel = ViewModelProviders.of(this).get(TaskViewModel.class);
-        final TextView title = rootView.findViewById(R.id.task_details_title);
-        final TextView description = rootView.findViewById(R.id.task_details_description);
+        title = rootView.findViewById(R.id.task_details_title);
+        description = rootView.findViewById(R.id.task_details_description);
+        alarmDate = rootView.findViewById(R.id.task_details_date);
         final View main = rootView.findViewById(R.id.details_fragment);
 
         if(getArguments().size() != 0) {
-            Log.i("id from passed bundle", "" + getArguments().getLong("id"));
             taskId = getArguments().getLong("id");
         } else if(savedInstanceState != null) {
-            Log.i("id from saved bundle", "" + savedInstanceState.getLong("id"));
             taskId = savedInstanceState.getLong("id");
         } else {
             taskId = -1;
@@ -74,7 +79,14 @@ public class DetailsFragment extends Fragment {
         viewModel.getTaskById(taskId).observe(this, task -> {
             currentTask = task;
             title.setText(currentTask.getTitle());
-            description.setText(currentTask.getDescription()+""+currentTask.getPeriodicity());
+            description.setText(currentTask.getDescription());
+            setDateText();
+            // Display past one time task as expired
+            if(currentTask.getPeriodicity() == Task.PERIODICITY_ONE_TIME
+                    && currentTask.getAlarmTimestamp() < System.currentTimeMillis()){
+                currentTask.setBackgroundColor(Task.BG_COLOR_GREY);
+                alarmDate.setText(getString(R.string.expired_task_message));
+            }
             Utils.setBackgroundColor(currentTask.getBackgroundColor(), main);
         });
 
@@ -92,6 +104,24 @@ public class DetailsFragment extends Fragment {
             Navigation.findNavController(v).navigate(R.id.action_detailsFragment_to_mainFragment, bundle);
         });
         return rootView;
+    }
+
+    private void setDateText(){
+        String dateText;
+        Date date = new Date(currentTask.getAlarmTimestamp());
+        SimpleDateFormat dayFormat = new SimpleDateFormat("EEEE");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM");
+        SimpleDateFormat hourFormat = new SimpleDateFormat("HH:mm");
+        if(currentTask.getPeriodicity()==Task.PERIODICITY_ONE_TIME) {
+            dateText = String.format(getString(R.string.one_time_message), dateFormat.format(date), hourFormat.format(date));
+            alarmDate.setText(dateText);
+        } else if(currentTask.getPeriodicity()==Task.PERIODICITY_DAILY){
+            dateText = String.format(getString(R.string.daily_message), hourFormat.format(date));
+            alarmDate.setText(dateText);
+        } else if(currentTask.getPeriodicity()==Task.PERIODICITY_WEEKLY){
+            dateText = String.format(getString(R.string.weekly_message), dayFormat.format(date), hourFormat.format(date));
+            alarmDate.setText(dateText);
+        }
     }
 
     private void cancelAlarm(){
