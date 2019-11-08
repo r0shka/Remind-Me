@@ -42,8 +42,6 @@ public class AlarmReceiver extends BroadcastReceiver {
      * @param context, activity context.
      */
     private void deliverNotification(Context context) {
-        // Create the content intent for the notification, which launches
-        // this activity
         Bundle bundle = new Bundle();
         bundle.putLong("id", taskId);
         PendingIntent deeplinkPendingIntent = new NavDeepLinkBuilder(context)
@@ -51,7 +49,6 @@ public class AlarmReceiver extends BroadcastReceiver {
                 .setDestination(R.id.detailsFragment)
                 .setArguments(bundle)
                 .createPendingIntent();
-        // Build the notification
         NotificationCompat.Builder builder = new NotificationCompat.Builder
                 (context, PRIMARY_CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_notifications_white_24dp)

@@ -42,7 +42,7 @@ public class NewTaskFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        /* Setting default background color*/
+        // Default background color
         view.setBackgroundResource(R.color.background_color_blue);
         taskBackgroundColor = Task.BG_COLOR_BLUE;
 

@@ -106,6 +106,9 @@ public class DetailsFragment extends Fragment {
         return rootView;
     }
 
+    /**
+     * format and display date depending on task type
+     */
     private void setDateText(){
         String dateText;
         Date date = new Date(currentTask.getAlarmTimestamp());
@@ -124,6 +127,9 @@ public class DetailsFragment extends Fragment {
         }
     }
 
+    /**
+     * Cancel alarm of currently displayed task
+     */
     private void cancelAlarm(){
         final AlarmManager alarmManager = (AlarmManager) getContext().getSystemService(ALARM_SERVICE);
         Intent cancelServiceIntent = new Intent(getContext(), AlarmReceiver.class);

@@ -43,7 +43,6 @@ public abstract class TaskRoomDatabase extends RoomDatabase {
 
         @Override
         protected Void doInBackground(final Void... params) {
-            // Start the app with a clean database every time.
             dao.deleteAll();
             Calendar alarmDateTime = Calendar.getInstance();
             alarmDateTime.setTimeInMillis(System.currentTimeMillis());

@@ -10,6 +10,11 @@ import com.example.remindme.db.entity.Task;
 
 public class Utils {
 
+    /**
+     * Set background color of screen
+     * @param backgroundColor
+     * @param view
+     */
     public static void setBackgroundColor(int backgroundColor, View view){
         if(backgroundColor == Task.BG_COLOR_BLUE){
             view.setBackgroundResource(R.color.background_color_blue);
@@ -26,6 +31,11 @@ public class Utils {
         }
     }
 
+    /**
+     * Set background color of an item in list
+     * @param backgroundColor
+     * @param view
+     */
     public static void setRoundedBackgroundColor(int backgroundColor, View view){
         if (backgroundColor == Task.BG_COLOR_BLUE) {
             view.setBackgroundResource(R.drawable.rounded_background_blue);
@@ -42,7 +52,7 @@ public class Utils {
         }
     }
 
-    // use for ordering the items in view
+    // used for ordering the items in view
     public static DiffUtil.ItemCallback<Task> DIFF_CALLBACK = new DiffUtil.ItemCallback<Task>() {
         @Override
         public boolean areItemsTheSame(@NonNull Task oldItem, @NonNull Task newItem) {

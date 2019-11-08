@@ -47,10 +47,11 @@ public class MainFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        final SimpleItemRecyclerViewAdapter adapter;
         RecyclerView recyclerView = view.findViewById(R.id.task_recycler_view);
         TextView emptyListMessage = view.findViewById(R.id.empty_list_message);
+
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        final SimpleItemRecyclerViewAdapter adapter;
         adapter = new SimpleItemRecyclerViewAdapter();
         recyclerView.setAdapter(adapter);
 
@@ -74,6 +75,10 @@ public class MainFragment extends Fragment {
         displaySnackbar(view);
     }
 
+    /**
+     * Display snackbar message after adding / deleting a task
+     * @param rootView parent view
+     */
     private void displaySnackbar(View rootView) {
         if (getArguments() != null) {
             int origin = getArguments().getInt("origin", 0);

@@ -136,7 +136,8 @@ public class SetReminderFragment extends Fragment {
     }
 
     /**
-     * Save task to database, and put origin to bundle in order to display success message on main screen
+     * Save task to database and put origin to bundle
+     * in order to display success message on main screen
      */
     private void commitTask() {
         if (getArguments() != null) {
@@ -159,6 +160,9 @@ public class SetReminderFragment extends Fragment {
         newFragment.show(getFragmentManager(), "datePicker");
     }
 
+    /**
+     * Format and display time
+     */
     private void observeTime() {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm");
 
@@ -179,6 +183,9 @@ public class SetReminderFragment extends Fragment {
         });
     }
 
+    /**
+     * Format and display date
+     */
     private void observeDate() {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM");
         SimpleDateFormat simpleDateFormatYear = new SimpleDateFormat("dd/MM/yyyy");
@@ -218,7 +225,7 @@ public class SetReminderFragment extends Fragment {
         notifyIntent.putExtra("taskId", taskId);
         notifyIntent.putExtra("taskPeriodicity", periodicity);
 
-        /* casting long id to int, hoping there won't be 2.1 billion tasks */
+        // casting long id to int, hoping there won't be 2.1 billion tasks
         final PendingIntent notifyPendingIntent = PendingIntent.getBroadcast
                 (getContext(), (int) taskId, notifyIntent,
                         PendingIntent.FLAG_UPDATE_CURRENT);
