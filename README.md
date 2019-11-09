@@ -6,3 +6,8 @@ Native reminder application (Java). Built with Navigation Architecture Component
 <img src="https://i.imgur.com/DQIIANS.png" alt="Task description" width="200"/>
 <img src="https://i.imgur.com/gdITQYQ.png" alt="Create task" width="200"/>
 <img src="https://i.imgur.com/npKjUvU.png" alt="Set date and time" width="200"/>
+
+<br/><br/>
+### TO DO
+- Reset alarms on restart
+- Notification actions
