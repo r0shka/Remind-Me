@@ -38,14 +38,12 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
-        assertEquals("com.example.videoreminder", appContext.getPackageName());
+        assertEquals("com.example.remindme", appContext.getPackageName());
     }
 
     @Test
     public void activityLaunch() {
         onView(withId(R.id.floatingActionButton)).perform(click());
-        onView(withId(R.id.fab_video)).check(matches(isDisplayed()));
-        onView(withId(R.id.fab_video)).perform(click());
         onView(withId(R.id.new_task_container)).check(matches(isDisplayed()));
     }
 

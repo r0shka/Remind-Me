@@ -31,4 +31,7 @@ public interface TaskDao {
 
     @Query("SELECT * FROM TASK_TABLE WHERE id = :id LIMIT 1")
     public LiveData<Task> loadTaskById(long id);
+
+    @Query("SELECT * FROM TASK_TABLE WHERE id = :id LIMIT 1")
+    public Task loadTestTaskById(long id);
 }
