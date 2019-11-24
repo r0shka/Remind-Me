@@ -81,9 +81,10 @@ public class SetReminderFragment extends Fragment {
         viewModel = ViewModelProviders.of(this).get(TaskViewModel.class);
         dateHourSharedViewModel = ViewModelProviders.of(getActivity()).get(DateHourSharedViewModel.class);
 
+        if(savedInstanceState == null)
+            setDefaultDateTime();
         observeTime();
         observeDate();
-        setDefaultDateTime();
 
         isRepeatingAlarm = false;
         periodicity = Task.PERIODICITY_ONE_TIME;
@@ -135,6 +136,7 @@ public class SetReminderFragment extends Fragment {
         });
     }
 
+
     /**
      * Save task to database and put origin to bundle
      * in order to display success message on main screen
@@ -143,8 +145,14 @@ public class SetReminderFragment extends Fragment {
         if (getArguments() != null) {
             String title = getArguments().getString("taskTitle");
             String description = getArguments().getString("taskDescription");
-            int taskBackgroundColor = getArguments().getInt("taskBackgroundColor");
-            Task task = new Task(title, description, taskBackgroundColor, periodicity, alarmTimestamp);
+            int backgroundColor = getArguments().getInt("taskBackgroundColor");
+            Task task = new Task.Builder()
+                    .setTitle(title)
+                    .setDescription(description)
+                    .setBackgroundColor(backgroundColor)
+                    .setPeriodicity(periodicity)
+                    .setAlarmTimestamp(alarmTimestamp)
+                    .build();
             taskId = viewModel.addTask(task);
             getArguments().putInt("origin", MainFragment.NEW_TASK_ORIGIN);
         }

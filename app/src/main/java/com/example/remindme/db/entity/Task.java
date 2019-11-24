@@ -22,12 +22,10 @@ public class Task {
     public static final long PERIODICITY_WEEKLY = AlarmManager.INTERVAL_DAY * 7;
 
     @PrimaryKey(autoGenerate = true)
-    @NonNull
     @ColumnInfo(name = "id")
     private long id;
 
     @ColumnInfo(name = "title")
-    @NonNull
     private String title;
 
     @ColumnInfo(name = "description")
@@ -42,11 +40,14 @@ public class Task {
     @ColumnInfo(name = "alarm_timestamp")
     private long alarmTimestamp;
 
-    public Task(@NonNull String title,
-                String description,
-                int backgroundColor,
-                long periodicity,
-                long alarmTimestamp) {
+    public Task() {
+    }
+
+    private Task(@NonNull String title,
+                 String description,
+                 int backgroundColor,
+                 long periodicity,
+                 long alarmTimestamp) {
         this.title = title;
         this.description = description;
         this.backgroundColor = backgroundColor;
@@ -67,7 +68,7 @@ public class Task {
         return backgroundColor;
     }
 
-    public void setBackgroundColor(int color){
+    public void setBackgroundColor(int color) {
         this.backgroundColor = color;
     }
 
@@ -75,11 +76,18 @@ public class Task {
         this.id = id;
     }
 
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setDescription(String description){
+        this.description = description;
+    }
+
     public long getId() {
         return id;
     }
-
-
 
     public long getPeriodicity() {
         return periodicity;
@@ -95,6 +103,44 @@ public class Task {
 
     public void setAlarmTimestamp(long alarmTimestamp) {
         this.alarmTimestamp = alarmTimestamp;
+    }
+
+    public static class Builder {
+
+        private String title;
+        private String description;
+        private long periodicity;
+        private int backgroundColor;
+        private long alarmTimestamp;
+
+        public Builder setTitle(String title) {
+            this.title = title;
+            return this;
+        }
+
+        public Builder setDescription(String description) {
+            this.description = description;
+            return this;
+        }
+
+        public Builder setPeriodicity(long periodicity) {
+            this.periodicity = periodicity;
+            return this;
+        }
+
+        public Builder setBackgroundColor(int backgroundColor) {
+            this.backgroundColor = backgroundColor;
+            return this;
+        }
+
+        public Builder setAlarmTimestamp(long alarmTimestamp) {
+            this.alarmTimestamp = alarmTimestamp;
+            return this;
+        }
+
+        public Task build() {
+            return new Task(title, description, backgroundColor, periodicity, alarmTimestamp);
+        }
     }
 
 

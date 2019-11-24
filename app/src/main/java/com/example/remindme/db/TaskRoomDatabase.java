@@ -14,7 +14,7 @@ import com.example.remindme.db.entity.Task;
 
 import java.util.Calendar;
 
-@Database(entities = {Task.class}, version = 13, exportSchema = false)
+@Database(entities = {Task.class}, version = 14, exportSchema = false)
 public abstract class TaskRoomDatabase extends RoomDatabase {
 
     private static TaskRoomDatabase INSTANCE;
@@ -63,33 +63,41 @@ public abstract class TaskRoomDatabase extends RoomDatabase {
             long timeStampPast = alarmDateTime.getTimeInMillis();
 
 
-            Task task = new Task("Read a book",
-                    "How about Atomic Habits: An Easy & Proven Way to Build Good Habits & Break Bad Ones by James Clear?"+
-                    " or The Count of Monte Cristo by Alexandre Dumas?",
-                    Task.BG_COLOR_RED,
-                    Task.PERIODICITY_WEEKLY,
-                    timeStampFuture);
+            Task task = new Task.Builder()
+                    .setTitle("Read a book")
+                    .setDescription("How about Atomic Habits: An Easy & Proven Way to Build Good Habits & Break Bad Ones by James Clear?"+
+                            " or The Count of Monte Cristo by Alexandre Dumas?")
+                    .setBackgroundColor(Task.BG_COLOR_RED)
+                    .setPeriodicity(Task.PERIODICITY_WEEKLY)
+                    .setAlarmTimestamp(timeStampFuture)
+                    .build();
             dao.insert(task);
 
-            task = new Task("Buy plane tickets",
-                    "You should really visit your grandparents",
-                    Task.BG_COLOR_GREEN,
-                    Task.PERIODICITY_ONE_TIME,
-                    timeStampFuture);
+            task = new Task.Builder()
+                    .setTitle("Buy plane tickets")
+                    .setDescription("You should really visit your grandparents")
+                    .setBackgroundColor(Task.BG_COLOR_GREEN)
+                    .setPeriodicity(Task.PERIODICITY_ONE_TIME)
+                    .setAlarmTimestamp(timeStampFuture)
+                    .build();
             dao.insert(task);
 
-            task = new Task("Go to gym",
-                    "Move your ass!",
-                    Task.BG_COLOR_ORANGE,
-                    Task.PERIODICITY_ONE_TIME,
-                    timeStampPast);
+            task = new Task.Builder()
+                    .setTitle("Go to gym")
+                    .setDescription("That was your NYE resolution or did you forgot?")
+                    .setBackgroundColor(Task.BG_COLOR_ORANGE)
+                    .setPeriodicity(Task.PERIODICITY_ONE_TIME)
+                    .setAlarmTimestamp(timeStampPast)
+                    .build();
             dao.insert(task);
 
-            task = new Task("Clean the house",
-                    "Clean it, you filthy animal",
-                    Task.BG_COLOR_ORANGE,
-                    Task.PERIODICITY_DAILY,
-                    timeStampPast);
+            task = new Task.Builder()
+                    .setTitle("Clean the house")
+                    .setDescription("Clean it, you filthy animal")
+                    .setBackgroundColor(Task.BG_COLOR_ORANGE)
+                    .setPeriodicity(Task.PERIODICITY_DAILY)
+                    .setAlarmTimestamp(timeStampPast)
+                    .build();
             dao.insert(task);
             return null;
         }

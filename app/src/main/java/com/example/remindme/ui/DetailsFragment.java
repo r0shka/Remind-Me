@@ -50,6 +50,50 @@ public class DetailsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        viewModel = ViewModelProviders.of(this).get(TaskViewModel.class);
+        title = view.findViewById(R.id.task_details_title);
+        description = view.findViewById(R.id.task_details_description);
+        alarmDate = view.findViewById(R.id.task_details_date);
+        final View main = view.findViewById(R.id.details_fragment);
+
+        if (getArguments() != null) {
+            if(getArguments().size() != 0) {
+                taskId = getArguments().getLong("id");
+            } else if(savedInstanceState != null) {
+                taskId = savedInstanceState.getLong("id");
+            } else {
+                taskId = -1;
+            }
+        }
+
+        viewModel.getTaskById(taskId).observe(this, task -> {
+            currentTask = task;
+            title.setText(currentTask.getTitle());
+            description.setText(currentTask.getDescription());
+            setDateText();
+            // Display a past, one time task as expired
+            if(currentTask.getPeriodicity() == Task.PERIODICITY_ONE_TIME
+                    && currentTask.getAlarmTimestamp() < System.currentTimeMillis()){
+                currentTask.setBackgroundColor(Task.BG_COLOR_GREY);
+                alarmDate.setText(getString(R.string.expired_task_message));
+            }
+            Utils.setBackgroundColor(currentTask.getBackgroundColor(), main);
+        });
+
+        getArguments().clear();
+
+        ImageView closeTask = view.findViewById(R.id.task_details_close);
+        closeTask.setOnClickListener(v -> Navigation.findNavController(v).navigateUp());
+
+        ImageView deleteTask = view.findViewById(R.id.task_details_delete);
+        deleteTask.setOnClickListener(v -> {
+            viewModel.deleteTask(currentTask);
+            Bundle bundle = new Bundle();
+            cancelAlarm();
+            bundle.putInt("origin", MainFragment.DELETE_TASK_ORIGIN);
+            Navigation.findNavController(v).navigate(R.id.action_detailsFragment_to_mainFragment, bundle);
+        });
     }
 
     @Override
@@ -61,49 +105,7 @@ public class DetailsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_details, container, false);
-        viewModel = ViewModelProviders.of(this).get(TaskViewModel.class);
-        title = rootView.findViewById(R.id.task_details_title);
-        description = rootView.findViewById(R.id.task_details_description);
-        alarmDate = rootView.findViewById(R.id.task_details_date);
-        final View main = rootView.findViewById(R.id.details_fragment);
-
-        if(getArguments().size() != 0) {
-            taskId = getArguments().getLong("id");
-        } else if(savedInstanceState != null) {
-            taskId = savedInstanceState.getLong("id");
-        } else {
-            taskId = -1;
-        }
-
-        viewModel.getTaskById(taskId).observe(this, task -> {
-            currentTask = task;
-            title.setText(currentTask.getTitle());
-            description.setText(currentTask.getDescription());
-            setDateText();
-            // Display past one time task as expired
-            if(currentTask.getPeriodicity() == Task.PERIODICITY_ONE_TIME
-                    && currentTask.getAlarmTimestamp() < System.currentTimeMillis()){
-                currentTask.setBackgroundColor(Task.BG_COLOR_GREY);
-                alarmDate.setText(getString(R.string.expired_task_message));
-            }
-            Utils.setBackgroundColor(currentTask.getBackgroundColor(), main);
-        });
-
-        getArguments().clear();
-
-        ImageView closeTask = rootView.findViewById(R.id.task_details_close);
-        closeTask.setOnClickListener(v -> Navigation.findNavController(v).navigateUp());
-
-        ImageView deleteTask = rootView.findViewById(R.id.task_details_delete);
-        deleteTask.setOnClickListener(v -> {
-            viewModel.deleteTask(currentTask);
-            Bundle bundle = new Bundle();
-            cancelAlarm();
-            bundle.putInt("origin", MainFragment.DELETE_TASK_ORIGIN);
-            Navigation.findNavController(v).navigate(R.id.action_detailsFragment_to_mainFragment, bundle);
-        });
-        return rootView;
+        return inflater.inflate(R.layout.fragment_details, container, false);
     }
 
     /**

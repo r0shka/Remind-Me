@@ -45,7 +45,6 @@ public class DatePickerFragment extends DialogFragment implements DatePickerDial
         DatePicker datePicker = datePickerDialog.getDatePicker();
         datePicker.setMinDate(c.getTimeInMillis());
 
-        // Create a new instance of DatePickerDialog and return it
         return datePickerDialog;
     }
 
