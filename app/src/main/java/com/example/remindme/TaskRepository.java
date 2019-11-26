@@ -34,7 +34,7 @@ public class TaskRepository {
     }
 
     public LiveData<Task> getTaskById(long id){
-        return this.taskDao.loadTaskById(id);
+        return this.taskDao.getTaskById(id);
     }
 
     public long insert(Task task) {

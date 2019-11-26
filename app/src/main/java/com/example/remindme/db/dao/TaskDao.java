@@ -10,6 +10,8 @@ import androidx.room.Update;
 
 import com.example.remindme.db.entity.Task;
 
+import java.util.List;
+
 
 @Dao
 public interface TaskDao {
@@ -29,9 +31,10 @@ public interface TaskDao {
     @Query("SELECT * FROM TASK_TABLE ORDER BY periodicity DESC, alarm_timestamp DESC")
     public DataSource.Factory<Integer, Task> getAllTasks();
 
-    @Query("SELECT * FROM TASK_TABLE WHERE id = :id LIMIT 1")
-    public LiveData<Task> loadTaskById(long id);
+    @Query("SELECT * FROM TASK_TABLE ORDER BY periodicity DESC, alarm_timestamp DESC")
+    public LiveData<List<Task>> getAllTasksWithoutPaging();
 
     @Query("SELECT * FROM TASK_TABLE WHERE id = :id LIMIT 1")
-    public Task loadTestTaskById(long id);
+    public LiveData<Task> getTaskById(long id);
+
 }
